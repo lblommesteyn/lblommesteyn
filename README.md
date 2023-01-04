@@ -1,6 +1,6 @@
 ### Hi there 👋
 
-Welcome to My GitHub Profile! I'm glad you stopped by, my name is Luke Blommesteyn and I'm a second year software engineering and business at Western University.
+Welcome to My GitHub Profile! I'm glad you stopped by, my name is Luke Blommesteyn and I'm a second year software engineering and business at Western University. If you've never met me before here's some information about me:
 
 - 🔭 I’m currently working on an AI powered Linkedin Chrome Extension and summer 2023 internship applications
 - 🌱 I’m currently learning Multivariable calculus
