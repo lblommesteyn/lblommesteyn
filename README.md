@@ -9,5 +9,5 @@ Welcome to My GitHub Profile! I'm glad you stopped by, my name is Luke Blommeste
 - 😄 Pronouns: He/Him
 - ⚡ Fun fact: I'm training to set the U20 National Record in the Half Marathon this spring @ the Missisauga Half Marathon
 
-Learn more about me [here]((https://personal-portfolio-chi-eight.vercel.app/))
+Learn more about me [here](https://personal-portfolio-chi-eight.vercel.app/)
 
