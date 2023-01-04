@@ -1,9 +1,6 @@
 ### Hi there 👋
 
-<!--
-**lblommesteyn/lblommesteyn** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-
-Here are some ideas to get you started:
+elcome to My GitHub Profile! I'm glad you stopped by, my name is Luke Blommesteyn and I'm a second year software engineering and business at Western University.
 
 - 🔭 I’m currently working on ...
 - 🌱 I’m currently learning ...
