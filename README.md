@@ -6,7 +6,7 @@ Welcome to My GitHub Profile! I'm glad you stopped by, my name is Luke Blommeste
 - 🌱 I’m currently teaching myself Multivariable calculus, Deep Learning, and embedded systems
 - 📫 How to reach me: lblommes@uwo.ca or lblommesteyn@ivey.ca
 - 😄 Pronouns: He/Him
-- ⚡ Fun fact: I'm training for the a Half Marathon!
+- ⚡ Fun fact: I'm training for a half marathon!
 
 Learn more about me [here](https://personal-portfolio-chi-eight.vercel.app/)
 
