@@ -7,5 +7,5 @@ Welcome to My GitHub Profile! I'm glad you stopped by, my name is Luke Blommeste
 - 📫 How to reach me: lblommesteyn@ivey.ca
 - ⚡ Fun fact: I'm training for a half marathon!
 
-Learn more about me [here](https://personal-portfolio-chi-eight.vercel.app/)
+Learn more about me [here]([url](https://lblommesteyn.vercel.app/)https://lblommesteyn.vercel.app/)
 
