@@ -5,7 +5,7 @@ Welcome to My GitHub Profile! I'm glad you stopped by, my name is Luke Blommeste
 - 🔭 I’m currently working @ Ivey Business School! Prev @ RBC, Transport Canada, [Joyride](https://joyride.city/), [Project: Human City](https://projecthumancity.com/)
 - 🌱 I’m currently reading about and negotiations, loyalty, and trust!
 - 📫 How to reach me: lblommesteyn@ivey.ca
-- ⚡ Fun fact: I'm training for a half marathon!
+- ⚡ Fun fact: I'm training for a half marathon and for a skimo sprint 👀
 
 Learn more about me [here](https://lblommesteyn.vercel.app)
 
