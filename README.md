@@ -6,6 +6,7 @@ Welcome to My GitHub Profile! I'm glad you stopped by, my name is Luke Blommeste
 - 🌱 I’m currently reading about and the (oakland) a's, Basketball Roster Planning, and weightlifting for running!
 - 📫 How to reach me: lblommesteyn@ivey.ca
 - ⚡ Fun fact: I'm training for a half marathon and for a skimo sprint 👀
+- I am looking for a Fall co-op!!!!!!!!
 
 Learn more about me [here](https://lblommesteyn.vercel.app)
 
