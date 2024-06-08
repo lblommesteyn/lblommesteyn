@@ -1,4 +1,5 @@
 ![3D Profile](profile-3d-contrib/profile-night-view.svg)
+![3D Profile](profile-3d-contrib/profile-night-view.svg)
 ### Hi there 👋
 
 Welcome to My GitHub Profile! I'm glad you stopped by, my name is Luke Blommesteyn and I'm a third year software engineering student @ Western University. If you've never met me before here's some information about me:
