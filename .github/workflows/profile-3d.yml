@@ -17,9 +17,8 @@ jobs:
           USERNAME: ${{ github.repository_owner }}
       - name: Update README.md
         run: |
-          echo '![3D Profile](profile-3d-contrib/profile-night-view.svg)' > temp_readme
-          cat README.md >> temp_readme
-          mv temp_readme README.md
+          sed -i '/!\[3D Profile\](profile-3d-contrib\/profile-night-view.svg)/d' README.md
+          echo '![3D Profile](profile-3d-contrib/profile-night-view.svg)' | cat - README.md > temp_readme && mv temp_readme README.md
       - name: Commit & Push
         run: |
           git config user.name github-actions
