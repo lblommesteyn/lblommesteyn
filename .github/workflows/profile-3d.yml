@@ -15,10 +15,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
+      - name: Update README.md
+        run: |
+          echo '![3D Profile](profile-3d-contrib/profile-night-view.svg)' > temp_readme
+          cat README.md >> temp_readme
+          mv temp_readme README.md
       - name: Commit & Push
         run: |
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add -A .
-          git commit -m "generated"
+          git commit -m "Update 3D profile contribution graph"
           git push
