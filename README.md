@@ -5,7 +5,7 @@ Welcome to My GitHub Profile! I'm glad you stopped by, my name is Luke Blommeste
 
 - 🔭 I’m currently working @ Ivey Business School, RBC Amplify! Prev @ RBC Card Ops Tech, Transport Canada, [Joyride](https://joyride.city/), [Project: Human City](https://projecthumancity.com/)
 - 🌱 I’m currently reading about the (oakland) a's, Basketball Roster Planning, and weightlifting for running!
-- 📫 How to reach me: lblommesteyn@ivey.ca
+- 📫 How to reach me: lukeblommesteyn[at]gmail.com
 - ⚡ Fun fact: I'm training for a half marathon and for skimo sprint 👀
 - I am looking for a Fall co-op!!!!!!!!
 
