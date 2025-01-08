@@ -7,7 +7,7 @@ Welcome to My GitHub Profile! I'm glad you stopped by, my name is Luke Blommeste
 - 🌱 I’m currently reading about the precision agriculture, algo trading, and weightlifting for running!
 - 📫 How to reach me: lukeblommesteyn[at]gmail.com
 - ⚡ Fun fact: I'm training for skimo sprint racing
-- I am looking for a Winter co-op!!!!!!!!
+- I am looking for a summer internship :)
 
 Learn more about me [here](https://lblommesteyn.vercel.app)
 
