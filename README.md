@@ -8,5 +8,5 @@ Welcome to My GitHub Profile! I'm glad you stopped by, my name is Luke Blommeste
 - 📫 How to reach me: lukeblommesteyn[at]gmail.com
 - ⚡ Fun fact: I'm a team canada skiier
 
-Learn more about me [here](https://lblommesteyn.vercel.app)
+Learn more about me [here](https://lukeblom.vercel.app)
 
