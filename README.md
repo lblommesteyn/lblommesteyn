@@ -6,7 +6,6 @@ Welcome to My GitHub Profile! I'm glad you stopped by, my name is Luke Blommeste
 - 🔭 I prev worked @ Lyft, Beats by Dre, Solana, MLSE Digital Labs.
 - 🌱 I’m currently reading about the distributed systems, poker, and computer vision!
 - 📫 How to reach me: lukeblommesteyn[at]gmail.com
-- ⚡ Fun fact: I used to ski professionally
 
 Learn more about me [here](https://lukeblom.vercel.app)
 
