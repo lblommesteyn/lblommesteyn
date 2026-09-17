@@ -55,32 +55,47 @@ def cdx(url):
     return []
 
 
+DEC = json.JSONDecoder(strict=False)   # the inline JSON contains raw tabs/newlines inside strings
+
+
+def json_tables_in_text(text: str, min_rows: int = 20):
+    out = {}
+    for m in re.finditer(r'\[\["', text):
+        try:
+            val, _ = DEC.raw_decode(text, m.start())
+        except Exception:
+            continue
+        if isinstance(val, list) and len(val) >= min_rows and isinstance(val[0], list):
+            out.setdefault((str(val[0][0])[:20], len(val), len(val[0])), val)
+    return list(out.values())
+
+
 def extract_tables(html: str):
-    """All JSON arrays-of-arrays found in the page's ViewState (and any inline)."""
-    out = []
+    """Grid rows embedded in the page: inline in <div id="jsonDataSourceContainer"> (2017+ and the
+    cost-allocation view) or inside the ASP.NET ViewState (older captures)."""
+    found = json_tables_in_text(html)
+    if "&quot;" in html:
+        found += json_tables_in_text(html.replace("&quot;", '"'))
     m = re.search(r'__VIEWSTATE" value="([^"]+)"', html)
-    if not m:
-        return out
-    try:
-        dec = ViewState(m.group(1)).decode()
-    except Exception as e:
-        note(viewstate_error=str(e)[:160]); return out
-    stack = [dec]
-    while stack:
-        x = stack.pop()
-        if isinstance(x, str):
-            if x.startswith('[["') or x.startswith("[[\""):
-                try:
-                    arr = json.loads(x)
-                    if isinstance(arr, list) and len(arr) >= 1 and isinstance(arr[0], list):
-                        out.append(arr)
-                except Exception:
-                    pass
-        elif isinstance(x, (list, tuple)):
-            stack.extend(x)
-        elif isinstance(x, dict):
-            stack.extend(x.values())
-    return out
+    if m and m.group(1).startswith("/wE"):
+        try:
+            dec = ViewState(m.group(1)).decode()
+            stack = [dec]
+            while stack:
+                x = stack.pop()
+                if isinstance(x, str):
+                    if '[["' in x:
+                        found += json_tables_in_text(x)
+                elif isinstance(x, (list, tuple)):
+                    stack.extend(x)
+                elif isinstance(x, dict):
+                    stack.extend(x.values())
+        except Exception as e:
+            note(viewstate_error=str(e)[:160])
+    uniq = {}
+    for t in found:
+        uniq.setdefault((str(t[0][0])[:20], len(t), len(t[0])), t)
+    return list(uniq.values())
 
 
 def page_meta(html: str):
@@ -88,7 +103,7 @@ def page_meta(html: str):
     xml = re.search(r'hdnXmlFileName"[^>]*>([^<]*)<', html)
     radio = re.search(r"rbRTEPRadioList[^\n]{0,200}filter\('\[value=\"(\d)\"\]'\)", html)
     heads = re.findall(r'"title":\s*"([^"]+)"', html)
-    return dict(active_tab=tab.group(1) if tab else None, xml=xml.group(1) if xml else None, radio=radio.group(1) if radio else None, columns=heads[:20])
+    return dict(active_tab=tab.group(1) if tab else None, xml=xml.group(1).strip() if xml else None, radio=radio.group(1) if radio else None, columns=heads[:20])
 
 
 manifest_path = ROOT / "manifest.csv"
@@ -96,11 +111,18 @@ done = set()
 if manifest_path.exists():
     with open(manifest_path) as f:
         for row in csv.DictReader(f):
-            done.add((row["label"], row["timestamp"]))
-mf = open(manifest_path, "a", newline="")
+            if row["status"] == "ok" and row["n_tables"] not in ("", "0"):
+                done.add((row["label"], row["timestamp"]))
+keep = []
+if manifest_path.exists():
+    with open(manifest_path) as f:
+        keep = [row for row in csv.DictReader(f) if (row["label"], row["timestamp"]) in done]
+mf = open(manifest_path, "w", newline="")
 mw = csv.writer(mf)
-if not done:
+if True:
     mw.writerow(["label", "timestamp", "original", "status", "bytes", "n_tables", "rows_per_table", "active_tab", "xml", "columns", "file", "sha256"])
+for row in keep:
+    mw.writerow([row[k] for k in ["label", "timestamp", "original", "status", "bytes", "n_tables", "rows_per_table", "active_tab", "xml", "columns", "file", "sha256"]])
 
 # ---------------------------------------------------------------- 1. enumerate captures
 plan = []
