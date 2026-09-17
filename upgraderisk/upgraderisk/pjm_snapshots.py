@@ -52,6 +52,15 @@ def parse_cost(s):
         return np.nan
 
 
+def parse_pct(s):
+    v = parse_cost(s)
+    if np.isnan(v):
+        return v
+    if v > 100 and v % 100 == 0:
+        v = v / 100.0
+    return float(np.clip(v, 0, 100))
+
+
 def parse_kv(s):
     m = re.search(r"\d+(?:\.\d+)?", str(s or ""))
     return float(m.group(0)) if m else np.nan
@@ -83,7 +92,7 @@ def legacy_construct_rows(rows, snapshot_date, source) -> pd.DataFrame:
                         facility=str(desc[0]).strip(), voltage_kv=parse_kv(desc[4] if len(desc) > 4 else ""),
                         upgrade_type=upgrade_type(r[0]), scope=str(desc[3]).strip(), est_cost_musd=parse_cost(r[9]),
                         expected_isd=parse_date(r[2]), status=st, actual_isd=pd.NaT, cancelled=st.lower() in ("cancelled", "withdrawn"),
-                        required_date=parse_date(r[1]), pct_complete=parse_cost(r[8]), state=str(r[7]).strip(),
+                        required_date=parse_date(r[1]), pct_complete=parse_pct(r[8]), state=str(r[7]).strip(),
                         task=str(desc[1]).strip(), equipment=str(desc[2]).strip(), rating=str(desc[5]).strip() if len(desc) > 5 else "",
                         last_updated=parse_date(desc[6]) if len(desc) > 6 else pd.NaT, study_year=str(drv[0]).strip(),
                         driver=str(drv[3]).strip() if len(drv) > 3 else "", initial_teac=parse_date(drv[4]) if len(drv) > 4 else pd.NaT,
@@ -119,7 +128,7 @@ def live_export_rows(path: Path, snapshot_date) -> pd.DataFrame:
         scope=g("Description").fillna("").astype(str).str.strip(), est_cost_musd=pd.to_numeric(g("Cost Estimate"), errors="coerce"),
         expected_isd=g("Projected In Service Date").map(parse_date), status=st, actual_isd=g("Actual In Service Date").map(parse_date),
         cancelled=st.str.lower().isin(["cancelled", "withdrawn"]), required_date=g("Required Date").map(parse_date),
-        pct_complete=pd.to_numeric(g("Percent Complete"), errors="coerce"), state=g("State").fillna("").astype(str),
+        pct_complete=g("Percent Complete").map(parse_pct), state=g("State").fillna("").astype(str),
         task=g("Task").fillna("").astype(str), equipment=g("Equipment").fillna("").astype(str), driver=g("Driver").fillna("").astype(str),
         initial_teac=g("Initial TEAC Date").map(parse_date), last_teac=g("Latest TEAC Date").map(parse_date),
         teac_cost_musd=pd.to_numeric(g("TEAC Cost"), errors="coerce"), board_approval=g("PJM Board Approval Date").map(parse_date),

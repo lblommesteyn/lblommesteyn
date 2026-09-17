@@ -71,9 +71,11 @@ def history_features(long: pd.DataFrame, t) -> pd.DataFrame:
     out["n_isd_revisions"] = n_isd_changes
     out["n_cost_revisions"] = n_cost_changes
     out["status_n"] = last["status_n"]
-    for c in ("to", "facility", "voltage_kv", "upgrade_type", "scope", "source"):
+    for c in ("to", "facility", "voltage_kv", "upgrade_type", "scope", "source", "status", "pct_complete", "required_date", "task",
+              "equipment", "driver", "initial_teac", "last_teac", "state", "region", "last_updated", "study_year", "rating"):
         if c in last:
             out[c] = last[c]
+    out["snapshot_date"] = last["snapshot_date"]
     return out.reset_index()
 
 
@@ -111,35 +113,58 @@ def outcomes(long: pd.DataFrame, t, horizon_end=None) -> pd.DataFrame:
             first_done = None
         else:
             first_canc = None
-        actual = None
+        actual = None; actual_is_bound = False
         if first_done is not None:
-            actual = first_done["actual_isd"] if pd.notna(first_done["actual_isd"]) else first_done["snapshot_date"]
+            dated = done[done["actual_isd"].notna()]
+            if len(dated):
+                actual = dated["actual_isd"].iloc[0]          # the ISO's recorded in-service date (from a later snapshot)
+            else:
+                actual = first_done["snapshot_date"]; actual_is_bound = True   # only known to be in service by this date
+            # the completion is observable from the first snapshot published after the in-service date
+            # an energisation is public within about a month of happening (TO/ISO notices), even if our archive
+            # sampling did not catch it until later; a status-only sighting is known at that snapshot
+            after = h[h["snapshot_date"] >= max(pd.Timestamp(actual), t + pd.Timedelta(days=1))]
+            seen = after["snapshot_date"].min() if len(after) else first_done["snapshot_date"]
+            done_known = seen if actual_is_bound else min(seen, max(pd.Timestamp(actual) + pd.Timedelta(days=30), t + pd.Timedelta(days=1)))
+        else:
+            done_known = pd.NaT
         exp_t = r.expected_isd
         cost_t = r.est_cost_musd
         final_cost = (first_done["est_cost_musd"] if first_done is not None else
                       (first_canc["est_cost_musd"] if first_canc is not None else (h["est_cost_musd"].dropna().iloc[-1] if h["est_cost_musd"].notna().any() else np.nan)))
-        # delay label
-        delay = np.nan; months_late = np.nan
+        # delay label (+ the date at which it became knowable)
+        delay = np.nan; months_late = np.nan; delay_known = pd.NaT
         if pd.notna(exp_t):
+            deadline = exp_t + pd.Timedelta(days=DELAY_MONTHS * 30.4375)
             if actual is not None:
                 months_late = _months(exp_t, actual); delay = float(months_late > DELAY_MONTHS)
+                # decidable once the 12-month window has closed (or the project is seen finished after it)
+                delay_known = max(done_known, deadline)
             elif first_canc is not None:
                 delay = np.nan  # cancelled: delay undefined (reported separately)
             elif _months(exp_t, last_obs) > DELAY_MONTHS:
                 delay = 1.0     # still not built more than DELAY_MONTHS after the promised date
-        # cost label
-        over = np.nan; pct = np.nan
+                delay_known = deadline
+        # cost label (+ known date)
+        over = np.nan; pct = np.nan; over_known = pd.NaT
         if pd.notna(cost_t) and cost_t > 0 and pd.notna(final_cost):
             pct = final_cost / cost_t - 1.0
+            exceeded = h[h["est_cost_musd"] > cost_t * (1 + OVERRUN_FRAC)]
             if first_done is not None or first_canc is not None:
                 over = float(pct > OVERRUN_FRAC)
+                over_known = done_known if first_done is not None else first_canc["snapshot_date"]
+                if over == 1.0 and len(exceeded):
+                    over_known = min(over_known, exceeded["snapshot_date"].iloc[0])
             elif pct > OVERRUN_FRAC:
                 over = 1.0
+                over_known = exceeded["snapshot_date"].iloc[0] if len(exceeded) else last_obs
+        cancel_known = first_canc["snapshot_date"] if first_canc is not None else pd.NaT
         rows.append(dict(upgrade_id=r.upgrade_id, obs_date=t, expected_isd_t=exp_t, est_cost_t=cost_t,
                          resolved_done=int(first_done is not None), resolved_cancel=int(first_canc is not None),
                          actual_isd=actual, final_cost_musd=final_cost, delay_12m=delay, months_late=months_late,
                          cost_overrun_25=over, pct_overrun=pct if (first_done is not None or first_canc is not None) else np.nan,
-                         pct_growth_latest=pct, last_obs=last_obs,
+                         pct_growth_latest=pct, last_obs=last_obs, delay_known_date=delay_known, overrun_known_date=over_known,
+                         cancel_known_date=cancel_known, done_known_date=done_known, actual_isd_is_bound=actual_is_bound,
                          time_to_done_m=_months(t, actual) if actual is not None else _months(t, last_obs),
                          event_done=int(first_done is not None)))
     return pd.DataFrame(rows)
