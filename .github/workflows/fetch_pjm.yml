@@ -1,0 +1,40 @@
+name: Fetch public PJM inputs for the frozen real-data run
+
+on:
+  workflow_dispatch:
+    inputs:
+      max_studies:
+        description: "maximum number of impact studies to fetch"
+        default: "300"
+      start_year:
+        description: "earliest submitted year"
+        default: "2016"
+      end_year:
+        description: "latest submitted year"
+        default: "2021"
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests pandas openpyxl
+      - name: Fetch queue export and impact studies
+        run: |
+          python gridconstraint/scripts/fetch_pjm_actions.py --max-studies "${{ github.event.inputs.max_studies }}" \
+            --start-year "${{ github.event.inputs.start_year }}" --end-year "${{ github.event.inputs.end_year }}"
+      - name: Commit fetched inputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f gridconstraint/data/raw_real/pjm
+          git commit -m "Fetch public PJM queue export and impact studies (GitHub Actions)" || echo "nothing to commit"
+          for i in 1 2 3; do git push && break || (git pull --rebase && sleep 5); done
