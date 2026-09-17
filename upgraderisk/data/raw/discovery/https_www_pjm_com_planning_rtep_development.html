@@ -1,0 +1,902 @@
+
+
+<!DOCTYPE html>
+<html class="no-js">
+<head id="Head1">
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window, document, 'script', 'dataLayer', 'GTM-TN8W6MJ');
+    </script>
+    <!-- End Google Tag Manager -->    
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,Chrome=1" /><title>
+	
+PJM - RTEP Development 
+</title><link rel="stylesheet" href="/assets/responsive/css/normalize.min.css" /><link rel="stylesheet" href="/Content/Custom/widgetCustom.css" /><link rel="stylesheet" href="/assets/responsive/css/main.css" /><link rel="stylesheet" href="/assets/styles/PjmBrowserSupportAlert.css" /><link rel="stylesheet" href="/assets/styles/visual-buttons.css" />
+
+    <script src="/assets/responsive/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    <script type="text/javascript" src="/Scripts/jquery-3.5.1.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/4.0/MicrosoftAjax.js" type="text/javascript"></script> 
+    <script type="text/javascript" src="/assets/js/jquerytablesorter.js"></script>
+    <script type="text/javascript" src="/assets/js/tabs.js"></script>
+    <script type="text/javascript" src="/assets/js/devicedetect.js"></script>
+    <script type="text/javascript" src="/assets/js/Highcharts/HighCharts/highcharts.js"></script>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,Chrome=1" /><meta http-equiv="Cache-Control" content="no-cache" /><meta http-equiv="Pragma" content="no-cache" /><meta http-equiv="Expires" content="0" /><meta charset="utf-8" /><meta name="viewport" content="width=device-width" /><meta name="description" content="RTEP Development explained, including RTEP Development Process, Expansion Planning Process, Training, Transmission Planning, Modeling, Energization" /><meta name="keywords" content="RTEP, RTEP Development, Expansion Planning, Transmission Planning, Modeling, Energization, Network Model, Change Request, New Equipment Energization, Construction, Overview" /><meta name="DCS.dcsaut" content="Anonymous" /><meta name="sitearea" content="Planning" /><meta name="concept" /></head>
+
+<script type="text/javascript">
+    jQuery.noConflict();
+</script>
+
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TN8W6MJ"
+                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <div id="TopMessage">
+        <div id="pjmTopMessage_divWrap" class="wrap" style="display:none;">
+  
+  <div class="accordion">
+    <a href="#" class="accordion-button">
+    
+  </a>
+    <div class="accordion-content WebAlertContainer"  style="display:none;">
+       
+        
+    </div>
+  </div><!-- .accordion -->
+</div><!--.wrap-->
+    
+    </div>
+    <form name="frmMain" method="post" action="/planning/rtep-development" id="frmMain">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['frmMain'];
+if (!theForm) {
+    theForm = document.frmMain;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/WebResource.axd?d=pynGkmcFUV13He1Qd6_TZIH7__CsverBMbHMnDn2ShIUpLHP_Oe1Dmlo2GHVgUUyWVgBnSbUUDq4hMCj7jNtzw2&amp;t=639190599605538696" type="text/javascript"></script>
+
+
+<script src="/ScriptResource.axd?d=NJmAwtEo3Ipnlaxl6CMhvkgcytGHc0kqlK7fT8s5h0ZRxlyjqQ0Eie-9Pmw4Dy_2tV4BgGqFkCnUDgCjicb_mSIF4sOc3nF375kjkBOpp79CTzB2I1c4xYKZlxB8QJzKvJNxoUCdoxAnS0BvrtixcYjavjghpdEnBmUnrWvJND41&amp;t=3e3fe94" type="text/javascript"></script>
+<script src="/ScriptResource.axd?d=dwY9oWetJoJoVpgL6Zq8ODY1oHIb6v9A6nLLXdkqBKGndySK3r_XRhXbjomSumtkb1GW-DNuj_3LLAHt0Q9vIicAn2JVZP-o41K7cEqi57ABDbUCSh_3kQg4SdbZrOZdJJAtE2jjqvxPGIuZ3Kx6VE4kPXAlbgZjAnEbJKjYTSA1&amp;t=3e3fe94" type="text/javascript"></script>
+<div>
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="2937C0FF" />
+</div>
+        <div id="BrowserSupport">
+            <div id="PjmBrowserSupportAlert_BrowserSupportBox" class="browserSupportDiv" style="display:none">
+	
+     
+ 
+    <div class="browserSupoortTopAlert">
+        
+     </div>    
+
+    <div class="browserSupportBottomAlert">
+     
+    </div>
+   
+     <div class="browserSupportAlertButtons">
+   <span> <button class="bsaButton"type="button" onclick="javascript:location.href='https://www.pjm.com/markets-and-operations/etools/system-requirements.aspx'">Learn More ></button>&nbsp; or &nbsp;  <button class="bsaButton" onclick="closeBrowserAlertButton()"  type="button">Close X</button>   </span>
+</div>
+
+
+</div>
+
+
+   <noscript id="PjmBrowserSupportAlert_noScriptBrowserSupportAlert"> 
+  
+       <div id="PjmBrowserSupportAlert_noScriptPanel" class="browserSupportDiv">
+	 
+        
+             <div class="browserSupoortTopAlert">
+       It looks like you have JavaScript disabled. 
+     </div>    
+
+    <div class="browserSupportBottomAlert">
+      For the best experience, please enable JavaScript.
+    </div>
+   
+     <div class="browserSupportAlertButtons">
+   <input type="submit" name="PjmBrowserSupportAlert$ctl01" value="Learn More >" class="bsaButton" type="button" />&nbsp; or &nbsp;  <input type="submit" name="PjmBrowserSupportAlert$ctl02" value="Close X" class="bsaButton" type="button" />   
+</div>
+
+
+</div>
+
+</noscript>
+
+
+
+   <noscript id="PjmBrowserSupportAlert_noScriptBrowserSupport_JavascriptAlert" style="display:none"> 
+  
+       <div id="PjmBrowserSupportAlert_Panel1" class="browserSupportDiv">
+	 
+        
+             <div class="browserSupoortTopAlert">
+       It looks like you have JavaScript disabled and you’re using an outdated browser, which PJM no longer supports. 
+     </div>    
+
+    <div class="browserSupportBottomAlert">
+      For the best experience, please enable JavaScript and upgrade to a modern browser.
+    </div>
+   
+     <div id="PjmBrowserSupportAlert_Div1" class="browserSupportAlertButtons">
+   <input type="submit" name="PjmBrowserSupportAlert$Button1" value="Learn More >" id="PjmBrowserSupportAlert_Button1" class="bsaButton" type="button" />&nbsp; or &nbsp;  <input type="submit" name="PjmBrowserSupportAlert$Button2" value="Close X" id="PjmBrowserSupportAlert_Button2" class="bsaButton" type="button" />   
+</div>
+
+
+</div>
+
+</noscript>
+
+
+
+<script type="text/javascript" >
+
+    function msieversion() {
+        var ua = window.navigator.userAgent;
+        var msie = ua.indexOf("MSIE ");
+
+        if (msie > 0) // If Internet Explorer, return version number
+            return parseInt(ua.substring(msie + 5, ua.indexOf(".", msie)));
+        else if (window.navigator.userAgent.match(/Trident\/7\./)) 
+            return 11;
+        else // If another browser, return 0
+            return 0;
+
+    }
+
+    if (getCookie('browserCompatabilityBox') === "") {
+
+        var x = document.getElementById('PjmBrowserSupportAlert_noScriptBrowserSupportAlert');
+        x.style.display = "none";
+
+        var y = document.getElementById('PjmBrowserSupportAlert_noScriptBrowserSupport_JavascriptAlert');
+        y.style.display = "none";
+
+        if (msieversion() > 0) {
+            var z = document.getElementById('PjmBrowserSupportAlert_BrowserSupportBox');
+            z.style.display = "block";
+
+        }
+
+    }
+    else {
+        var x = document.getElementById('PjmBrowserSupportAlert_noScriptBrowserSupportAlert');
+        x.style.display = "none";
+
+        var y = document.getElementById('PjmBrowserSupportAlert_noScriptBrowserSupport_JavascriptAlert');
+        y.style.display = "none";
+
+        var z = document.getElementById('PjmBrowserSupportAlert_BrowserSupportBox');
+        z.style.display = "none";
+
+}
+
+
+    function closeBrowserAlertButton()
+    {
+        jQuery(".browserSupportDiv").hide("slow");
+        document.cookie = "browserCompatabilityBox=DoNotDisplay; path=/";
+    
+    }
+
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1);
+            if (c.indexOf(name) !== -1) return c.substring(name.length, c.length);
+        }
+        return "";
+    }
+
+</script>
+        </div>
+        <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('smThreeColumn', 'frmMain', [], [], [], 90, '');
+//]]>
+</script>
+
+        <div id="container">
+            <!-- BEGIN NOINDEX -->
+            
+
+
+<style>
+    .mbmembercommunity-signin-iconified:hover 
+    {
+        background: transparent url('/assets/images/open-new-tab-hover.png') no-repeat  right center !important;
+        padding:0px 15px 0px 8px !important;
+    }
+
+    .mbmembercommunity-signin-iconified 
+    {
+        background: transparent url('/assets/images/open-new-tab-active.png') no-repeat  right center !important;
+        padding:0px 15px 0px 8px !important;
+    }
+
+
+</style>
+<header id="header">
+    <input name="pjmHeader$DeviceName" type="hidden" id="pjmHeader_DeviceName" class="DeviceName" value="desktop" />
+    <input name="pjmHeader$DeviceType" type="hidden" id="pjmHeader_DeviceType" class="DeviceType" value="0" />
+    <div id="utilbar">
+        <div class="wrapper">
+            <div id="utilnav">
+                
+                <nav>
+                    
+                    <ul id="header_navigation">
+                                
+                                
+                                            <li class="visible-desktop"><a href="http://www.pjm.com/sso/pjmsignin?item=/planning/rtep-development" class="headersigninbutton"><span>Sign In</span></a></li>
+                 
+                                            <li class="hidden-desktop"><a href="#" id="signin-toggle"><i class="icon-signin"></i><span>Sign In</span></a></li>
+                                    
+                        
+	                    <li class="visible-desktop "><a class="tools-signin-iconified" href="https://tools.pjm.com/" target="_blank" >Tools Sign In</a></li>
+	                    <li><a href="/Home/Calendar.aspx"><i class="icon-calendar"></i><span>Calendar</span></a></li>
+	                    <li class="hidden-desktop"><a href="#" id="nav-toggle"><i class="icon-menu"></i><span>Menu</span></a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div id="signin">
+                
+							<nav>
+                                <div>
+								    <ul>
+								        <li><a href="http://www.pjm.com/sso/pjmsignin?item=/planning/rtep-development">Sign In</a></li>
+								    </ul>
+                                </div>
+							</nav>
+							
+			</div>
+            <div id="search">
+                
+<script src="/assets/responsive/js/vendor/jquery.simpleplaceholder.js"></script>
+
+
+<script>
+
+function checkEnter(event,buttonId)
+
+{              
+
+        var key;
+
+        if(window.event)
+
+              key = window.event.keyCode;     //IE
+
+         else
+              key = event.which;     //firefox
+
+        if (key == 13)
+        {
+            //Get the button the user wants to have clicked
+            var btn = document.getElementById(buttonId);
+
+
+            if (btn != null)
+            { //If we find the button click it
+                btn.click();
+                event.keyCode = 0
+            }
+        }
+    }
+
+    jQuery(document).ready(function () {
+        jQuery('input:text[placeholder]').simplePlaceholder();
+    });
+</script>
+
+ 
+
+    <!--<select name="pjmHeader$SearchInput$ddlSearchSiteArea" id="pjmHeader_SearchInput_ddlSearchSiteArea" class="headersearchbox">
+	<option value="All PJM.com">All PJM.com</option>
+	<option value="About PJM">About PJM</option>
+	<option value="Training ">Training </option>
+	<option value="Committees &amp; Groups">Committees &amp; Groups</option>
+	<option selected="selected" value="Planning">Planning</option>
+	<option value="Markets &amp; Operations">Markets &amp; Operations</option>
+	<option value="Library">Library</option>
+
+</select>-->
+     <input name="pjmHeader$SearchInput$tbKeywords" type="text" id="pjmHeader_SearchInput_tbKeywords" class="headersearchbox" placeholder="search" onkeypress="javascript:return checkEnter(event,&#39;pjmHeader_SearchInput_imgBtnGo&#39;)" />
+     <input type="submit" name="pjmHeader$SearchInput$imgBtnGo" value="Go" id="pjmHeader_SearchInput_imgBtnGo" class="button headersearchbutton" />
+
+
+
+		    </div>
+        </div>
+    </div>
+    
+    <div id="navbar">
+        <div class="wrapper">
+            <div id="brand">
+				<h2><a href="/" ><img width="108" height="38" src="/assets/responsive/img/pjm-logo.png" alt="PJM&copy;" ></a></h2>
+			</div>
+            
+			<div id="nav">
+			    <nav>
+			        <ul>
+                     
+                        
+                            <li class=''><a href='/about-pjm' class='nounderline'>about pjm</a></li>
+                        
+                            <li class=''><a href='/training' class='nounderline'>training </a></li>
+                        
+                            <li class=''><a href='/committees-and-groups' class='nounderline'>committees <span style='font-family: Arial, Verdana;'>&</span> groups</a></li>
+                        
+                            <li class='selected'><a href='/planning' class='nounderline'>planning</a></li>
+                        
+                            <li class=''><a href='/markets-and-operations' class='nounderline'>markets <span style='font-family: Arial, Verdana;'>&</span> operations</a></li>
+                        
+                            <li class=''><a href='/library' class='nounderline'>library</a></li>
+                        
+                        
+                    </ul>
+                 </nav>   
+           </div>
+		</div>
+	</div>
+</header>
+
+<script type="text/javascript">
+    jQuery("ul#header_navigation li.first").on('mouseenter',
+  function () {
+      jQuery("ul#header_navigation li .sub").show();
+  }).on('mouseleave',
+  function () {
+      jQuery("ul#header_navigation li .sub").hide();
+  }
+);
+</script>
+
+
+            <!-- END NOINDEX -->
+            <div id="content-container">
+                <div class="wrapper">
+                    
+<head>
+<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="PUBLIC">
+</head>
+<div id="section-nav" class=''>
+    <h3>
+        <a href="#">
+            Planning</a></h3>
+    <nav>
+    
+            <ul>
+        
+            
+            
+            
+              </li>
+             
+            <li>
+            <a href='/planning/service-requests'>Service Requests</a>
+            
+                 <ul>
+             
+                <li>
+                     <a href='/planning/service-requests/serial-service-request-status'>Serial Service Request Status</a>
+                    
+                </li>    
+                
+                <li>
+                     <a href='https://www.pjm.com/planning/m/cycle-service-request-status' target="_blank">Cycle Service Request Status</a>
+                    
+                </li>    
+                
+                <li>
+                     <a href='/planning/service-requests/non-cycle-study-request'>Non-Cycle Study Request</a>
+                    
+                        <ul>
+                      
+                        <li>
+                             <a href='/planning/service-requests/non-cycle-study-request/affected-system-study'>Affected System Study</a>
+                        </li>     
+                        
+                        <li>
+                             <a href='/planning/service-requests/non-cycle-study-request/interim-deliverability-study'>Interim Deliverability Study</a>
+                        </li>     
+                        
+                        <li>
+                             <a href='/planning/service-requests/non-cycle-study-request/replacement-generation-interconnection-service-request'>Replacement Generation Interconnection Service Request</a>
+                        </li>     
+                        
+                        <li>
+                             <a href='/planning/service-requests/non-cycle-study-request/upgrade-request'>Upgrade Requests</a>
+                        </li>     
+                        
+                         </ul>
+                        
+                </li>    
+                
+                <li>
+                     <a href='/planning/service-requests/interconnection-process-reform'>Interconnection Process Reform</a>
+                    
+                </li>    
+                
+                <li>
+                     <a href='/planning/service-requests/application-and-forms'>Application <span class="ampersand">&</span> Forms</a>
+                    
+                </li>    
+                
+                <li>
+                     <a href='/planning/service-requests/planning-modeling-submissions'>Planning Modeling Submissions (MOD-026, 027 <span class="ampersand">&</span> 032)</a>
+                    
+                </li>    
+                
+                <li>
+                     <a href='/planning/service-requests/gen-deactivations'>Generation Deactivations</a>
+                    
+                        <ul>
+                      
+                        <li>
+                             <a href='/planning/service-requests/gen-deactivations/generator-deactivation-notices'>Generator Deactivation Notices </a>
+                        </li>     
+                        
+                         </ul>
+                        
+                </li>    
+                
+                 </ul>
+                
+              </li>
+             
+            
+            
+            
+              </li>
+             
+            <li>
+            <a href='/planning/m/project-construction'>Project Status <span class='ampersand'>&</span> Cost Allocation</a>
+            
+              </li>
+             
+            
+            
+            
+              </li>
+             
+            
+            
+            
+              </li>
+             
+            
+            
+            
+              </li>
+             
+            
+            
+            
+              </li>
+             
+            
+            
+            
+              </li>
+             
+            <li>
+            <a href='/planning/competitive-planning-process'>Competitive Planning Process</a>
+            
+                 <ul>
+             
+                <li>
+                     <a href='/planning/competitive-planning-process/redacted-proposals'>Redacted Public Proposals for Current and Closed Windows</a>
+                    
+                </li>    
+                
+                <li>
+                     <a href='/planning/competitive-planning-process/pre-qualification'>Pre-Qualification for Designated Entity Status</a>
+                    
+                </li>    
+                
+                 </ul>
+                
+              </li>
+             
+            <li class='expanded selected'>
+            <a href='/planning/rtep-development'>RTEP Development </a>
+            
+                 <ul>
+             
+                <li>
+                     <a href='/planning/rtep-development/stakeholder-process'>Stakeholder Process</a>
+                    
+                        <ul>
+                      
+                        <li>
+                             <a href='/planning/rtep-development/stakeholder-process/developers'>Interconnection / Upgrade Requests</a>
+                        </li>     
+                        
+                        <li>
+                             <a href='/planning/rtep-development/stakeholder-process/regulators'>Regulators</a>
+                        </li>     
+                        
+                        <li>
+                             <a href='/planning/rtep-development/stakeholder-process/trans-owners'>Transmission Owners</a>
+                        </li>     
+                        
+                         </ul>
+                        
+                </li>    
+                
+                <li>
+                     <a href='/planning/rtep-development/market-efficiency'>Market Efficiency</a>
+                    
+                </li>    
+                
+                <li>
+                     <a href='/planning/rtep-development/baseline-reports'>Baseline Reports</a>
+                    
+                </li>    
+                
+                <li>
+                     <a href='/planning/rtep-development/powerflow-cases'>Modeling Data</a>
+                    
+                        <ul>
+                      
+                        <li>
+                             <a href='/planning/rtep-development/powerflow-cases/mmwg-base-cases'>Multiregional Modeling Working Group Base Cases </a>
+                        </li>     
+                        
+                         </ul>
+                        
+                </li>    
+                
+                 </ul>
+                
+              </li>
+             
+            <li>
+            <a href='/planning/resource-adequacy-planning'>Resource Adequacy Planning</a>
+            
+                 <ul>
+             
+                <li>
+                     <a href='/planning/resource-adequacy-planning/effective-load-carrying-capability'>Effective Load Carrying Capability (ELCC)</a>
+                    
+                </li>    
+                
+                <li>
+                     <a href='/planning/resource-adequacy-planning/reserve-requirement-dev-process'>Reserve Requirement Development Process</a>
+                    
+                </li>    
+                
+                <li>
+                     <a href='/planning/resource-adequacy-planning/load-forecast-dev-process'>Load Forecast Development Process</a>
+                    
+                </li>    
+                
+                <li>
+                     <a href='/planning/resource-adequacy-planning/resource-reports-info'>Resource Reports <span class="ampersand">&</span> Information</a>
+                    
+                </li>    
+                
+                 </ul>
+                
+              </li>
+             
+            <li>
+            <a href='/planning/planning-criteria'>Planning Criteria</a>
+            
+                 <ul>
+             
+                <li>
+                     <a href='/planning/planning-criteria/pjm-planning-criteria'>PJM Planning Criteria</a>
+                    
+                </li>    
+                
+                <li>
+                     <a href='/planning/planning-criteria/to-planning-criteria'>Transmission Owner Planning Criteria</a>
+                    
+                </li>    
+                
+                 </ul>
+                
+              </li>
+             
+            <li>
+            <a href='/planning/design-engineering'>Design, Engineering <span class='ampersand'>&</span> Construction</a>
+            
+                 <ul>
+             
+                <li>
+                     <a href='/planning/design-engineering/maac-to-guidelines'>Transmission Owner Guidelines</a>
+                    
+                </li>    
+                
+                <li>
+                     <a href='/planning/design-engineering/to-tech-standards'>Transmission Owner Engineering <span class="ampersand">&</span> Construction Standards</a>
+                    
+                </li>    
+                
+                 </ul>
+                
+              </li>
+             
+            <li>
+            <a href='/planning/interregional-planning'>Interregional Planning</a>
+            
+                 <ul>
+             
+                <li>
+                     <a href='/planning/interregional-planning/eipc'>Eastern Interconnection Planning Collaborative (EIPC)</a>
+                    
+                </li>    
+                
+                 </ul>
+                
+              </li>
+             
+            
+            
+            
+              </li>
+             
+        </ul>
+        
+    </nav>
+</div>
+
+                    <div id="main">
+                        <div id="content">
+                            <div class="meta">
+                                
+                                <span id="showFeedbackSlider">
+                                    
+
+<link href="/assets/MVC/responsive/css/sliding-feedback.css" rel="stylesheet" />
+
+<!--BEGIN QUALTRICS WEBSITE FEEDBACK SNIPPET-->
+<script src="/assets/js/Qualtrics/Qualtrics.js"></script>
+<div id='ZN_dgm6LPcAOX40PWe'><!--DO NOT REMOVE-CONTENTS PLACED HERE--></div>
+<!--END WEBSITE FEEDBACK SNIPPET-->
+
+
+                                </span>
+                            </div>
+                            
+
+<div id="breadcrumbs">
+<ul>
+                 
+                       <li><a id="pjmBreadCrumb__rptBreadCrumb__lnkItem_0" href="/">Home</a></li>
+                     
+                       <li><a id="pjmBreadCrumb__rptBreadCrumb__lnkItem_1" href="/planning">Planning</a></li>
+                     
+                       <li><a id="pjmBreadCrumb__rptBreadCrumb__lnkItem_2">RTEP Development </a></li>
+                
+                
+</ul>
+</div>
+
+                            
+
+
+
+                            
+
+                            
+    <article>
+       <h1>
+ RTEP Development 
+ </h1>
+        <p>Planning the enhancement and expansion of transmission capability on a regional basis is one of the primary functions of regional transmission organizations like PJM. PJM implements this function pursuant to the&nbsp;Regional Transmission Expansion Planning (RTEP) process set forth in schedule 6 of the&nbsp;Operating Agreement<a rel="noopener noreferrer" href="https://agreements.pjm.com/oa/" target="_blank">&nbsp<i class="new-web">WEB</i></a> |<a href="https://www.pjm.com/pjmfiles/directory/merged-tariffs/oa.pdf" target="_blank">&nbsp<i class="new-pdf">PDF</i></a>. <br />
+<br />
+</p>
+<h2>RTEP Development Process</h2>
+<p>PJM&rsquo;s&nbsp;<a href="/library/reports-notices/rtep-documents">Regional Transmission Expansion Plan</a>&nbsp;(RTEP) identifies transmission system upgrades and enhancements to provide for the operational, economic and reliability requirements of PJM customers. PJM&rsquo;s region-wide RTEP approach integrates transmission with generation and load response projects to meet load-serving obligations. PJM currently applies planning and reliability criteria over a 15-year horizon to identify transmission constraints and other reliability concerns. Transmission upgrades to mitigate identified reliability criteria violations are then examined for their feasibility, impact and costs, culminating in one plan for the entire PJM footprint.</p>
+<h2>Expansion Planning Process</h2>
+<p>The rules and procedures for the RTEP process are set forth in schedule 6 of the&nbsp;Operating Agreement<a rel="noopener noreferrer" href="https://agreements.pjm.com/oa/4771" target="_blank">&nbsp<i class="new-web">WEB</i></a> |<a href="https://www.pjm.com/pjmfiles/directory/merged-tariffs/oa.pdf" target="_blank">&nbsp<i class="new-pdf">PDF</i></a>. In accordance with those rules, PJM prepares a plan for the enhancement and expansion of transmission facilities in the PJM region. Additionally, the PJM manuals describe the details of the RTEP process. In particular, PJM manuals address PJM&rsquo;s regional planning process. PJM&rsquo;s RTEP process preserves the reliability of PJM&rsquo;s interstate transmission system to ensure that power continues to flow reliably to customers and to ensure robust, competitive power markets. This section provides access to the specific agreements, forms, instructions, procedures and general reference materials used to initiate and process generation and merchant transmission interconnection requests.</p>
+<p>Learn more about PJM's <a href="/planning/service-requests">expansion planning process</a>.</p>
+    </article>
+
+                            
+
+           <p style=" font-size : 0.75em;">
+            </p>
+                        </div>
+                        
+<div id="sidebar">
+
+
+
+<style>
+ 
+ .wordwrap  
+ {
+ 
+   word-wrap: break-word;
+   white-space: pre; /* CSS 2.0 */
+   white-space: pre-wrap; /* CSS 2.1 */
+   white-space: pre-line; /* CSS 3.0 */
+   white-space: -moz-pre-wrap; /* Firefox */      
+   display: inline-block;
+   vertical-align: top;
+   padding-right: 30px;
+   padding-top: 2px;
+   width:150px;
+  
+  }
+
+.display
+{
+display: inline-block;
+ vertical-align:middle;
+ padding-bottom: 5px;
+
+
+
+
+
+
+}
+
+.container
+{
+    
+display: inline-block;
+    
+}
+
+  
+</style>
+
+
+
+
+
+<div id="related-info" class="widget">
+		<header>
+			<h4>Related Information</h4>
+		</header>
+		
+		<div class="content">
+		<ul> 
+        
+        <li><a href='/committees-and-groups/committees/teac'><div class='display'><i class="icon-arrow"></i><div class='wordwrap' > Transmission Expansion Advisory Committee</div></div></a></li>
+        
+        <li><a href='https://www.eipconline.com/' target='_blank'><div class='display'><i class="file-web">WEB</i><div class='wordwrap' > Eastern Interconnection Planning Collaborative</div></div></a></li>
+        
+        
+        </ul>   
+        </div>
+</div>
+<div id="contact-us" class="widget">
+<header>
+    <h4>Contact Information</h4>
+</header>
+<div class="content">
+<a href="https://pjm.my.site.com/Members" target="_blank"><img style="margin: 0px;" height="75" alt="Member Community" width="189" src="-/media/641730DAE0624A5A8BA5EC763638138F.ashx"></a>
+<p>(866) 400-8980<br>
+(610) 666-8980<br>
+<a href="~/link.aspx?_id=C6226B3F00794149B041B454AF7D650D&amp;_z=z">Member Relations</a></p>
+<p>&nbsp;</p>
+</div>
+</div>
+
+</div>
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- BEGIN NOINDEX -->
+            
+<style>
+    .socialIcon {width: 24px;height: 24px;}
+</style>
+      <footer id="footer">
+				<div class="wrapper">
+                    <div class="social">
+				            <ul>
+                                <li>Follow us on: </li>
+					             <li><a href="https://insidelines.pjm.com" target="_blank">
+                                     <img alt="InsideLines" src="/assets/images/Redesign/Home/icon_insidelines.png" class="socialIcon" /></a></li>
+                                 <li><a href="https://www.facebook.com/pjminterconnect" target="_blank">
+                                     <img alt="follow us on facebook" src="/assets/images/Redesign/Home/icon_facebook.png" class="socialIcon" /></a></li>
+                                 <li><a href="https://rss.pjm.com/" target="_blank">
+                                     <img alt="rss feed" src="/assets/images/Redesign/Home/logo_rss.png" class="socialIcon" /></a></li>
+                                 <li><a href="https://www.linkedin.com/companies/pjm-interconnection" target="_blank">
+                                     <img alt="follow us on LinkedIn" src="/assets/images/Redesign/Home/logo_linkedin.png" class="socialIcon" /></a></li>
+                                 <li><a href="https://twitter.com/pjminterconnect" target="_blank">
+                                     <img alt="follow us on Twitter" src="/assets/images/Redesign/Home/logo_twitter.png" class="socialIcon" /></a></li>
+                                 <li><a href="https://www.youtube.com/user/pjminterconnection" target="_blank">
+                                     <img alt="follow us on YouTube" src="/assets/images/Redesign/Home/logo_youtube.png" class="socialIcon" /></a></li>
+                                 <li><a href="https://www.threads.net/@pjminterconnectionnews" target="_blank">
+                                     <img alt="follow us on Threads" src="/assets/images/Redesign/Home/icon_threads.png" class="socialIcon" /></a></li>
+				            </ul>
+                    </div>
+					<div id="footernav">
+                        
+                        
+                            <div id="footerlinks">
+						        <nav>
+							        <ul>
+								        
+                                                <li><a href='/about-pjm/who-we-are/contact-us'>Contact Us</a></li>
+                                            
+                                                <li><a href='/about-pjm/careers'>Careers</a></li>
+                                            
+                                                <li><a href='https://learn.pjm.com/'>Learning Center</a></li>
+                                            
+                                                <li><a href='/Glossary'>Glossary</a></li>
+                                            
+                                                <li><a href='/about-pjm/newsroom/rss-feeds'>RSS Feeds</a></li>
+                                            
+                                                <li><a href='/about-pjm/site-map'>Site Map</a></li>
+                                            
+							        </ul>
+						        </nav>
+                            </div>
+                            <div id="legal">
+						        <nav>
+							        <ul>
+								        <li>PJM © 1999-2026 All rights reserved.</li>
+								        <li><a href="/about-pjm/legal.aspx">Legal and Privacy</a></li>
+							        </ul>
+						        </nav>
+					        </div>
+                        
+					</div>
+					
+				</div>
+			</footer>
+
+            <!-- END NOINDEX -->
+        </div>
+    </form>
+
+    <script type="text/javascript">
+        var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+        document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+
+    <script type="text/javascript">
+        try {
+            var pageTracker = _gat._getTracker("UA-7114445-1");
+            pageTracker._trackPageview();
+        } catch (err) { }</script>
+
+    <script type="text/javascript" src="/Scripts/jquery-3.5.1.min.js"></script>
+    
+    <script src="/assets/responsive/js/plugins.js"></script>
+    <script type="text/javascript" src="/Scripts/jquery-ui.js"></script>
+    <script src="/assets/js/jquery.scrollUp.js"></script>
+    <script src="/assets/responsive/js/main.js"></script>
+    <script type="text/javascript" src="/assets/js/jquerytablesorter.js"></script>
+    <script type="text/javascript" src="/assets/js/tabSlideOut.js"></script>
+    <script async src="https://siteimproveanalytics.com/js/siteanalyze_6341168.js"></script>
+</body>
+</html>
