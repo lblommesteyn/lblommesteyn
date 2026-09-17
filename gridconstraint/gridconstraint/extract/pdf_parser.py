@@ -57,11 +57,16 @@ def _clean(s):
 # ---------------------------------------------------------------------- meta
 def parse_meta(text: str) -> dict:
     m = {}
-    r = re.search(r"Queue (?:Project|Number|No\.?)\s*[:#]?\s*([A-Z]{1,3}\d?-?\d{1,4}(?:-\d{1,4})?)", text)
+    r = (re.search(r"Queue (?:Project|Number|No\.?|Position|#)\s*[:#]?\s*([A-Z]{1,3}\d?-?\d{1,4}(?:-\d{1,4})?)", text)
+         or re.search(r"\b([A-Z]{1,2}[A-Z0-9]?\d?-\d{2,4})\b", text[:800]))
     if r: m["project_id"] = r.group(1)
-    r = re.search(r"proposes a ([\d,.]+)\s*MW (.+?) facility", text)
-    if r: m["mw"] = _num(r.group(1)); m["fuel_text"] = _clean(r.group(2))
-    r = re.search(r"interconnect(?:ing|ion)? at the (.+?) substation", text)
+    r = (re.search(r"proposes a ([\d,.]+)\s*MW (.+?) facility", text)
+         or re.search(r"([\d,.]+)\s*MW\s+(?:of\s+)?(?:Capacity Interconnection Rights|CIRs|Energy|capacity)", text, re.I))
+    if r: m["mw"] = _num(r.group(1)); m["fuel_text"] = _clean(r.group(2)) if r.lastindex and r.lastindex >= 2 and "facility" in r.re.pattern else ""
+    # point of interconnection: real PJM reports say "interconnect at/to the X 230 kV substation" or "... X - Y 230 kV line"
+    r = (re.search(r"interconnect(?:ing|ion|s|ed)?\s+(?:at|to|with)\s+(?:the\s+)?(.+?\d{2,3}(?:\.\d)?\s*kV[^.\n]{0,40}?)(?:substation|line|circuit|bus|\.|,|\n)", text, re.I)
+         or re.search(r"interconnect(?:ing|ion)? at the (.+?) substation", text, re.I)
+         or re.search(r"Point of Interconnection[:\s]+([^\n]{4,80})", text, re.I))
     if r: m["poi_str"] = _clean(r.group(1))
     r = re.search(r"request was received on ([A-Z][a-z]+ \d{1,2}, \d{4})", text)
     if r: m["queue_date_str"] = r.group(1)

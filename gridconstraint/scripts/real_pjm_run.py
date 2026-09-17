@@ -60,33 +60,54 @@ HIFLD_CANDIDATES = [str(C.RAW / "hifld_transmission_lines.pmtiles"),
 
 
 def load_queue_snapshots() -> tuple[pd.DataFrame, pd.DataFrame]:
-    """Dated PJM queue exports -> queue.csv (first appearance) + queue_events.csv (status changes by snapshot date)."""
+    """Dated PJM queue exports -> queue.csv + queue_events.csv.
+    With several snapshots, status changes are dated by the first snapshot that shows them. With a
+    single export, the export's own dated columns are used (Submitted Date, Withdrawal Date, Actual
+    In Service Date): a withdrawal/in-service event is public from that date. Restatements that a
+    later export would overwrite cannot be recovered from one snapshot (documented limitation)."""
     frames = []
     for p in sorted((RAW / "queue_snapshots").glob("*")):
         m = re.search(r"(\d{4}-\d{2}-\d{2})", p.name)
-        if not m:
+        if not m or p.suffix not in (".xls", ".xlsx", ".csv"):
             continue
         df = pd.read_excel(p) if p.suffix in (".xls", ".xlsx") else pd.read_csv(p, low_memory=False)
-        df.columns = [c.strip() for c in df.columns]
+        df.columns = [str(c).strip() for c in df.columns]
         df["snapshot_date"] = pd.Timestamp(m.group(1))
         frames.append(df)
     if not frames:
-        raise SystemExit("no dated queue snapshots under data/raw_real/pjm/queue_snapshots")
+        raise SystemExit("no dated queue exports under data/raw_real/pjm/queue_snapshots")
     allq = pd.concat(frames, ignore_index=True)
     col = {c.lower(): c for c in allq.columns}
-    qn = col.get("queue number") or col.get("queue id") or col.get("queue_number")
-    status = col.get("status"); sub = col.get("submitted date") or col.get("queue date"); mw = col.get("mfo") or col.get("mw energy") or col.get("capacity (mw)")
-    poi = col.get("point of interconnection") or col.get("interconnection location") or col.get("poi")
-    fuel = col.get("fuel") or col.get("generation type"); state = col.get("state")
+    g = lambda *names: next((col[n] for n in names if n in col), None)
+    qn = g("project id", "queue number", "queue id"); status = g("status"); sub = g("submitted date", "queue date")
+    mw = g("mfo", "mw energy", "capacity (mw)", "mw capacity"); poi = g("point of interconnection", "interconnection location", "poi", "substation")
+    fuel = g("fuel", "generation type"); state = g("state"); wd = g("withdrawal date", "withdrawn date"); isd = g("actual in service date", "in service date")
+    to = g("transmission owner")
     first = allq.sort_values("snapshot_date").groupby(qn).first().reset_index()
-    queue = pd.DataFrame(dict(project_id=first[qn].astype(str), queue_date=pd.to_datetime(first[sub], errors="coerce"),
-                              poi_name=first[poi].astype(str) if poi else "", mw=pd.to_numeric(first[mw], errors="coerce"),
-                              fuel=first[fuel].astype(str).str.lower() if fuel else "", state=first[state] if state else ""))
-    queue["project_type"] = np.where(queue.fuel.str.contains("storage|battery"), "battery", "gen")
-    ev = allq.sort_values("snapshot_date")[[qn, status, "snapshot_date"]].rename(columns={qn: "project_id", status: "status", "snapshot_date": "date"})
-    ev["status"] = ev.status.astype(str).str.lower().map(lambda s: "withdrawn" if "withdraw" in s else ("in_service" if "in service" in s or "operational" in s else "active"))
-    ev = ev[ev.status != ev.groupby("project_id").status.shift()]     # keep changes only, dated by the snapshot that first showed them
-    return queue, ev
+    queue = pd.DataFrame(dict(project_id=first[qn].astype(str).str.strip(), queue_date=pd.to_datetime(first[sub], errors="coerce"),
+                              poi_name=first[poi].astype(str) if poi else "", mw=pd.to_numeric(first[mw], errors="coerce") if mw else np.nan,
+                              fuel=first[fuel].astype(str).str.lower() if fuel else "", state=first[state] if state else "",
+                              transmission_owner=first[to] if to else ""))
+    queue["project_type"] = np.where(queue.fuel.str.contains("storage|battery", na=False), "battery",
+                                     np.where(queue.fuel.str.contains("load", na=False), "load", "gen"))
+    queue["fuel"] = queue.fuel.map(lambda f: "solar" if "solar" in f else ("wind" if "wind" in f else ("gas" if "gas" in f or "methane" in f else
+                                   ("storage" if "storage" in f or "battery" in f else ("hybrid" if ";" in f or "/" in f else "other")))))
+    ev = [pd.DataFrame(dict(project_id=queue.project_id, date=queue.queue_date, status="queued"))]
+    if len(frames) >= 2 and status:
+        e = allq.sort_values("snapshot_date")[[qn, status, "snapshot_date"]].rename(columns={qn: "project_id", status: "status", "snapshot_date": "date"})
+        e["project_id"] = e.project_id.astype(str).str.strip()
+        e["status"] = e.status.astype(str).str.lower().map(lambda s: "withdrawn" if "withdraw" in s else ("in_service" if "in service" in s or "operational" in s else "active"))
+        e = e[e.status != e.groupby("project_id").status.shift()]
+        ev.append(e[e.status != "active"])
+    else:
+        if wd:
+            w = pd.DataFrame(dict(project_id=queue.project_id, date=pd.to_datetime(first[wd], errors="coerce"), status="withdrawn")).dropna(subset=["date"])
+            ev.append(w)
+        if isd:
+            i = pd.DataFrame(dict(project_id=queue.project_id, date=pd.to_datetime(first[isd], errors="coerce"), status="in_service")).dropna(subset=["date"])
+            ev.append(i)
+    events = pd.concat(ev, ignore_index=True).dropna(subset=["date"]).sort_values(["date", "project_id"])
+    return queue, events
 
 
 def main():
@@ -99,8 +120,8 @@ def main():
     st = check_inputs()
     print(json.dumps(st, indent=1))
     missing = [k for k in ("model", "hifld_lines") if not st[k]]
-    if len(st["queue_snapshots"]) < 2:
-        missing.append("queue_snapshots (>=2 dated exports)")
+    if len(st["queue_snapshots"]) < 1:
+        missing.append("queue_snapshots (>=1 dated export)")
     if st["study_pdfs"] < a.min_studies:
         missing.append(f"study_pdfs (have {st['study_pdfs']}, need >= {a.min_studies})")
     if FIRST.exists():
@@ -125,18 +146,29 @@ def main():
         c = N.match_sub(str(s))
         poi_sub.append(c[0][0] if c and c[0][1] >= 80 else None)
     queue["poi_sub_id"] = poi_sub
-    queue = queue[queue.poi_sub_id.notna() & queue.queue_date.notna()].copy()
+    queue = queue[queue.queue_date.notna()].copy()
     queue["poi_kv"] = queue.poi_name.str.extract(r"(\d{2,3})\s*kV", expand=False).astype(float).fillna(138.0)
     # ---- 3. studies -> labels with first-seen dates
     rows, index = [], []
     for p in sorted((RAW / "studies").glob("*_imp.pdf"))[: a.max_studies]:
         meta = dict(l.split("=", 1) for l in p.with_suffix(".pdf.meta").read_text().splitlines() if "=" in l)
-        seen = pd.Timestamp(meta.get("fetched", "")[:10])
+        lm = pd.to_datetime(meta.get("last_modified", ""), errors="coerce", utc=True)
+        seen = (lm.tz_convert(None) if pd.notna(lm) else pd.Timestamp(meta.get("fetched", "")[:10])).normalize()
         ps = parse_study(str(p))
-        pid = ps.meta.get("project_id")
-        if pid not in set(queue.project_id):
+        pid = ps.meta.get("project_id") or p.name.split("_")[0].upper()
+        qmap = queue.set_index("project_id")
+        if pid not in qmap.index:
+            alt = [q for q in qmap.index if q.replace("-", "").lower() == p.name.split("_")[0].lower()]
+            if not alt:
+                continue
+            pid = alt[0]
+        if pd.isna(qmap.loc[pid].poi_sub_id) and ps.meta.get("poi_str"):
+            c = N.match_sub(ps.meta["poi_str"])
+            if c and c[0][1] >= 80:
+                queue.loc[queue.project_id == pid, "poi_sub_id"] = c[0][0]; qmap = queue.set_index("project_id")
+        if pd.isna(qmap.loc[pid].poi_sub_id):
             continue
-        poi = int(queue.set_index("project_id").loc[pid].poi_sub_id)
+        poi = int(qmap.loc[pid].poi_sub_id)
         for f in ps.findings:
             n = N.normalize(f["facility_str"], poi_sub=poi)
             rows.append(dict(project_id=pid, publication_date=seen, facility_str=f["facility_str"], fid=n["fid"], fid_confidence=n["confidence"],
