@@ -112,6 +112,7 @@ footer{margin-top:26px;border-top:1px solid var(--line);padding-top:14px;font-si
 const DATA = /*__DATA__*/null;
 const $ = id => document.getElementById(id);
 const state = {sub: null, type: "gen", mw: null};
+DATA.subs.forEach(s => { if(/^\d+$/.test(s.name)) s.name = "Substation " + s.name; });
 const subByName = new Map(DATA.subs.map(s => [s.name.toLowerCase(), s]));
 const dl = $("sublist");
 DATA.subs.slice().sort((a,b)=>a.name.localeCompare(b.name)).forEach(s => { const o = document.createElement("option"); o.value = s.name; o.label = `${s.state} · ${s.kv} kV · ${s.ns} studied`; dl.appendChild(o); });

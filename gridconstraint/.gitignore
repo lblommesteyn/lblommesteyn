@@ -7,3 +7,9 @@ logs/
 docs/ui_data.json
 __pycache__/
 *.pyc
+# variant worlds: keep only their result tables and small public/world csvs
+variants/*/data/processed/
+variants/*/data/studies/pdf/
+variants/*/data/public/market_lmp.parquet
+variants/*/logs/
+variants/*/data/raw_public

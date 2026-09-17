@@ -1,0 +1,8 @@
+{
+  "n_train_projects": 1106,
+  "n_valid_projects": 363,
+  "n_test_projects": 698,
+  "n_test_projects_with_constraints": 432,
+  "candidate_ceiling": 0.9027538726333907,
+  "best_baseline": "B5_simple_tabular_gbm"
+}

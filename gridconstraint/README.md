@@ -38,7 +38,26 @@ would be needed to run the real thing.
 
 ## Results (chronological hold-out, projects queued after 2022-06-30)
 
-See `REPORT.md` for the full tables. Headline numbers are written there by the benchmark script.
+Full tables and discussion in `REPORT.md`. On the simulated ISO:
+
+| | hit@5 | hit@10 | recall@10 | MRR | Brier skill |
+|---|---|---|---|---|---|
+| Main model (all public features, bagged GBM, calibrated) | 51.0 % | 58.1 % | 31.6 % | 0.40 | 0.095 |
+| Best simple baseline (geography + size logistic) | 50.3 % | 57.4 % | 27.8 % | 0.40 | 0.048 |
+| Queue-density heuristic | 49.0 % | 51.6 % | 25.0 % | 0.39 | 0.007 |
+| Public-topology distribution factor only | 46.5 % | 50.3 % | 24.4 % | 0.39 | 0.029 |
+| Historical-congestion heuristic | 16.8 % | 23.2 % | 9.5 % | 0.10 | −0.001 |
+
+* **Primary criterion not met**: on "was a true constrained facility in the top-K", the learned model is
+  within a point of a geography + size baseline. Location explains the easy part of the problem.
+* On facilities **not directly connected** to the POI the model does better (hit@5 44.9 % vs 40.8 %,
+  recall@10 26.4 % vs 19.2 %), its probabilities carry twice the Brier skill, and its expected constraint
+  count tracks the real one (correlation 0.41 vs 0.21).
+* **Oracle ablation**: handing the model the hidden case's exact impedances lifts hit@5 only 52 % → 54 %.
+  The missing private data is facility **headroom** (ratings, planning dispatch, contingency definitions),
+  not topology. A second world with persistent headroom is reported in `REPORT.md` §5.10.
+* Ground-truth extraction from the rendered PDFs: 99.9 % facility precision and recall across three report
+  layouts with realistic naming noise.
 
 ## Layout
 
