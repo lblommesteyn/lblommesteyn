@@ -1,0 +1,2 @@
+n_studies,findings_truth,findings_parsed,extraction_recall,fid_precision,fid_recall,studies_exact,cost_total_match,loading_mae,project_id_match
+2168,16051,16437,1.0240483458974519,0.9995011224744326,0.9985670674724316,0.9907749077490775,1.0,0.0,1.0

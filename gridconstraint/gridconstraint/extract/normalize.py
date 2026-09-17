@@ -86,19 +86,33 @@ class FacilityNormalizer:
         return dict(kind=kind, names=parts, kv=kv, circuit=circuit, raw=raw)
 
     # ---- matching --------------------------------------------------------------------
+    def _cands(self, key: str) -> list[tuple[str, float]]:
+        """Fuzzy candidate keys with base scores (cached: mentions repeat heavily across reports)."""
+        if not hasattr(self, "_cand_cache"):
+            self._cand_cache = {}
+        if key in self._cand_cache:
+            return self._cand_cache[key]
+        if key in self.key_to_rows:            # exact key match: no fuzzy search needed
+            out = [(key, 100.0)]
+        else:
+            c1 = process.extract(key, self.uniq_keys, scorer=fuzz.ratio, limit=8, score_cutoff=55)
+            c2 = process.extract(key, self.uniq_keys, scorer=fuzz.token_set_ratio, limit=8, score_cutoff=70)
+            out = []
+            for k in {k for k, _, _ in c1} | {k for k, _, _ in c2}:
+                r = fuzz.ratio(key, k); ts = fuzz.token_set_ratio(key, k)
+                ln = min(len(key), len(k)) / max(len(key), len(k), 1)   # token-set is lenient for short candidates
+                out.append((k, max(r, ts - 30.0 * (1.0 - ln))))
+        if len(self._cand_cache) > 200000:
+            self._cand_cache.clear()
+        self._cand_cache[key] = out
+        return out
+
     def match_sub(self, name: str, kv_hint: float | None = None, near_xy=None, topn: int = 5) -> list[tuple[int, float]]:
         key = norm_key(name)
         if not key:
             return []
-        c1 = process.extract(key, self.uniq_keys, scorer=fuzz.ratio, limit=topn * 3)
-        c2 = process.extract(key, self.uniq_keys, scorer=fuzz.token_set_ratio, limit=topn * 3)
-        cand_keys = {k for k, _, _ in c1} | {k for k, _, _ in c2}
         out = []
-        for k in cand_keys:
-            r = fuzz.ratio(key, k); ts = fuzz.token_set_ratio(key, k)
-            # token-set is lenient for short candidates ("an" in "kirkland park"): penalise length mismatch
-            ln = min(len(key), len(k)) / max(len(key), len(k), 1)
-            score = max(r, ts - 30.0 * (1.0 - ln))
+        for k, score in self._cands(key):
             for i in self.key_to_rows[k]:
                 s = score
                 if kv_hint is not None:
