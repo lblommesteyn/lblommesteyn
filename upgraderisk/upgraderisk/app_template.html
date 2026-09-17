@@ -1,0 +1,248 @@
+<title>Slip Ledger</title>
+<meta name="description" content="Point-in-time delay and cost-overrun risk for PJM transmission upgrades, scored on real historical snapshots.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Serif:wght@500&display=swap">
+<style>
+:root{
+  --ground:#F5F6F3; --panel:#FFFFFF; --panel2:#EEF0EB; --ink:#1B2430; --ink2:#525C68; --mute:#8A939E; --line:#D9DDD6;
+  --accent:#B5551D; --accent-ink:#8F3F10; --good:#2E7D5B; --warn:#C98A1B; --crit:#B3372F; --iso:#3B6EA8; --focus:#1F6FEB;
+  --sans:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace; --serif:"IBM Plex Serif",Georgia,serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --ground:#141A1F; --panel:#1C242B; --panel2:#232D36; --ink:#E6E9EC; --ink2:#B4BCC5; --mute:#7F8A95; --line:#2F3A44;
+  --accent:#E0844A; --accent-ink:#F0A574; --good:#5FBF93; --warn:#E3B04C; --crit:#E0716A; --iso:#7FA8D8; --focus:#6CA6FF; }}
+:root[data-theme="dark"]{
+  --ground:#141A1F; --panel:#1C242B; --panel2:#232D36; --ink:#E6E9EC; --ink2:#B4BCC5; --mute:#7F8A95; --line:#2F3A44;
+  --accent:#E0844A; --accent-ink:#F0A574; --good:#5FBF93; --warn:#E3B04C; --crit:#E0716A; --iso:#7FA8D8; --focus:#6CA6FF; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.45}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:16px;padding-block:18px 40px}
+h1,h2,h3{margin:0;text-wrap:balance}
+h1{font-family:var(--serif);font-weight:500;font-size:26px;letter-spacing:-.01em}
+.sub{color:var(--ink2);max-width:70ch;margin-top:4px}
+.eyebrow{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);font-weight:600}
+a{color:var(--accent-ink)}
+.strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:16px}
+.tile{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px 12px}
+.tile .n{font-family:var(--mono);font-size:22px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1.1;margin-top:2px}
+.tile .n small{font-size:12px;color:var(--mute);font-family:var(--sans);font-weight:400}
+.tile .d{color:var(--ink2);font-size:12px;margin-top:4px}
+.grid{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:16px;margin-top:18px;align-items:start}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:6px}
+.controls{display:flex;flex-wrap:wrap;gap:8px;padding:12px;border-bottom:1px solid var(--line)}
+.controls input,.controls select{font:inherit;font-size:13px;color:var(--ink);background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:6px 8px;min-width:0}
+.controls input{flex:1 1 140px}
+.controls select{flex:0 1 auto;max-width:100%}
+input:focus-visible,select:focus-visible,button:focus-visible,tr:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
+.count{padding:6px 12px;color:var(--mute);font-size:12px;border-bottom:1px solid var(--line)}
+.list{max-height:72vh;overflow:auto}
+table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+.list th{position:sticky;top:0;background:var(--panel);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
+.list td{padding:7px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.list tr{cursor:pointer}
+.list tr:hover td{background:var(--panel2)}
+.list tr.sel td{background:var(--panel2);box-shadow:inset 3px 0 0 var(--accent)}
+.mono{font-family:var(--mono);font-size:12.5px}
+.pill{display:inline-block;min-width:44px;text-align:center;padding:1px 7px;border-radius:999px;font-family:var(--mono);font-size:12px;font-weight:500;border:1px solid transparent}
+.pill.lo{background:color-mix(in srgb,var(--good) 14%,transparent);color:var(--good);border-color:color-mix(in srgb,var(--good) 40%,transparent)}
+.pill.md{background:color-mix(in srgb,var(--warn) 16%,transparent);color:var(--warn);border-color:color-mix(in srgb,var(--warn) 45%,transparent)}
+.pill.hi{background:color-mix(in srgb,var(--crit) 14%,transparent);color:var(--crit);border-color:color-mix(in srgb,var(--crit) 45%,transparent)}
+.detail{padding:16px}
+.detail h2{font-size:18px;font-weight:600}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;color:var(--ink2);margin-top:6px;font-size:13px}
+.scope{margin-top:8px;color:var(--ink2);font-style:italic;max-width:80ch}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media (max-width:640px){.two{grid-template-columns:1fr}}
+.box{background:var(--panel2);border-radius:6px;padding:12px}
+.box h3{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute);font-weight:600;margin-bottom:8px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:13px}
+.kv b{font-weight:500;color:var(--ink2)}
+.kv .v{font-family:var(--mono);font-size:12.5px}
+.big{font-family:var(--mono);font-size:24px;font-weight:500;line-height:1.1}
+.timeline{margin-top:14px}
+.tl{position:relative;height:54px;border-top:1px solid var(--line);margin-top:24px}
+.tl .tick{position:absolute;top:-6px;width:1px;height:12px;background:var(--line)}
+.tl .lab{position:absolute;top:8px;font-family:var(--mono);font-size:11px;color:var(--mute);transform:translateX(-50%);white-space:nowrap}
+.tl .mark{position:absolute;top:-8px;width:0;height:0;border-left:7px solid transparent;border-right:7px solid transparent;transform:translateX(-50%)}
+.tl .mark.iso{border-top:12px solid var(--iso)}
+.tl .mark.p50{border-top:12px solid var(--accent)}
+.tl .mark.act{border-top:12px solid var(--ink)}
+.tl .band{position:absolute;top:22px;height:8px;background:color-mix(in srgb,var(--accent) 30%,transparent);border-radius:4px}
+.tl .name{position:absolute;top:32px;font-size:11px;transform:translateX(-50%);white-space:nowrap;font-weight:500}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px;font-size:12px;color:var(--ink2)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.drivers{display:grid;grid-template-columns:auto 1fr auto;gap:5px 10px;align-items:center;font-size:12.5px}
+.drivers .bar{height:8px;position:relative;background:var(--line);border-radius:4px;overflow:hidden}
+.drivers .bar i{position:absolute;top:0;bottom:0;background:var(--crit)}
+.drivers .bar i.neg{background:var(--good)}
+.drivers .f{font-family:var(--mono);font-size:12px;white-space:nowrap}
+.ana{width:100%;font-size:12.5px;margin-top:4px}
+.ana th{text-align:left;color:var(--mute);font-weight:500;font-size:11px;padding:3px 6px;border-bottom:1px solid var(--line)}
+.ana td{padding:4px 6px;border-bottom:1px solid var(--line);white-space:nowrap}
+.reveal{margin-top:14px}
+button{font:inherit;font-size:13px;padding:7px 12px;border-radius:4px;border:1px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer}
+button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.outcome{margin-top:10px;padding:12px;border-left:3px solid var(--ink);background:var(--panel2);border-radius:0 6px 6px 0}
+.outcome.ok{border-left-color:var(--good)} .outcome.bad{border-left-color:var(--crit)}
+.calib{margin-top:18px}
+.calib svg{max-width:100%;height:auto}
+.note{margin-top:18px;color:var(--ink2);font-size:13px;max-width:80ch}
+.tag{font-size:11px;padding:1px 6px;border-radius:3px;background:var(--panel2);color:var(--ink2);border:1px solid var(--line);margin-left:6px;vertical-align:middle}
+@media (prefers-reduced-motion:no-preference){.list tr td{transition:background .12s}}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">PJM · Regional Transmission Expansion Plan upgrades · point-in-time prototype</div>
+  <h1>Slip Ledger</h1>
+  <p class="sub">For a transmission upgrade as PJM listed it on a given day, what a model trained only on outcomes knowable at that time would have said about a
+    12-month slip and a 25 % cost increase, next to what PJM's table said, and what eventually happened. Every row is a real upgrade at a real archived snapshot date.</p>
+
+  <div class="strip" id="strip"></div>
+
+  <div class="grid">
+    <div class="panel">
+      <div class="controls">
+        <input id="q" type="search" placeholder="Search upgrade ID, owner, scope" aria-label="Search">
+        <select id="fto" aria-label="Transmission owner"><option value="">All owners</option></select>
+        <select id="fkv" aria-label="Voltage class"><option value="">All voltages</option></select>
+        <select id="fobs" aria-label="Observation date"><option value="">All dates</option></select>
+        <select id="fnew" aria-label="Seen in training"><option value="">Seen + unseen</option><option value="1">Unseen before cutoff</option><option value="0">Seen before cutoff</option></select>
+      </div>
+      <div class="count" id="count"></div>
+      <div class="list"><table id="tbl"><thead><tr>
+        <th data-k="id">Upgrade</th><th data-k="obs">As of</th><th data-k="to">Owner</th><th data-k="kv">kV</th><th data-k="cost">$M</th><th data-k="pd_">P(slip &gt;12 mo)</th><th data-k="po">P(cost +25 %)</th>
+      </tr></thead><tbody id="rows"></tbody></table></div>
+    </div>
+    <div class="panel detail" id="detail"></div>
+  </div>
+
+  <div class="panel detail calib">
+    <div class="eyebrow">Calibration on the holdout</div>
+    <div class="two" id="calib"></div>
+  </div>
+
+  <p class="note" id="note"></p>
+</div>
+
+<script>
+const META = /*__META__*/null;
+const ROWS = /*__ROWS__*/[];
+const $ = s => document.querySelector(s);
+const fmtP = p => p == null ? '—' : Math.round(p*100) + '%';
+const fmtM = m => m == null ? '—' : (m >= 0 ? '+' : '') + m.toFixed(0) + ' mo';
+const fmt$ = c => c == null ? '—' : '$' + (c >= 100 ? c.toFixed(0) : c.toFixed(2)) + 'M';
+const cls = p => p == null ? '' : p < 0.15 ? 'lo' : p < 0.4 ? 'md' : 'hi';
+const bandDelay = p => cls(p);
+
+function strip(){
+  const g = META.gbm, t = [];
+  t.push(['Holdout rows', META.n_rows.toLocaleString(), META.n_upgrades.toLocaleString() + ' upgrades observed ' + META.test_dates[0] + ' … ' + META.test_dates[META.test_dates.length-1]]);
+  t.push(['Slip > 12 mo, AUROC', g.auroc.toFixed(3) + ' <small>vs ' + META.best_baseline.auroc.toFixed(2) + ' best baseline</small>', 'Brier ' + g.brier.toFixed(3) + ' vs ' + META.base.brier.toFixed(3) + ' base rate; ECE ' + g.ece.toFixed(3)]);
+  t.push(['Cost +25 %, AUROC', g.over_auroc.toFixed(3) + ' <small>vs ' + META.best_baseline.over_auroc.toFixed(2) + '</small>', 'Brier ' + g.over_brier.toFixed(3) + ' vs ' + META.base.over_brier.toFixed(3) + ' base rate']);
+  t.push(['Completion date error', g.cod_mae.toFixed(1) + ' mo <small>vs ' + g.iso_mae.toFixed(1) + " PJM's own date</small>", 'mean absolute error of the P50 month; P90 covers ' + Math.round(g.p90*100) + '% of outcomes']);
+  t.push(['Upgrades unseen before cutoff', META.new.auroc.toFixed(2) + ' <small>slip AUROC</small>', META.new.n.toLocaleString() + ' rows; cost +25 % AUROC ' + META.new.over_auroc.toFixed(2) + ' — most of the skill is upgrade-specific history']);
+  t.push(['Training', META.n_train.toLocaleString() + ' <small>rows</small>', META.train_upgrades.toLocaleString() + ' upgrades observed up to ' + META.cutoff + ', labels only if knowable by then']);
+  $('#strip').innerHTML = t.map(x => `<div class="tile"><div class="eyebrow">${x[0]}</div><div class="n">${x[1]}</div><div class="d">${x[2]}</div></div>`).join('');
+}
+
+let sortKey = 'pd_', sortDir = -1, selected = null;
+function filtered(){
+  const q = $('#q').value.trim().toLowerCase(), to = $('#fto').value, kv = $('#fkv').value, obs = $('#fobs').value, nw = $('#fnew').value;
+  return ROWS.filter(r => (!q || r.id.toLowerCase().includes(q) || r.to.toLowerCase().includes(q) || r.scope.toLowerCase().includes(q))
+    && (!to || r.to === to) && (!kv || r.vc === kv) && (!obs || r.obs === obs) && (nw === '' || String(r.new ? 1 : 0) === nw));
+}
+function render(){
+  const rows = filtered().sort((a,b) => { const x = a[sortKey], y = b[sortKey]; if (x == null) return 1; if (y == null) return -1; return (x > y ? 1 : x < y ? -1 : 0) * sortDir; });
+  $('#count').textContent = rows.length.toLocaleString() + ' of ' + ROWS.length.toLocaleString() + ' rows · click a row';
+  const lim = rows.slice(0, 600);
+  $('#rows').innerHTML = lim.map((r,i) => `<tr tabindex="0" data-i="${ROWS.indexOf(r)}" class="${selected === r ? 'sel' : ''}">
+    <td class="mono">${r.id}${r.new ? '<span class="tag" title="not observed before the training cutoff">new</span>' : ''}</td><td class="mono">${r.obs}</td><td>${r.to}</td><td class="mono">${r.kv ?? '—'}</td><td class="mono">${r.cost == null ? '—' : r.cost.toFixed(1)}</td>
+    <td><span class="pill ${cls(r.pd_)}">${fmtP(r.pd_)}</span></td><td><span class="pill ${cls(r.po)}">${fmtP(r.po)}</span></td></tr>`).join('');
+  if (rows.length > 600) $('#count').textContent += ' · showing first 600';
+}
+function months(a, b){ return (new Date(b) - new Date(a)) / (86400000 * 30.4375); }
+function timeline(r){
+  const pts = [['as of', r.obs]]; if (r.exp) pts.push(['PJM date', r.exp]); if (r.cod[1]) pts.push(['model P50', r.cod[1]]); if (r.cod[2]) pts.push(['P90', r.cod[2]]); if (r.cod[0]) pts.push(['P10', r.cod[0]]);
+  const ds = pts.map(p => new Date(p[1]).getTime()); let lo = Math.min(...ds), hi = Math.max(...ds); const pad = Math.max((hi - lo) * 0.12, 86400000 * 120); lo -= pad; hi += pad;
+  const x = d => ((new Date(d).getTime() - lo) / (hi - lo) * 100).toFixed(2) + '%';
+  let h = '<div class="tl">';
+  const y0 = new Date(lo).getFullYear(), y1 = new Date(hi).getFullYear();
+  for (let y = y0 + 1; y <= y1; y++) { const d = y + '-01-01'; h += `<div class="tick" style="left:${x(d)}"></div><div class="lab" style="left:${x(d)}">${y}</div>`; }
+  if (r.cod[0] && r.cod[2]) h += `<div class="band" style="left:${x(r.cod[0])};width:calc(${x(r.cod[2])} - ${x(r.cod[0])})"></div>`;
+  h += `<div class="mark act" style="left:${x(r.obs)};border-top-color:var(--mute)"></div><div class="name" style="left:${x(r.obs)};color:var(--mute)">as of</div>`;
+  if (r.exp) h += `<div class="mark iso" style="left:${x(r.exp)}"></div><div class="name" style="left:${x(r.exp)};color:var(--iso)">PJM</div>`;
+  if (r.cod[1]) h += `<div class="mark p50" style="left:${x(r.cod[1])}"></div><div class="name" style="left:${x(r.cod[1])};top:44px;color:var(--accent)">P50</div>`;
+  h += '</div><div class="legend"><span><i style="background:var(--iso)"></i>PJM projected in-service date</span><span><i style="background:var(--accent)"></i>model P50</span><span><i style="background:color-mix(in srgb,var(--accent) 30%,transparent)"></i>model P10–P90 band</span></div>';
+  return h;
+}
+function detail(r){
+  selected = r;
+  const p = r;
+  const drv = r.drv.map(d => { const w = Math.min(Math.abs(d.c) / 1.5 * 100, 100); return `<div class="f">${d.f}</div><div class="bar"><i class="${d.c < 0 ? 'neg' : ''}" style="left:${d.c < 0 ? 50 - w/2 : 50}%;width:${w/2}%"></i></div><div class="mono" title="log-odds contribution">${d.c > 0 ? '+' : ''}${d.c.toFixed(2)} · ${String(d.v ?? '—').slice(0,18)}</div>`; }).join('');
+  const ana = r.ana.length ? `<table class="ana"><thead><tr><th>Upgrade</th><th>Owner</th><th>kV</th><th>Equipment</th><th>Expected → actual</th><th>Late</th><th>Cost</th></tr></thead><tbody>` +
+    r.ana.map(a => `<tr><td class="mono">${a.id}</td><td>${a.to}</td><td class="mono">${a.kv ?? '—'}</td><td>${a.eq}</td><td class="mono">${a.exp ?? '—'} → ${a.canc ? 'cancelled' : (a.act ?? '—')}</td><td class="mono">${a.late == null ? '—' : fmtM(a.late)}</td><td class="mono">${a.over == null ? '—' : (a.over >= 0 ? '+' : '') + Math.round(a.over*100) + '%'}</td></tr>`).join('') + '</tbody></table>' : '<div class="mono">no resolved analog in the training window</div>';
+  $('#detail').innerHTML = `
+    <div class="eyebrow">Upgrade · as of ${r.obs}${r.new ? ' · not observed before the training cutoff' : ''}</div>
+    <h2>${r.id} <span style="font-weight:400;color:var(--ink2)">${r.to}</span></h2>
+    <div class="meta"><span>${r.kv ?? '—'} kV</span><span>${r.eq}${r.task && r.task !== 'unknown' ? ' · ' + r.task : ''}</span><span>status ${r.st}</span><span>listed ${r.age == null ? '—' : r.age.toFixed(0)} mo</span><span>date revised ${r.nrev}×</span><span>slipped so far ${r.slip == null ? '—' : r.slip.toFixed(0) + ' mo'}</span>${r.pc != null ? '<span>' + r.pc.toFixed(0) + '% complete</span>' : ''}</div>
+    <div class="scope">${r.scope}</div>
+    <div class="two">
+      <div class="box"><h3>What PJM's table said</h3><div class="kv"><b>In service</b><span class="v">${r.exp ?? '—'}</span><b>Cost estimate</b><span class="v">${fmt$(r.cost)}</span><b>Required by</b><span class="v">${r.req ?? '—'}</span><b>Horizon</b><span class="v">${r.h == null ? '—' : r.h.toFixed(0) + ' mo'}</span></div></div>
+      <div class="box"><h3>What the model would have said</h3>
+        <div class="kv"><b>P(slip &gt; 12 mo)</b><span class="v"><span class="pill ${cls(r.pd_)}">${fmtP(r.pd_)}</span> <span style="color:var(--mute)">survival model ${fmtP(r.ps)}</span></span>
+        <b>Completion</b><span class="v">P50 ${r.cod[1] ?? '—'} · P90 ${r.cod[2] ?? '—'}</span>
+        <b>P(cost +25 %)</b><span class="v"><span class="pill ${cls(r.po)}">${fmtP(r.po)}</span></span>
+        <b>Cost range</b><span class="v">${r.cost == null ? '—' : fmt$(r.cost*(1+r.over[1])) + ' · P10–P90 ' + fmt$(r.cost*(1+r.over[0])) + '–' + fmt$(r.cost*(1+r.over[2]))}</span>
+        ${r.pc_ != null ? '<b>P(cancelled)</b><span class="v"><span class="pill ' + cls(r.pc_) + '">' + fmtP(r.pc_) + '</span></span>' : ''}</div></div>
+    </div>
+    <div class="timeline">${timeline(r)}</div>
+    <div class="two">
+      <div class="box"><h3>Risk drivers (slip, log-odds)</h3><div class="drivers">${drv}</div></div>
+      <div class="box"><h3>Similar resolved upgrades before ${r.obs}</h3>${ana}<div style="color:var(--mute);font-size:11px;margin-top:6px">outcomes as recorded today</div></div>
+    </div>
+    <div class="reveal"><button class="primary" id="rv">Reveal what happened</button><div id="oc" hidden></div></div>
+    <p class="note" style="margin-top:12px">Statistical estimate from public snapshots of PJM's own tables; not an engineering or schedule assessment.</p>`;
+  $('#rv').addEventListener('click', () => {
+    const o = r.out; let txt, ok = null;
+    if (o.canc) { txt = `Cancelled or withdrawn (seen by ${o.last}).`; }
+    else if (o.done) { txt = `In service ${o.act}` + (o.ml != null ? ` (${fmtM(o.ml)} vs the date published then)` : '') + (o.fc != null ? `, final cost ${fmt$(o.fc)}` + (o.po != null ? ` (${o.po >= 0 ? '+' : ''}${Math.round(o.po*100)}%)` : '') : '') + '.'; }
+    else { txt = `Not in service as of the last observation (${o.last}).`; }
+    if (o.dl != null) { const call = r.pd_ >= 0.5 ? 1 : 0; ok = call === o.dl; txt += ` Slip label: ${o.dl ? 'delayed > 12 months' : 'not delayed > 12 months'} — the ${fmtP(r.pd_)} call was ${ok ? 'on the right side' : 'on the wrong side'} of 50 %.`; }
+    if (o.ov != null) txt += ` Cost label: ${o.ov ? 'increased > 25 %' : 'no > 25 % increase'}.`;
+    const el = $('#oc'); el.className = 'outcome ' + (ok === null ? '' : ok ? 'ok' : 'bad'); el.textContent = txt; el.hidden = false; $('#rv').hidden = true;
+  });
+  document.querySelectorAll('#rows tr').forEach(tr => tr.classList.toggle('sel', ROWS[+tr.dataset.i] === r));
+}
+function calib(){
+  const draw = (rows, title) => {
+    const W = 320, H = 240, m = {l: 38, r: 10, t: 14, b: 32};
+    const sx = v => m.l + v * (W - m.l - m.r), sy = v => H - m.b - v * (H - m.t - m.b);
+    const maxN = Math.max(...rows.map(r => r.n));
+    let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${title}"><rect x="0" y="0" width="${W}" height="${H}" fill="var(--panel2)" rx="6"/>`;
+    for (let v = 0; v <= 1.0001; v += 0.25) { s += `<line x1="${sx(0)}" x2="${sx(1)}" y1="${sy(v)}" y2="${sy(v)}" stroke="var(--line)" stroke-width="1"/><text x="${sx(0)-6}" y="${sy(v)+4}" font-size="10" text-anchor="end" fill="var(--mute)" font-family="var(--mono)">${Math.round(v*100)}%</text>`;
+      s += `<text x="${sx(v)}" y="${H - m.b + 14}" font-size="10" text-anchor="middle" fill="var(--mute)" font-family="var(--mono)">${Math.round(v*100)}%</text>`; }
+    s += `<line x1="${sx(0)}" y1="${sy(0)}" x2="${sx(1)}" y2="${sy(1)}" stroke="var(--mute)" stroke-dasharray="3 3"/>`;
+    rows.forEach(r => { const rad = 3 + 7 * Math.sqrt(r.n / maxN); s += `<circle cx="${sx(r.pred)}" cy="${sy(r.obs)}" r="${rad.toFixed(1)}" fill="var(--accent)" fill-opacity="0.75" stroke="var(--panel)" stroke-width="1"><title>predicted ${Math.round(r.pred*100)}%, observed ${Math.round(r.obs*100)}%, n=${r.n}</title></circle>`; });
+    s += `<text x="${sx(0.5)}" y="${H-4}" font-size="10" text-anchor="middle" fill="var(--ink2)">predicted probability</text>`;
+    s += `<text x="10" y="${m.t}" font-size="11" fill="var(--ink)" font-weight="600">${title}</text></svg>`;
+    return `<div class="box">${s}<div style="color:var(--mute);font-size:11px;margin-top:6px">dot area ∝ rows in the bin; the dashed line is perfect calibration</div></div>`;
+  };
+  $('#calib').innerHTML = draw(META.reliability.delay_12m, 'Slip > 12 months: observed vs predicted') + draw(META.reliability.cost_overrun_25, 'Cost increase > 25 %: observed vs predicted');
+}
+function init(){
+  strip(); calib();
+  const uniq = k => [...new Set(ROWS.map(r => r[k]))].sort();
+  uniq('to').forEach(v => $('#fto').insertAdjacentHTML('beforeend', `<option>${v}</option>`));
+  ['<100','100-199','200-399','400+'].filter(v => ROWS.some(r => r.vc === v)).forEach(v => $('#fkv').insertAdjacentHTML('beforeend', `<option value="${v}">${v} kV</option>`));
+  uniq('obs').forEach(v => $('#fobs').insertAdjacentHTML('beforeend', `<option>${v}</option>`));
+  ['#q','#fto','#fkv','#fobs','#fnew'].forEach(s => $(s).addEventListener('input', render));
+  document.querySelectorAll('#tbl th').forEach(th => th.addEventListener('click', () => { const k = th.dataset.k; if (sortKey === k) sortDir = -sortDir; else { sortKey = k; sortDir = k === 'id' || k === 'obs' || k === 'to' ? 1 : -1; } render(); }));
+  $('#rows').addEventListener('click', e => { const tr = e.target.closest('tr'); if (tr) detail(ROWS[+tr.dataset.i]); });
+  $('#rows').addEventListener('keydown', e => { if (e.key === 'Enter') { const tr = e.target.closest('tr'); if (tr) detail(ROWS[+tr.dataset.i]); } });
+  $('#note').innerHTML = `Data: ${META.snapshots} archived snapshots of PJM's Transmission Construction Status table (${META.first_snapshot} to ${META.last_snapshot}), the legacy XML data files behind it, and the live Project Status &amp; Cost Allocation export of 2026-09-17 (${META.upgrades_total.toLocaleString()} upgrades, ${META.resolved.toLocaleString()} resolved in this table). Labels use PJM's current record; features use only rows published on or before the as-of date. The custom-characteristics scorer and the survival curves run in the command-line tool in the repository.`;
+  render();
+  const first = filtered().sort((a,b) => (b.cost ?? 0) - (a.cost ?? 0)).find(r => r.exp && r.out.done);
+  if (first) detail(first);
+}
+init();
+</script>
