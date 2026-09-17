@@ -43,11 +43,11 @@ def pick_studies(df: pd.DataFrame, start_year: int, end_year: int, max_studies: 
     sub = col.get("submitted date") or col.get("queue date")
     sis = col.get("system impact study")
     d = df.copy()
-    d["_q"] = d[qn].astype(str).str.strip()
-    d["_sub"] = pd.to_datetime(d[sub], errors="coerce")
-    d["_sis"] = d[sis].astype(str) if sis else ""
-    has_link = d["_sis"].str.contains("http|\\.pdf", case=False, na=False) | d["_sis"].str.len().gt(3)
-    d = d[has_link & d._sub.dt.year.between(start_year, end_year)].sort_values("_sub")
+    d["q_"] = d[qn].astype(str).str.strip()
+    d["sub_"] = pd.to_datetime(d[sub], errors="coerce")
+    d["sis_"] = d[sis].astype(str) if sis else ""
+    has_link = d["sis_"].str.contains("http|\\.pdf", case=False, na=False) | d["sis_"].str.len().gt(3)
+    d = d[has_link & d.sub_.dt.year.between(start_year, end_year)].sort_values("_sub")
     if len(d) > max_studies:
         step = len(d) / max_studies
         d = d.iloc[[int(i * step) for i in range(max_studies)]]
@@ -66,7 +66,7 @@ def fetch_studies(sel: pd.DataFrame, max_bytes: int = 150_000_000) -> pd.DataFra
     (RAW / "studies").mkdir(parents=True, exist_ok=True)
     rows = []; total = 0
     for r in sel.itertuples():
-        q = r._q; url = study_url(q, r._sis)
+        q = r.q_; url = study_url(q, r.sis_)
         dest = RAW / "studies" / f"{q.replace('-', '').lower()}_imp.pdf"
         try:
             resp = requests.get(url, headers=UA, timeout=60)
@@ -77,9 +77,9 @@ def fetch_studies(sel: pd.DataFrame, max_bytes: int = 150_000_000) -> pd.DataFra
             dest.write_bytes(resp.content); total += len(resp.content)
             dest.with_suffix(".pdf.meta").write_text(
                 f"url={url}\nfetched={time.strftime('%Y-%m-%dT%H:%M:%S')}\nsha256={hashlib.sha256(resp.content).hexdigest()}\n"
-                f"last_modified={resp.headers.get('Last-Modified', '')}\nsubmitted_date={r._sub.date() if pd.notna(r._sub) else ''}\n")
+                f"last_modified={resp.headers.get('Last-Modified', '')}\nsubmitted_date={r.sub_.date() if pd.notna(r.sub_) else ''}\n")
         rows.append(dict(queue=q, url=url, status=("ok" if ok else f"http_{resp.status_code}"), bytes=len(resp.content),
-                         last_modified=resp.headers.get("Last-Modified", ""), submitted=str(r._sub.date()) if pd.notna(r._sub) else ""))
+                         last_modified=resp.headers.get("Last-Modified", ""), submitted=str(r.sub_.date()) if pd.notna(r.sub_) else ""))
         time.sleep(0.4)
         if total > max_bytes:
             print("byte budget reached", flush=True); break
