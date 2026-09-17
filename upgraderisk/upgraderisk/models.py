@@ -42,7 +42,9 @@ class GBMRisk:
         cut = int(len(tr) * (1 - self.calib_frac))
         fit_part, cal_part = tr.iloc[:cut], tr.iloc[cut:]
         self.clf_, self.iso_ = {}, {}
-        for lab in ("delay_12m", "cost_overrun_25"):
+        for lab in ("delay_12m", "cost_overrun_25", "cancelled"):
+            if lab not in tr or tr[lab].notna().sum() < 100 or tr[lab].dropna().nunique() < 2:
+                continue
             m = fit_part[lab].notna(); mc = cal_part[lab].notna()
             clf = lgb.LGBMClassifier(**self._params("binary")).fit(self._X(fit_part[m]), fit_part.loc[m, lab].astype(int))
             self.clf_[lab] = clf
@@ -62,7 +64,9 @@ class GBMRisk:
     def predict(self, te):
         X = self._X(te)
         out = {}
-        for lab, key in (("delay_12m", "p_delay"), ("cost_overrun_25", "p_over")):
+        for lab, key in (("delay_12m", "p_delay"), ("cost_overrun_25", "p_over"), ("cancelled", "p_cancel")):
+            if lab not in self.clf_:
+                out[key] = np.full(len(te), np.nan); continue
             raw = self.clf_[lab].predict_proba(X)[:, 1]
             out[key] = np.clip(self.iso_[lab].predict(raw) if lab in self.iso_ else raw, 1e-4, 1 - 1e-4)
             out[key + "_raw"] = raw

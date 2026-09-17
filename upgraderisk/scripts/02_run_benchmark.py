@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from upgraderisk import features, baselines, models, metrics
+from upgraderisk import features, baselines, models, metrics, pit
 from upgraderisk.config import PROCESSED, TABLES, SEED
 
 warnings.filterwarnings("ignore")
@@ -37,7 +37,7 @@ class BaggedGBM:
 
     def predict(self, te):
         ps = [m.predict(te) for m in self.members]
-        return {k: np.mean([p[k] for p in ps], axis=0) for k in ps[0]}
+        return {k: np.nanmean([p[k] for p in ps], axis=0) for k in ps[0]}
 
     def importance(self):
         return sum(m.importance() for m in self.members) / len(self.members)
@@ -45,6 +45,7 @@ class BaggedGBM:
 
 def evaluate(te, p):
     r = dict(delay=metrics.classification(te["delay_12m"], p["p_delay"]), overrun=metrics.classification(te["cost_overrun_25"], p["p_over"]),
+             cancel=(metrics.classification(te["cancelled"], p["p_cancel"]) if "p_cancel" in p and not np.all(np.isnan(p["p_cancel"])) else None),
              months_late=metrics.quantiles(te["months_late"], p["q_late"]), pct_overrun=metrics.quantiles(te["pct_overrun"].clip(-1, 5), p["q_over"]))
     # completion-month error: predicted COD = expected_isd_t + P50 months late vs actual
     done = te["months_late"].notna()
@@ -74,7 +75,9 @@ def main(processed: Path, out: Path, cutoff: str, n_bags: int):
     f["cost_bucket"] = pd.cut(f["est_cost_musd"].fillna(0), [-1, 1, 5, 20, 100, 1e9], labels=["<1M", "1-5M", "5-20M", "20-100M", ">100M"]).astype(str)
     f["horizon_bucket"] = pd.cut(f["months_to_expected_isd"].fillna(0), [-1e9, 0, 6, 12, 24, 1e9], labels=["past due", "0-6m", "6-12m", "12-24m", ">24m"]).astype(str)
     f["type"] = f["upgrade_type"].astype(str)
-    tr = f[f["obs_date"] <= cutoff].copy(); te = f[f["obs_date"] > cutoff].copy()
+    tr = pit.known_by(f[f["obs_date"] <= cutoff], cutoff); te = f[f["obs_date"] > cutoff].copy()
+    print(f"labels usable at the cutoff: delay {int(tr.delay_12m.notna().sum())}, overrun {int(tr.cost_overrun_25.notna().sum())}, cancel {int(tr.cancelled.notna().sum())}, "
+          f"months_late {int(tr.months_late.notna().sum())}, survival events {int(tr.event_done.sum())}/{len(tr)}", flush=True)
     seen_before = set(tr["upgrade_id"]); te["new_upgrade"] = ~te["upgrade_id"].isin(seen_before)
     print(f"train {len(tr)} examples ({tr.upgrade_id.nunique()} upgrades, obs {tr.obs_date.min().date()}..{tr.obs_date.max().date()}); "
           f"test {len(te)} ({te.upgrade_id.nunique()} upgrades, obs {te.obs_date.min().date()}..{te.obs_date.max().date()}); new-in-test {int(te.new_upgrade.sum())}", flush=True)
@@ -107,7 +110,7 @@ def main(processed: Path, out: Path, cutoff: str, n_bags: int):
         a = r["all"]; nw = r["new_upgrades"]
         rows.append(dict(model=name, delay_auroc=a["delay"].get("auroc"), delay_brier=a["delay"].get("brier"), delay_ece=a["delay"].get("ece"), delay_prauc=a["delay"].get("pr_auc"),
                          over_auroc=a["overrun"].get("auroc"), over_brier=a["overrun"].get("brier"), over_prauc=a["overrun"].get("pr_auc"),
-                         cod_mae=a.get("cod_mae_months_model"), p50_cov=a["months_late"].get("cov_p50"), p90_cov=a["months_late"].get("cov_p90"),
+                         cancel_auroc=(a["cancel"] or {}).get("auroc"), cod_mae=a.get("cod_mae_months_model"), p50_cov=a["months_late"].get("cov_p50"), p90_cov=a["months_late"].get("cov_p90"),
                          new_delay_auroc=nw["delay"].get("auroc"), new_over_auroc=nw["overrun"].get("auroc")))
     tab = pd.DataFrame(rows)
     with open(out / "benchmark_main.md", "w") as fh:

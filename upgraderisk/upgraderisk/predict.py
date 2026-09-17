@@ -63,13 +63,13 @@ class Predictor:
     # ------------------------------------------------------------------ scoring
     def score(self, f: pd.DataFrame) -> dict:
         ps = [m.predict(f) for m in self.b["members"]]
-        p = {k: np.mean([x[k] for x in ps], axis=0) for k in ps[0]}
+        p = {k: np.nanmean([x[k] for x in ps], axis=0) for k in ps[0]}
         s = self.b["survival"].predict(f)
         exp = pd.Timestamp(f["expected_isd"].iloc[0]) if pd.notna(f["expected_isd"].iloc[0]) else None
         cost = float(f["est_cost_musd"].iloc[0]) if pd.notna(f["est_cost_musd"].iloc[0]) else None
         def add_months(d, m):
             return (d + pd.Timedelta(days=float(m) * 30.4375)).date().isoformat() if d is not None else None
-        out = dict(p_delay_12m=float(p["p_delay"][0]), p_cost_overrun_25=float(p["p_over"][0]),
+        out = dict(p_delay_12m=float(p["p_delay"][0]), p_cost_overrun_25=float(p["p_over"][0]), p_cancelled=(None if np.isnan(p.get("p_cancel", [np.nan])[0]) else float(p["p_cancel"][0])),
                    months_late_p10_p50_p90=[float(x) for x in p["q_late"][0]], pct_overrun_p10_p50_p90=[float(x) for x in p["q_over"][0]],
                    survival_p_delay=float(s["p_delay"][0]), survival_median_months_to_done=float(s["median_ttd"][0]),
                    iso_expected_isd=exp.date().isoformat() if exp is not None else None, iso_cost_musd=cost,
@@ -99,9 +99,11 @@ class Predictor:
         a = a[(a["resolved_done"] == 1) | (a["resolved_cancel"] == 1)]
         t = pd.Timestamp(f["obs_date"].iloc[0])
         a = a[a["obs_date"] < t]
+        row = f.iloc[0]
+        fam = str(row["upgrade_id"]).split(".")[0]
+        a = a[a["upgrade_id"].astype(str).str.split(".").str[0] != fam]
         if a.empty:
             return a
-        row = f.iloc[0]
         d = np.zeros(len(a))
         d += 1.0 * (a["to"].astype(str) != str(row["to"])).values
         d += 0.7 * (a["voltage_class"].astype(str) != str(row["voltage_class"])).values

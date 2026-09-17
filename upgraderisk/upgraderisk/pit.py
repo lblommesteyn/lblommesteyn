@@ -168,24 +168,28 @@ def outcomes(long: pd.DataFrame, t, horizon_end=None) -> pd.DataFrame:
             elif _months(exp_t, last_obs) > DELAY_MONTHS:
                 delay = 1.0     # still not built more than DELAY_MONTHS after the promised date
                 delay_known = deadline
-        # cost label (+ known date)
+        # cost label (+ known date); cancelled projects are a separate outcome, not a cost underrun
         over = np.nan; pct = np.nan; over_known = pd.NaT
-        if pd.notna(cost_t) and cost_t > 0 and pd.notna(final_cost):
+        if pd.notna(final_cost) and final_cost <= 0:
+            final_cost = np.nan   # PJM zeroes some finished projects' cost fields; that is not a 100 % underrun
+        if pd.notna(cost_t) and cost_t > 0 and pd.notna(final_cost) and first_canc is None:
             pct = final_cost / cost_t - 1.0
             exceeded = h[h["est_cost_musd"] > cost_t * (1 + OVERRUN_FRAC)]
-            if first_done is not None or first_canc is not None:
+            if first_done is not None:
                 over = float(pct > OVERRUN_FRAC)
-                over_known = done_known if first_done is not None else first_canc["snapshot_date"]
+                over_known = done_known
                 if over == 1.0 and len(exceeded):
                     over_known = min(over_known, exceeded["snapshot_date"].iloc[0])
             elif pct > OVERRUN_FRAC:
                 over = 1.0
                 over_known = exceeded["snapshot_date"].iloc[0] if len(exceeded) else last_obs
         cancel_known = first_canc["snapshot_date"] if first_canc is not None else pd.NaT
+        cancel = 1.0 if first_canc is not None else (0.0 if first_done is not None else np.nan)
+        cancel_label_known = cancel_known if first_canc is not None else done_known
         rows.append(dict(upgrade_id=r.upgrade_id, obs_date=t, expected_isd_t=exp_t, est_cost_t=cost_t,
                          resolved_done=int(first_done is not None), resolved_cancel=int(first_canc is not None),
                          actual_isd=actual, final_cost_musd=final_cost, delay_12m=delay, months_late=months_late,
-                         cost_overrun_25=over, pct_overrun=pct if (first_done is not None or first_canc is not None) else np.nan,
+                         cost_overrun_25=over, pct_overrun=pct if first_done is not None else np.nan, cancelled=cancel, cancel_label_known_date=cancel_label_known,
                          pct_growth_latest=pct, last_obs=last_obs, delay_known_date=delay_known, overrun_known_date=over_known,
                          cancel_known_date=cancel_known, done_known_date=done_known, actual_isd_is_bound=actual_is_bound, delay_predetermined=predetermined,
                          time_to_done_m=_months(t, actual) if actual is not None else _months(t, last_obs),
@@ -210,3 +214,23 @@ def vintage_check(long: pd.DataFrame, t) -> bool:
     trunc = history_features(long[long["snapshot_date"] <= pd.Timestamp(t)], t).set_index("upgrade_id").sort_index()
     pd.testing.assert_frame_equal(full, trunc, check_like=True)
     return True
+
+
+LABEL_KNOWN = {"delay_12m": "delay_known_date", "cost_overrun_25": "overrun_known_date", "cancelled": "cancel_label_known_date",
+               "months_late": "done_known_date", "pct_overrun": "done_known_date"}
+
+
+def known_by(ex: pd.DataFrame, cutoff) -> pd.DataFrame:
+    """Training view as of `cutoff`: every label that was not yet knowable on that date is blanked, and the
+    survival target is censored at the cutoff. This is what a model trained on that date could have used."""
+    c = pd.Timestamp(cutoff)
+    d = ex.copy()
+    for lab, kcol in LABEL_KNOWN.items():
+        if lab in d and kcol in d:
+            d.loc[~(pd.to_datetime(d[kcol]) <= c), lab] = np.nan
+    horizon = (c - pd.to_datetime(d["obs_date"])).dt.days / 30.4375
+    done_known = pd.to_datetime(d["done_known_date"]) <= c
+    d["event_done"] = (d["event_done"].astype(int) == 1) & done_known
+    d["time_to_done_m"] = np.where(d["event_done"], d["time_to_done_m"], np.minimum(d["time_to_done_m"], horizon))
+    d["event_done"] = d["event_done"].astype(int)
+    return d

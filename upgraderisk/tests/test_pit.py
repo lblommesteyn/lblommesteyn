@@ -65,3 +65,17 @@ def test_history_features_and_vintage():
     ex = pit.build_examples(d, ["2020-02-01", "2021-08-01"])
     assert set(ex.columns) >= {"delay_12m", "cost_overrun_25", "age_months", "slip_so_far_months"}
     assert (ex["obs_date"] < ex["last_obs"]).all() or ex.empty
+
+
+def test_known_by_blanks_future_labels():
+    d = toy()
+    ex = pit.build_examples(d, ["2020-02-01"])
+    v = pit.known_by(ex, "2021-12-31").set_index("upgrade_id")
+    assert np.isnan(v.loc["b1", "delay_12m"])            # b1 promised 2021-06: window closes 2022-06, unknown at end-2021
+    assert v.loc["b2", "delay_12m"] == 0                  # b2 promised 2020-12, finished 2020-11: window closed 2021-12
+    assert v.loc["b2", "event_done"] == 1 and v.loc["b1", "event_done"] == 0
+    assert v.loc["b1", "time_to_done_m"] <= 23.1          # censored at the cutoff
+    assert np.isnan(v.loc["b3", "pct_overrun"])           # cancelled: no cost outcome
+    assert v.loc["b3", "cancelled"] == 1                  # cancellation seen 2021-07
+    full = pit.known_by(ex, "2030-01-01").set_index("upgrade_id")
+    assert full.loc["b1", "delay_12m"] == 1 and full.loc["b1", "cost_overrun_25"] == 1
