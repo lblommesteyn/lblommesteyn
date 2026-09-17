@@ -1,0 +1,6 @@
+variant,board_mm,area_mm2,Z_mm,volume_mm3,vias,via_pts,layers,layer_pts,SCORE,vs_84578
+"RECOMMENDED 2L double-sided, 300 vias",40 x 42,1680,7.0,11760,300,15000,2,10000,36760,-47818
+"2L double-sided, 400 vias",40 x 42,1680,7.0,11760,400,20000,2,10000,41760,-42818
+"2L double-sided, 500 vias",40 x 42,1680,7.0,11760,500,25000,2,10000,46760,-37818
+"4L double-sided, 300 vias",40 x 42,1680,7.0,11760,300,15000,4,20000,46760,-37818
+fallback 2L single-sided solid GND,58 x 54,3356,7.0,23494,90,4500,2,10000,37994,-46584
