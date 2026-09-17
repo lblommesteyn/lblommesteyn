@@ -47,7 +47,7 @@ def pick_studies(df: pd.DataFrame, start_year: int, end_year: int, max_studies: 
     d["sub_"] = pd.to_datetime(d[sub], errors="coerce")
     d["sis_"] = d[sis].astype(str) if sis else ""
     has_link = d["sis_"].str.contains("http|\\.pdf", case=False, na=False) | d["sis_"].str.len().gt(3)
-    d = d[has_link & d.sub_.dt.year.between(start_year, end_year)].sort_values("_sub")
+    d = d[has_link & d.sub_.dt.year.between(start_year, end_year)].sort_values("sub_")
     if len(d) > max_studies:
         step = len(d) / max_studies
         d = d.iloc[[int(i * step) for i in range(max_studies)]]
