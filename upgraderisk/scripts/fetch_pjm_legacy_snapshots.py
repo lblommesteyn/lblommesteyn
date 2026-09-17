@@ -180,6 +180,35 @@ for label, r in plan:
     time.sleep(2.5)
 mf.close()
 
+# ---------------------------------------------------------------- 2b. the XML data files the legacy pages loaded (all tabs, if archived)
+XMLD = ROOT / "legacy_xml"; XMLD.mkdir(exist_ok=True)
+xml_rows = cdx("pjm.com/pub/account/gen-queues/")
+json.dump(xml_rows, open(ROOT / "cdx_gen_queues.json", "w"))
+want = [r for r in xml_rows if r[4] == "200" and re.search(r"(TOUP|CostAllocation|planned|construct)", r[0], re.I) and int(r[3] or 0) > 5000]
+note(gen_queues_captures=len(xml_rows), wanted=len(want), names=sorted(set(r[0].rsplit("/", 1)[-1] for r in want))[:40])
+seen = set()
+for r in sorted(want, key=lambda r: r[1]):
+    if (time.time() - T0) / 60 > MAX_MINUTES:
+        note(stop="time budget reached (xml)"); break
+    key = (r[0].rsplit("/", 1)[-1].lower(), r[1][:8])
+    if key in seen or r[5] in seen:
+        continue
+    seen.add(key); seen.add(r[5])
+    fn = XMLD / f"{key[0].replace('.xml', '')}_{r[1]}.xml.gz"
+    if fn.exists():
+        continue
+    try:
+        resp = S.get(f"https://web.archive.org/web/{r[1]}id_/{r[0]}", timeout=240)
+        if resp.status_code == 200 and len(resp.content) > 2000:
+            with gzip.open(fn, "wb") as f:
+                f.write(resp.content)
+            note(xml=fn.name, size=len(resp.content))
+        else:
+            note(xml=r[0], ts=r[1], status=resp.status_code)
+    except Exception as e:
+        note(xml=r[0], ts=r[1], error=str(e)[:160])
+    time.sleep(2.5)
+
 # ---------------------------------------------------------------- 3. today's live export (same request the page makes)
 try:
     from playwright.sync_api import sync_playwright
