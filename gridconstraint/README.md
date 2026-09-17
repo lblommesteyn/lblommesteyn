@@ -55,7 +55,12 @@ Full tables and discussion in `REPORT.md`. On the simulated ISO:
   count tracks the real one (correlation 0.41 vs 0.21).
 * **Oracle ablation**: handing the model the hidden case's exact impedances lifts hit@5 only 52 % → 54 %.
   The missing private data is facility **headroom** (ratings, planning dispatch, contingency definitions),
-  not topology. A second world with persistent headroom is reported in `REPORT.md` §5.10.
+  not topology.
+* **The value of public evidence depends on how fresh it is and how long headroom persists.** With
+  everything public up to the eve of the study (10–26 months after the queue date; 698 test projects) the
+  learned model reaches hit@5 60.4 % / hit@10 69.9 % vs 51.4 % / 58.6 % for the geography baseline. In a
+  second simulated world where baseline upgrades run every 4 years instead of yearly (so facility headroom
+  persists), the queue-date model reaches 55.2 % / 66.7 % vs 50.0 % / 59.2 % (`REPORT.md` §5.7b, §5.10).
 * Ground-truth extraction from the rendered PDFs: 99.9 % facility precision and recall across three report
   layouts with realistic naming noise.
 

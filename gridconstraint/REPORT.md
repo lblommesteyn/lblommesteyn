@@ -10,6 +10,8 @@ What the learned method does add, on the same held-out projects: (i) on faciliti
 
 **Which private data is missing?** Handing the model the hidden case's exact impedances (true distribution factors) raises hit@5 only from 51.6% to 54.2% and recall@10 from 31.0% to 35.1%. Topology is not the bottleneck; **facility headroom** (ratings, planning dispatch, contingency definitions) is — and no public feed carries it.
 
+**The picture changes with fresher information.** Evaluated with everything public up to the day before the study was published (the wording of the goal; 10–26 months later than the queue date; 698 test projects), the learned model reaches hit@5 **60.4%** and hit@10 **69.9%** against 53.2% / 63.7% for the best simple baseline (B5 simple tabular GBM (23 features)), with recall@10 37.1% vs 31.5%. On non-adjacent facilities: hit@5 55.0% vs 45.2%, recall@10 34.9% vs 28.7%. Public evidence about a facility's headroom (recent studies, queue movements, market binding) decays quickly in this world, so its value depends on how recent it is.
+
 It is **not** an empirical result about PJM: the labels are simulated studies (section 1). It is the answer to *"if an ISO's studies are produced by a PJM-style thermal procedure on a case whose topology is public but whose impedances, ratings and dispatch are not, how much of the outcome can public information recover?"* In this world the answer is: the location-driven part almost entirely, the headroom-driven part barely — and section 5.10 shows how much that changes when facility headroom persists between studies.
 
 ## 1. Problem and honesty statement
@@ -285,22 +287,22 @@ Any geometry rule finds the POI's own outlet lines. Restricting the ranking to c
 
 | model | subset | n | hit@1 | hit@5 | hit@10 | recall@5 | recall@10 | MRR |
 |---|---|---|---|---|---|---|---|---|
-| B1 nearest historical projects | all facilities | 155 | 20.6% | 34.2% | 7.2% | 13.5% | 9.7% | 0.190 |
-| B1 nearest historical projects | non-adjacent facilities only | 147 | 19.7% | 32.0% | 7.1% | 12.1% | 9.0% | 0.184 |
-| B2 queue-density heuristic | all facilities | 155 | 49.0% | 51.6% | 19.0% | 25.0% | 21.9% | 0.391 |
-| B2 queue-density heuristic | non-adjacent facilities only | 147 | 36.7% | 41.5% | 11.8% | 17.1% | 16.5% | 0.291 |
-| B3 historical-congestion heuristic | all facilities | 155 | 16.8% | 23.2% | 5.5% | 9.5% | 4.9% | 0.099 |
-| B3 historical-congestion heuristic | non-adjacent facilities only | 147 | 10.9% | 17.0% | 2.9% | 6.1% | 3.5% | 0.086 |
-| B4 geography + size (logistic) | all facilities | 155 | 50.3% | 57.4% | 19.9% | 27.8% | 23.2% | 0.397 |
-| B4 geography + size (logistic) | non-adjacent facilities only | 147 | 40.8% | 45.6% | 12.6% | 19.2% | 17.0% | 0.300 |
-| B5 simple tabular GBM (23 features) | all facilities | 155 | 49.7% | 59.4% | 18.1% | 28.7% | 22.3% | 0.367 |
-| B5 simple tabular GBM (23 features) | non-adjacent facilities only | 147 | 40.8% | 49.7% | 14.0% | 22.5% | 18.1% | 0.281 |
-| P0 public-topology DFAX only (physics, no learning) | all facilities | 155 | 46.5% | 50.3% | 18.6% | 24.4% | 22.5% | 0.391 |
-| P0 public-topology DFAX only (physics, no learning) | non-adjacent facilities only | 147 | 34.7% | 40.8% | 11.9% | 17.0% | 16.3% | 0.285 |
-| L0 latent factors only | all facilities | 155 | 7.7% | 11.6% | 1.9% | 3.5% | 2.3% | 0.052 |
-| L0 latent factors only | non-adjacent facilities only | 147 | 7.5% | 12.2% | 1.6% | 3.5% | 2.2% | 0.050 |
-| MAIN: all public features (bagged GBM, calibrated) | all facilities | 155 | 51.0% | 58.1% | 20.9% | 31.6% | 23.7% | 0.401 |
-| MAIN: all public features (bagged GBM, calibrated) | non-adjacent facilities only | 147 | 44.9% | 51.0% | 16.7% | 26.4% | 19.6% | 0.319 |
+| B1 nearest historical projects | all facilities | 155 | 12.3% | 20.6% | 34.2% | 7.2% | 13.5% | 0.190 |
+| B1 nearest historical projects | non-adjacent facilities only | 147 | 12.2% | 19.7% | 32.0% | 7.1% | 12.1% | 0.184 |
+| B2 queue-density heuristic | all facilities | 155 | 29.0% | 49.0% | 51.6% | 19.0% | 25.0% | 0.391 |
+| B2 queue-density heuristic | non-adjacent facilities only | 147 | 21.8% | 36.7% | 41.5% | 11.8% | 17.1% | 0.291 |
+| B3 historical-congestion heuristic | all facilities | 155 | 1.9% | 16.8% | 23.2% | 5.5% | 9.5% | 0.099 |
+| B3 historical-congestion heuristic | non-adjacent facilities only | 147 | 2.7% | 10.9% | 17.0% | 2.9% | 6.1% | 0.086 |
+| B4 geography + size (logistic) | all facilities | 155 | 28.4% | 50.3% | 57.4% | 19.9% | 27.8% | 0.397 |
+| B4 geography + size (logistic) | non-adjacent facilities only | 147 | 21.1% | 40.8% | 45.6% | 12.6% | 19.2% | 0.300 |
+| B5 simple tabular GBM (23 features) | all facilities | 155 | 24.5% | 49.7% | 59.4% | 18.1% | 28.7% | 0.367 |
+| B5 simple tabular GBM (23 features) | non-adjacent facilities only | 147 | 15.6% | 40.8% | 49.7% | 14.0% | 22.5% | 0.281 |
+| P0 public-topology DFAX only (physics, no learning) | all facilities | 155 | 29.7% | 46.5% | 50.3% | 18.6% | 24.4% | 0.391 |
+| P0 public-topology DFAX only (physics, no learning) | non-adjacent facilities only | 147 | 21.1% | 34.7% | 40.8% | 11.9% | 17.0% | 0.285 |
+| L0 latent factors only | all facilities | 155 | 1.3% | 7.7% | 11.6% | 1.9% | 3.5% | 0.052 |
+| L0 latent factors only | non-adjacent facilities only | 147 | 0.7% | 7.5% | 12.2% | 1.6% | 3.5% | 0.050 |
+| MAIN: all public features (bagged GBM, calibrated) | all facilities | 155 | 29.0% | 51.0% | 58.1% | 20.9% | 31.6% | 0.401 |
+| MAIN: all public features (bagged GBM, calibrated) | non-adjacent facilities only | 147 | 21.1% | 44.9% | 51.0% | 16.7% | 26.4% | 0.319 |
 
 ### 5.8 Drift across test years
 
@@ -330,7 +332,7 @@ Any geometry rule finds the POI's own outlet lines. Restricting the ranking to c
 | lambdarank | valid | 61.4% | 68.9% | 35.1% | 0.461 | 56.9% | 33.1% |
 | lambdarank | test | 54.2% | 63.2% | 33.1% | 0.428 | 47.6% | 29.7% |
 
-### 5.7 Variant — features as of the day before the study was published
+### 5.7b Variant — features as of the day before the study was published
 
 Same models, but every public record up to the eve of publication is allowed (typically 10–26 months more queue, study and market history).
 
@@ -347,9 +349,59 @@ Test set: **698 projects** queued after 2022-06-30 (432 with at least one constr
 | L0 latent factors only | 3.7% | 6.7% | 9.5% | 12.7% | 3.6% | 5.2% | 3.1% | 0.075 | 0.001 | 0.004 | 0.090 |
 | **MAIN: all public features (bagged GBM, calibrated)** | 35.6% | 52.1% | 60.4% | 69.9% | 25.5% | 37.1% | 29.2% | 0.471 | 0.000 | 0.132 | 0.530 |
 
+Non-adjacent facilities, pre-publication features:
+
+| model | subset | n | hit@1 | hit@5 | hit@10 | recall@5 | recall@10 | MRR |
+|---|---|---|---|---|---|---|---|---|
+| B1 nearest historical projects | all facilities | 432 | 13.0% | 30.8% | 42.4% | 11.2% | 17.9% | 0.230 |
+| B1 nearest historical projects | non-adjacent facilities only | 418 | 12.9% | 28.9% | 40.2% | 10.6% | 17.8% | 0.220 |
+| B2 queue-density heuristic | all facilities | 432 | 28.2% | 49.5% | 54.9% | 18.4% | 25.9% | 0.389 |
+| B2 queue-density heuristic | non-adjacent facilities only | 418 | 25.6% | 38.8% | 45.7% | 14.7% | 20.8% | 0.325 |
+| B3 historical-congestion heuristic | all facilities | 432 | 3.7% | 16.7% | 26.2% | 4.2% | 9.2% | 0.113 |
+| B3 historical-congestion heuristic | non-adjacent facilities only | 418 | 4.1% | 14.1% | 22.2% | 3.3% | 6.7% | 0.105 |
+| B4 geography + size (logistic) | all facilities | 432 | 28.2% | 51.4% | 58.6% | 19.3% | 26.4% | 0.397 |
+| B4 geography + size (logistic) | non-adjacent facilities only | 418 | 22.0% | 42.1% | 49.0% | 13.7% | 20.8% | 0.316 |
+| B5 simple tabular GBM (23 features) | all facilities | 432 | 30.8% | 53.2% | 63.7% | 20.2% | 31.5% | 0.425 |
+| B5 simple tabular GBM (23 features) | non-adjacent facilities only | 418 | 24.9% | 45.2% | 58.4% | 17.8% | 28.7% | 0.358 |
+| P0 public-topology DFAX only (physics, no learning) | all facilities | 432 | 28.0% | 46.3% | 53.0% | 18.6% | 25.7% | 0.377 |
+| P0 public-topology DFAX only (physics, no learning) | non-adjacent facilities only | 418 | 24.4% | 38.3% | 45.5% | 14.7% | 20.8% | 0.321 |
+| L0 latent factors only | all facilities | 432 | 3.9% | 9.7% | 12.7% | 3.6% | 5.2% | 0.077 |
+| L0 latent factors only | non-adjacent facilities only | 418 | 4.1% | 9.6% | 12.9% | 3.5% | 5.0% | 0.077 |
+| MAIN: all public features (bagged GBM, calibrated) | all facilities | 432 | 35.6% | 60.4% | 69.9% | 25.5% | 37.1% | 0.471 |
+| MAIN: all public features (bagged GBM, calibrated) | non-adjacent facilities only | 418 | 32.1% | 55.0% | 65.3% | 23.3% | 34.9% | 0.429 |
+
 ### 5.10 Sensitivity to headroom persistence (second simulated world)
 
-_(variant world not run)_
+Variant world: identical seed, queue and procedure, but the yearly N-1 baseline pass runs only every 4 years, so facility headroom persists between studies (test projects: 273; candidate ceiling 87.7%).
+
+| model | hit@5 (yearly re-hardening) | hit@5 (persistent headroom) | hit@10 (yearly) | hit@10 (persistent) | recall@10 (yearly) | recall@10 (persistent) | Brier skill (yearly) | Brier skill (persistent) |
+|---|---|---|---|---|---|---|---|---|
+| B2 queue-density heuristic | 49.0% | 47.7% | 51.6% | 59.2% | 25.0% | 29.7% | 0.007 | 0.007 |
+| B4 geography + size (logistic) | 50.3% | 50.0% | 57.4% | 59.2% | 27.8% | 30.2% | 0.048 | 0.036 |
+| B5 simple tabular GBM (23 features) | 49.7% | 47.1% | 59.4% | 60.9% | 28.7% | 31.3% | 0.065 | 0.075 |
+| P0 public-topology DFAX only (physics, no learning) | 46.5% | 47.1% | 50.3% | 55.7% | 24.4% | 29.7% | 0.029 | 0.028 |
+| MAIN: all public features (bagged GBM, calibrated) | 51.0% | 55.2% | 58.1% | 66.7% | 31.6% | 37.0% | 0.095 | 0.104 |
+
+Non-adjacent facilities, variant world:
+
+| model | subset | n | hit@1 | hit@5 | hit@10 | recall@5 | recall@10 | MRR |
+|---|---|---|---|---|---|---|---|---|
+| B1 nearest historical projects | all facilities | 174 | 12.1% | 24.7% | 32.2% | 7.4% | 12.5% | 0.200 |
+| B1 nearest historical projects | non-adjacent facilities only | 165 | 11.5% | 25.5% | 33.3% | 8.4% | 13.4% | 0.200 |
+| B2 queue-density heuristic | all facilities | 174 | 27.6% | 47.7% | 59.2% | 19.6% | 29.7% | 0.385 |
+| B2 queue-density heuristic | non-adjacent facilities only | 165 | 25.5% | 40.6% | 47.3% | 18.1% | 23.9% | 0.332 |
+| B3 historical-congestion heuristic | all facilities | 174 | 1.7% | 16.7% | 25.3% | 3.5% | 8.1% | 0.106 |
+| B3 historical-congestion heuristic | non-adjacent facilities only | 165 | 1.8% | 12.7% | 21.8% | 3.0% | 7.9% | 0.089 |
+| B4 geography + size (logistic) | all facilities | 174 | 23.0% | 50.0% | 59.2% | 20.4% | 30.2% | 0.368 |
+| B4 geography + size (logistic) | non-adjacent facilities only | 165 | 24.8% | 44.2% | 54.5% | 18.2% | 27.6% | 0.348 |
+| B5 simple tabular GBM (23 features) | all facilities | 174 | 25.9% | 47.1% | 60.9% | 18.4% | 31.3% | 0.375 |
+| B5 simple tabular GBM (23 features) | non-adjacent facilities only | 165 | 23.0% | 45.5% | 59.4% | 18.3% | 30.2% | 0.342 |
+| P0 public-topology DFAX only (physics, no learning) | all facilities | 174 | 26.4% | 47.1% | 55.7% | 20.7% | 29.7% | 0.367 |
+| P0 public-topology DFAX only (physics, no learning) | non-adjacent facilities only | 165 | 26.7% | 40.6% | 46.7% | 18.0% | 23.8% | 0.337 |
+| L0 latent factors only | all facilities | 174 | 2.3% | 7.5% | 13.8% | 1.5% | 3.6% | 0.062 |
+| L0 latent factors only | non-adjacent facilities only | 165 | 3.6% | 7.3% | 13.9% | 2.0% | 4.0% | 0.072 |
+| MAIN: all public features (bagged GBM, calibrated) | all facilities | 174 | 33.9% | 55.2% | 66.7% | 24.7% | 37.0% | 0.442 |
+| MAIN: all public features (bagged GBM, calibrated) | non-adjacent facilities only | 165 | 27.3% | 52.1% | 63.6% | 23.5% | 35.1% | 0.395 |
 
 ## 6. Prospective case studies
 

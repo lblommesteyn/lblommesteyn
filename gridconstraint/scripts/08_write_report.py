@@ -88,7 +88,7 @@ def nonadjacent_table(mode, root=None):
     d = pd.read_csv(p)
     L = ["| model | subset | n | hit@1 | hit@5 | hit@10 | recall@5 | recall@10 | MRR |", "|---|---|---|---|---|---|---|---|---|"]
     for r in d.itertuples():
-        L.append(f"| {NAMES.get(r.model, r.model).strip('*')} | {r.subset} | {int(r.n_projects)} | {pct(r._4)} | {pct(r._5)} | {pct(r._6)} | {pct(r._7)} | {pct(r._8)} | {f3(r.mrr)} |")
+        L.append(f"| {NAMES.get(r.model, r.model).strip('*')} | {r.subset} | {int(r.n_projects)} | {pct(r._3)} | {pct(r._4)} | {pct(r._5)} | {pct(r._6)} | {pct(r._7)} | {f3(r.mrr)} |")
     return "\n".join(L)
 
 
@@ -169,6 +169,22 @@ if __name__ == "__main__":
         na_base = base_rows.loc[base_rows["hit@5"].idxmax()]
     else:
         na_main = na_base = {"hit@5": float("nan"), "recall@10": float("nan")}
+    prestudy_headline = ""
+    if (T / "benchmark_prestudy.csv").exists():
+        bp = pd.read_csv(T / "benchmark_prestudy.csv", index_col=0); mp_ = json.load(open(T / "benchmark_meta_prestudy.json"))
+        bb = bp.loc[[m for m in bp.index if m.startswith("B")], "hit@5"].idxmax()
+        nap = pd.read_csv(T / "nonadjacent_prestudy.csv") if (T / "nonadjacent_prestudy.csv").exists() else None
+        na_txt = ""
+        if nap is not None:
+            n2 = nap[nap.subset != "all facilities"].set_index("model")
+            bb2 = n2.loc[[m for m in n2.index if m.startswith("B")], "hit@5"].idxmax()
+            na_txt = f" On non-adjacent facilities: hit@5 {pct(n2.loc['MAIN_all_features', 'hit@5'])} vs {pct(n2.loc[bb2, 'hit@5'])}, recall@10 {pct(n2.loc['MAIN_all_features', 'recall@10'])} vs {pct(n2.loc[bb2, 'recall@10'])}."
+        prestudy_headline = (f"**The picture changes with fresher information.** Evaluated with everything public up to the day before the study was published "
+                             f"(the wording of the goal; 10–26 months later than the queue date; {mp_['n_test_projects']} test projects), the learned model reaches "
+                             f"hit@5 **{pct(bp.loc['MAIN_all_features', 'hit@5'])}** and hit@10 **{pct(bp.loc['MAIN_all_features', 'hit@10'])}** against "
+                             f"{pct(bp.loc[bb, 'hit@5'])} / {pct(bp.loc[bb, 'hit@10'])} for the best simple baseline ({NAMES[bb].strip('*')}), with recall@10 "
+                             f"{pct(bp.loc['MAIN_all_features', 'recall@10'])} vs {pct(bp.loc[bb, 'recall@10'])}.{na_txt} Public evidence about a facility's "
+                             f"headroom (recent studies, queue movements, market binding) decays quickly in this world, so its value depends on how recent it is.")
     op = T / "oracle_ablation_queue.csv"
     if op.exists():
         o = pd.read_csv(op, index_col=0)
@@ -192,6 +208,7 @@ if __name__ == "__main__":
            f"{f3(bq.loc[best_base, 'cnt_corr'])}). Recall@10 over all constrained facilities is {pct(bq.loc['MAIN_all_features', 'recall@10'])} against a candidate "
            f"ceiling of {pct(mq['candidate_ceiling'])}.", "",
            oracle_headline, "",
+           prestudy_headline, "",
            "It is **not** an empirical result about PJM: the labels are simulated studies (section 1). It is the answer to *\"if an ISO's studies are "
            "produced by a PJM-style thermal procedure on a case whose topology is public but whose impedances, ratings and dispatch are not, how much of the "
            "outcome can public information recover?\"* In this world the answer is: the location-driven part almost entirely, the headroom-driven part barely — "
@@ -219,8 +236,9 @@ if __name__ == "__main__":
            "### 5.9 Model selection (validation split only)", "", model_selection_table("queue"), ""]
     if prestudy:
         main_p, bp, mp = main_table("prestudy")
-        out += ["### 5.7 Variant — features as of the day before the study was published", "",
-                "Same models, but every public record up to the eve of publication is allowed (typically 10–26 months more queue, study and market history).", "", main_p, ""]
+        out += ["### 5.7b Variant — features as of the day before the study was published", "",
+                "Same models, but every public record up to the eve of publication is allowed (typically 10–26 months more queue, study and market history).", "", main_p, "",
+                "Non-adjacent facilities, pre-publication features:", "", nonadjacent_table("prestudy"), ""]
     vt, vb = variant_table()
     out += ["### 5.10 Sensitivity to headroom persistence (second simulated world)", "", vt, "",
             "## 6. Prospective case studies", "",
