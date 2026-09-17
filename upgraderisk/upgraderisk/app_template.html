@@ -192,7 +192,7 @@ function detail(r){
       <div class="box"><h3>What PJM's table said</h3><div class="kv"><b>In service</b><span class="v">${r.exp ?? '—'}</span><b>Cost estimate</b><span class="v">${fmt$(r.cost)}</span><b>Required by</b><span class="v">${r.req ?? '—'}</span><b>Horizon</b><span class="v">${r.h == null ? '—' : r.h.toFixed(0) + ' mo'}</span></div></div>
       <div class="box"><h3>What the model would have said</h3>
         <div class="kv"><b>P(slip &gt; 12 mo)</b><span class="v"><span class="pill ${cls(r.pd_)}">${fmtP(r.pd_)}</span> <span style="color:var(--mute)">survival ${fmtP(r.ps)} · classifier ${fmtP(r.pg)}</span></span>
-        <b>Completion (survival)</b><span class="v">P50 ${r.cod[1] ?? '—'} · P90 ${r.cod[2] ?? '—'}</span>
+        <b>Completion (survival)</b><span class="v">P50 ${r.capped[1] ? '≥ ' : ''}${r.cod[1] ?? '—'} · P90 ${r.capped[2] ? '≥ ' : ''}${r.cod[2] ?? '—'}${(r.beyond || r.capped[1] || r.capped[2]) ? ' <span style="color:var(--warn)" title="the archive offered only ' + Math.round(r.maxf) + ' months of follow-up at this origin; beyond that the model extrapolates">beyond follow-up</span>' : ''}</span>
         <b>P(cost +25 %)</b><span class="v"><span class="pill ${cls(r.po)}">${fmtP(r.po)}</span></span>
         <b>Cost range</b><span class="v">${r.cost == null ? '—' : fmt$(r.cost*(1+r.over[1])) + ' · P10–P90 ' + fmt$(r.cost*(1+r.over[0])) + '–' + fmt$(r.cost*(1+r.over[2]))}</span>
         ${r.pc_ != null ? '<b>P(cancelled)</b><span class="v"><span class="pill ' + cls(r.pc_) + '">' + fmtP(r.pc_) + '</span></span>' : ''}</div></div>

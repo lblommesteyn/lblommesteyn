@@ -63,7 +63,8 @@ def main(cutoff: str, max_rows: int, out: Path):
                          h=jd(r["months_to_expected_isd"]),
                          pd_=round(float(r["blend_p_delay"]), 3), po=round(float(r["gbm_p_over"]), 3), pc_=(None if pd.isna(r["gbm_p_cancel"]) else round(float(r["gbm_p_cancel"]), 3)),
                          ps=round(float(r["dt_survival_p_delay"]), 3), pg=round(float(r["gbm_p_delay"]), 3), late=[round(float(r[f"dt_survival_late_p{q}"]), 1) for q in (10, 50, 90)], over=[round(float(r[f"gbm_over_p{q}"]), 3) for q in (10, 50, 90)],
-                         cod=[add_m(r[f"dt_survival_late_p{q}"]) for q in (10, 50, 90)], drv=drivers, ana=ana,
+                         cod=[add_m(r[f"dt_survival_late_p{q}"]) for q in (10, 50, 90)], capped=[False, bool(r["dt_survival_p50_capped"]), bool(r["dt_survival_p90_capped"])],
+                         beyond=bool(r["dt_survival_beyond_followup"]), maxf=jd(r["dt_survival_max_followup"]), drv=drivers, ana=ana,
                          out=dict(done=int(r["resolved_done"]), canc=int(r["resolved_cancel"]), act=jd(r["actual_isd"]), ml=jd(r["months_late"]), dl=jd(r["delay_12m"]),
                                   ov=jd(r["cost_overrun_25"]), po=jd(r["pct_overrun"]), fc=jd(r["final_cost_musd"]), last=jd(r["last_obs"]))))
     te = pt

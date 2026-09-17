@@ -60,7 +60,8 @@ def main(n: int):
         drivers = json.loads(row["gbm_drivers"]) if isinstance(row.get("gbm_drivers"), str) else []
         p = dict(p_delay=float(row["blend_p_delay"]), p_delay_survival=float(row["dt_survival_p_delay"]), p_delay_gbm=float(row["gbm_p_delay"]), p_over=float(row["gbm_p_over"]),
                  p_cancel=(None if pd.isna(row["gbm_p_cancel"]) else float(row["gbm_p_cancel"])),
-                 cod_p10=add_months(row["expected_isd"], row["dt_survival_late_p10"]), cod_p50=add_months(row["expected_isd"], row["dt_survival_late_p50"]), cod_p90=add_months(row["expected_isd"], row["dt_survival_late_p90"]),
+                 cod_p10=add_months(row["expected_isd"], row["dt_survival_late_p10"]), cod_p50=("≥ " if row["dt_survival_p50_capped"] else "") + add_months(row["expected_isd"], row["dt_survival_late_p50"]),
+                 cod_p90=("≥ " if row["dt_survival_p90_capped"] else "") + add_months(row["expected_isd"], row["dt_survival_late_p90"]), beyond_followup=bool(row["dt_survival_beyond_followup"]), max_followup=float(row["dt_survival_max_followup"]),
                  cost_p10=float(row["est_cost_musd"] * (1 + row["gbm_over_p10"])), cost_p50=float(row["est_cost_musd"] * (1 + row["gbm_over_p50"])), cost_p90=float(row["est_cost_musd"] * (1 + row["gbm_over_p90"])))
         hit = (p["p_delay"] >= 0.5) == (row["delay_12m"] == 1) if pd.notna(row["delay_12m"]) else None
         cases.append(dict(upgrade_id=row["upgrade_id"], as_of=str(t.date()), inputs=dict(to=row["to"], voltage_kv=row["voltage_kv"], equipment=row["equipment"], status=row["status"], est_cost_musd=row["est_cost_musd"],
@@ -73,7 +74,8 @@ def main(n: int):
         md += [f"## {row['upgrade_id']} — {row['to']}, {row['voltage_kv']} kV {row['equipment']} (as of {t.date()})", f"*{str(row['scope'])[:220]}*", "",
                f"- **At {t.date()} PJM's table said:** in service {pd.Timestamp(row['expected_isd']).date()}, cost ${row['est_cost_musd']:.2f}M, status {row['status']}, listed for {row['age_months']:.0f} months, date revised {int(row['n_isd_revisions'])} time(s){slip}.",
                f"- **Model would have said:** P(slip > 12 months) **{p['p_delay']:.0%}** (survival {p['p_delay_survival']:.0%}, classifier {p['p_delay_gbm']:.0%}); completion P50 **{p['cod_p50']}**, P90 {p['cod_p90']} (survival model); "
-               f"P(cost increase > 25 %) **{p['p_over']:.0%}**; cost P50 ${p['cost_p50']:.2f}M (P10–P90 ${p['cost_p10']:.2f}M–${p['cost_p90']:.2f}M)" + (f"; P(cancelled) {p['p_cancel']:.0%}" if p["p_cancel"] is not None else "") + ".",
+               f"P(cost increase > 25 %) **{p['p_over']:.0%}**; cost P50 ${p['cost_p50']:.2f}M (P10–P90 ${p['cost_p10']:.2f}M–${p['cost_p90']:.2f}M)" + (f"; P(cancelled) {p['p_cancel']:.0%}" if p["p_cancel"] is not None else "")
+               + (f". *The 12-month window ends beyond the {p['max_followup']:.0f} months of follow-up the archive offered at this origin, so the slip probability is an extrapolation; '≥' marks a quantile beyond that follow-up.*" if p["beyond_followup"] or "≥" in p["cod_p50"] or "≥" in p["cod_p90"] else "."),
                f"- **Drivers:** " + ", ".join(f"{d['f']}={str(d['v'])[:20]} ({d['c']:+.2f})" for d in drivers[:4]),
                f"- **Analogs known then:** " + ("; ".join(f"{a['upgrade_id']} ({a['to']}, {'cancelled' if a['resolved_cancel'] else ('late ' + format(a['months_late'], '+.0f') + ' mo' if a['months_late'] is not None and a['months_late'] == a['months_late'] else 'done')})" for a in ana) if ana else "none"),
                f"- **What happened:** {actual_text(row)}.", ""]

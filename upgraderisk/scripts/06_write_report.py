@@ -42,6 +42,30 @@ md = f"""# Predicting transmission network-upgrade delay and cost-overrun risk f
 status tables); nothing is simulated. It is a statistical estimate from public tables, not an engineering or schedule
 assessment, and it does not replace PJM's or a transmission owner's process.*
 
+## 0. Verdict
+
+The go/no-go threshold was met by a wide margin ({S['unique_upgrades_resolved']:,} resolved upgrades in a real chronological
+holdout), so the full benchmark was run. Against the success criterion ("materially beats owner / type / age
+baselines") the result is mixed and mostly negative:
+
+* **Slip > 12 months:** the honest model (survival model + calibrated classifier, refitted each test month on outcomes
+  knowable then) reaches AUROC {g['all']['delay'].get('auroc'):.2f} and Brier {g['all']['delay'].get('brier'):.3f} against {bb['delay'].get('auroc'):.2f} / {bb['delay'].get('brier'):.3f} for the best simple
+  baseline (owner rate) and {base['all']['delay'].get('brier'):.3f} for the base rate. That is a real but modest improvement, driven by an upgrade's own
+  public history; on upgrades never seen before, AUROC is {g['new_upgrades']['delay'].get('auroc'):.2f} — no skill.
+* **Cost increase > 25 %:** AUROC {gb['all']['overrun'].get('auroc'):.2f} for the classifier versus {R['logit_voltage_cost_duration']['all']['overrun'].get('auroc'):.2f} for a three-feature logistic
+  regression (voltage, cost, horizon); no model beats the base-rate Brier of {base['all']['overrun'].get('brier'):.3f}. Not material.
+* **Completion date:** PJM's own published date is a better point estimate (MAE {sv['all'].get('cod_mae_months_iso', float('nan')):.1f} months) than any model's
+  median ({sv['all'].get('cod_mae_months_model', float('nan')):.1f}); the survival model's P10–P90 band covers {sv['all']['months_late'].get('cov_p90', float('nan')):.0%} of outcomes at P90, which is its useful output.
+* **Cancellation:** AUROC {(gb['all'].get('cancel') or {}).get('auroc', float('nan')):.2f}, the strongest single signal in the data.
+* A leaky first pass (fixed cutoff, labels from the full record) scored slip AUROC 0.835; that number is what a careless
+  benchmark on this data would report, and it is not real.
+
+What limits a stronger benchmark, all traceable to public-data gaps (section 7): the 12-month label lag combined with
+sparse archived snapshots (labelled training pools run at a 4–7 % slip rate while the 2018–2019 test months run
+17–26 %, partly a genuine regime change), no public snapshot between 2019-12 and 2026-09, a holdout limited to baseline
+upgrades, and no public milestone, permitting or procurement data. The prototype is therefore a working
+point-in-time pipeline with an honest, modest slip signal — not a tool that materially out-forecasts PJM's own tables.
+
 ## 1. Question
 
 Given a network upgrade at time *t*, using only information public at *t*: what is the probability the upgrade slips
@@ -140,14 +164,16 @@ classifier alone {f3(gb['all']['delay'].get('auroc'))}). **Cost +25 % AUROC {f3(
 {sv['all'].get('cod_mae_months_iso', float('nan')):.1f} for PJM's published date; P50 coverage {sv['all']['months_late'].get('cov_p50', float('nan')):.2f}, P90 coverage {sv['all']['months_late'].get('cov_p90', float('nan')):.2f}.
 Cancellation AUROC (classifier): {f3((gb['all'].get('cancel') or {}).get('auroc'))}.
 
-Why the classifier is weak here: a slip label only becomes knowable when the 12-month window has closed, so at any
+Follow-up: at a 2018 origin the archive offered at most about 28 months of observed follow-up (the first snapshot is
+2015-09); completion quantiles are never quoted beyond that (shown as "≥"), and slip probabilities for windows ending
+beyond it are extrapolations of the hazard, which is a further reason the survival estimates are pessimistic for
+multi-year projects. Why the classifier is weak here: a slip label only becomes knowable when the 12-month window has closed, so at any
 origin the labelled pool is older, shorter-horizon cohorts with a 4–7 % slip rate, while the test months run 17–26 %.
 The survival model uses every earlier observation with censoring and is the more honest formulation for this label.
 
 **Upgrades unseen before the cutoff**: slip AUROC {f3(g['new_upgrades']['delay'].get('auroc'))}, cost AUROC {f3(g['new_upgrades']['overrun'].get('auroc'))}
-(n = {g['new_upgrades']['delay'].get('n')}). Most of the skill comes from an upgrade's own public history (how long it has been
-listed, how often its date moved, its owner's track record); for a brand-new upgrade the model is only modestly better
-than the baselines.
+(n = {g['new_upgrades']['delay'].get('n')}). What skill there is comes from an upgrade's own public history (how long it has been
+listed, how often its date moved, its owner's track record); for an upgrade with no history the models have none.
 
 ### By test month (slip label)
 

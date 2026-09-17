@@ -154,6 +154,7 @@ class DiscreteTimeSurvival:
     def fit(self, tr):
         self.cat_levels_ = {c: sorted(set(tr[c].astype(str).unique().tolist()) | {"unknown"}) for c in self.cat}
         t = tr["time_to_done_m"].clip(lower=0.5, upper=self.K).values; e = tr["event_done"].values.astype(int)
+        self.max_follow_ = float(np.nanmax(t))   # longest follow-up seen at this origin; beyond it the hazard is extrapolated
         rows, ks, ys = [], [], []
         rng = np.random.default_rng(self.seed)
         for i in range(len(tr)):
@@ -186,10 +187,13 @@ class DiscreteTimeSurvival:
         ks, S = self.survival(te)
         horizon = (te["months_to_expected_isd"].fillna(0).clip(lower=0) + 12).values
         p_delay = np.array([np.interp(h, ks, S[i]) for i, h in enumerate(horizon)])
-        def q_time(i, q):  # time by which P(done) >= q
+        cap = getattr(self, "max_follow_", float(ks[-1]))
+        def q_time(i, q):  # time by which P(done) >= q, never quoted beyond the follow-up the origin had seen
             done = 1 - S[i]
-            return float(np.interp(q, done, ks)) if done[-1] >= q else float(ks[-1])
-        q = np.array([[q_time(i, 0.1), q_time(i, 0.5), q_time(i, 0.9)] for i in range(len(te))])
+            t = float(np.interp(q, done, ks)) if done[-1] >= q else float(ks[-1])
+            return min(t, cap), t >= cap
+        qq = [[q_time(i, 0.1), q_time(i, 0.5), q_time(i, 0.9)] for i in range(len(te))]
+        q = np.array([[a[0] for a in row] for row in qq]); capped = np.array([[a[1] for a in row] for row in qq])
         q_late = q - te["months_to_expected_isd"].fillna(0).values[:, None]
         return dict(p_delay=np.clip(p_delay, 1e-4, 1 - 1e-4), p_over=self.over_.p_over(len(te)), q_late=q_late, q_over=self.over_.q_over(len(te)),
-                    median_ttd=q[:, 1])
+                    median_ttd=q[:, 1], q_capped=capped, horizon_beyond_followup=(horizon > cap), max_followup_months=np.full(len(te), cap))

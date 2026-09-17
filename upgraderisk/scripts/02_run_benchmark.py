@@ -40,7 +40,8 @@ class Blend:
 
     def predict(self, te):
         pg, ps = self.g.predict(te), self.s.predict(te)
-        return dict(p_delay=0.5 * (pg["p_delay"] + ps["p_delay"]), p_over=pg["p_over"], p_cancel=pg.get("p_cancel", np.full(len(te), np.nan)), q_late=ps["q_late"], q_over=pg["q_over"])
+        return dict(p_delay=0.5 * (pg["p_delay"] + ps["p_delay"]), p_over=pg["p_over"], p_cancel=pg.get("p_cancel", np.full(len(te), np.nan)), q_late=ps["q_late"], q_over=pg["q_over"],
+                    q_capped=ps["q_capped"], horizon_beyond_followup=ps["horizon_beyond_followup"], max_followup_months=ps["max_followup_months"])
 
 
 class BaggedGBM:
@@ -121,7 +122,10 @@ def main(processed: Path, out: Path, cutoff: str, n_bags: int):
                 print(f"  {m.name} failed at {st['origin']}: {e}", flush=True); continue
             preds.setdefault(m.name, []).append(pd.DataFrame({"idx": te.index, "p_delay": p["p_delay"], "p_over": p["p_over"], "p_cancel": p.get("p_cancel", np.full(len(te), np.nan)),
                                                              "late_p10": p["q_late"][:, 0], "late_p50": p["q_late"][:, 1], "late_p90": p["q_late"][:, 2],
-                                                             "over_p10": p["q_over"][:, 0], "over_p50": p["q_over"][:, 1], "over_p90": p["q_over"][:, 2]}))
+                                                             "over_p10": p["q_over"][:, 0], "over_p50": p["q_over"][:, 1], "over_p90": p["q_over"][:, 2],
+                                                             "p50_capped": (p["q_capped"][:, 1] if "q_capped" in p else np.zeros(len(te), bool)), "p90_capped": (p["q_capped"][:, 2] if "q_capped" in p else np.zeros(len(te), bool)),
+                                                             "beyond_followup": (p["horizon_beyond_followup"] if "horizon_beyond_followup" in p else np.zeros(len(te), bool)),
+                                                             "max_followup": (p["max_followup_months"] if "max_followup_months" in p else np.full(len(te), np.nan))}))
             if m.name == "gbm":
                 cols, c = m.contributions(te)
                 order = np.argsort(-np.abs(c), axis=1)[:, :5]

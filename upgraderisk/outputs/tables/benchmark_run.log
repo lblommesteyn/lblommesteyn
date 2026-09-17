@@ -1,0 +1,31 @@
+7 origins: ['2018-01-01', '2018-02-01', '2018-06-01', '2018-07-01', '2019-08-01', '2019-10-01', '2019-12-01']; test 6877 examples, 943 upgrades
+  origin 2018-01-25: train 31757 (delay labels 4295, rate 0.05448195576251455), test 1328, 54.8s
+  origin 2018-02-18: train 33085 (delay labels 4319, rate 0.05417920815003473), test 666, 53.1s
+  origin 2018-06-09: train 33751 (delay labels 6727, rate 0.03969079827560577), test 631, 58.8s
+  origin 2018-07-10: train 34382 (delay labels 7036, rate 0.05443433769187038), test 1344, 64.1s
+  origin 2019-08-19: train 35726 (delay labels 12986, rate 0.06915139380871708), test 1160, 78.1s
+  origin 2019-10-23: train 36886 (delay labels 13290, rate 0.07057938299473288), test 572, 76.1s
+  origin 2019-12-13: train 37458 (delay labels 13722, rate 0.07440606325608512), test 1176, 83.1s
+always_on_time               delay AUROC 0.500 Brier 0.201 | overrun AUROC 0.500 Brier 0.211 | COD MAE model 9.3 vs ISO 9.3 months
+base_rate                    delay AUROC 0.542 Brier 0.187 | overrun AUROC 0.493 Brier 0.175 | COD MAE model 9.3 vs ISO 9.3 months
+project_age                  delay AUROC 0.537 Brier 0.188 | overrun AUROC 0.524 Brier 0.178 | COD MAE model 9.4 vs ISO 9.3 months
+rate_to                      delay AUROC 0.567 Brier 0.185 | overrun AUROC 0.574 Brier 0.172 | COD MAE model 9.6 vs ISO 9.3 months
+rate_voltage_class           delay AUROC 0.532 Brier 0.186 | overrun AUROC 0.483 Brier 0.175 | COD MAE model 9.3 vs ISO 9.3 months
+rate_equipment               delay AUROC 0.563 Brier 0.188 | overrun AUROC 0.522 Brier 0.177 | COD MAE model 9.3 vs ISO 9.3 months
+logit_voltage_cost_duration  delay AUROC 0.490 Brier 0.198 | overrun AUROC 0.621 Brier 0.176 | COD MAE model 11.1 vs ISO 9.3 months
+logit_numeric                delay AUROC 0.499 Brier 0.201 | overrun AUROC 0.628 Brier 0.206 | COD MAE model 13.4 vs ISO 9.3 months
+gbm                          delay AUROC 0.592 Brier 0.196 | overrun AUROC 0.611 Brier 0.190 | COD MAE model 13.9 vs ISO 9.3 months
+dt_survival                  delay AUROC 0.616 Brier 0.213 | overrun AUROC 0.493 Brier 0.175 | COD MAE model 13.9 vs ISO 9.3 months
+blend                        delay AUROC 0.620 Brier 0.172 | overrun AUROC 0.611 Brier 0.190 | COD MAE model 13.9 vs ISO 9.3 months
+                      model  delay_auroc  delay_brier  delay_ece  delay_prauc  over_auroc  over_brier  over_prauc  cancel_auroc  cod_mae  p50_cov  p90_cov  new_delay_auroc  new_over_auroc
+             always_on_time        0.500        0.201      0.189        0.209       0.500       0.211       0.219           NaN    9.269    0.556    0.556            0.500           0.500
+                  base_rate        0.542        0.187      0.149        0.228       0.493       0.175       0.216           NaN    9.280    0.444    0.760            0.445           0.452
+                project_age        0.537        0.188      0.154        0.237       0.524       0.178       0.227           NaN    9.375    0.431    0.761            0.424           0.492
+                    rate_to        0.567        0.185      0.144        0.254       0.574       0.172       0.311           NaN    9.629    0.469    0.752            0.519           0.522
+         rate_voltage_class        0.532        0.186      0.141        0.224       0.483       0.175       0.210           NaN    9.275    0.439    0.758            0.482           0.496
+             rate_equipment        0.563        0.188      0.154        0.244       0.522       0.177       0.235           NaN    9.301    0.451    0.743            0.541           0.578
+logit_voltage_cost_duration        0.490        0.198      0.179        0.208       0.621       0.176       0.283           NaN   11.093    0.292    0.622            0.538           0.517
+              logit_numeric        0.499        0.201      0.190        0.225       0.628       0.206       0.277           NaN   13.431    0.144    0.497            0.508           0.516
+                        gbm        0.592        0.196      0.177        0.258       0.611       0.190       0.296         0.718   13.890    0.183    0.534            0.497           0.568
+                dt_survival        0.616        0.213      0.177        0.284       0.493       0.175       0.216           NaN   13.901    0.642    0.874            0.497           0.452
+                      blend        0.620        0.172      0.103        0.286       0.611       0.190       0.296         0.718   13.901    0.642    0.874            0.497           0.568
