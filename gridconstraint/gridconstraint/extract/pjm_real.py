@@ -122,7 +122,7 @@ def parse_section(name: str, sec: str) -> list[RealFinding]:
     return out
 
 
-PAIR = re.compile(r"(?<![A-Z0-9])([0-9]{0,2}[A-Z][A-Z0-9_]{2,11}(?: [A-Z]{2,8})?)\s*-\s*([0-9]{0,2}[A-Z][A-Z0-9_]{2,11}(?: [A-Z]{2,8})?)(?![A-Z0-9])")
+PAIR = re.compile(r"(?<![A-Z0-9])([0-9]{0,2}[A-Z][A-Z0-9_]{0,11}(?: [A-Z][A-Z0-9]{0,8})?)\s*-\s*([0-9]{0,2}[A-Z][A-Z0-9_]{0,11}(?: [A-Z][A-Z0-9]{0,8})?)(?![A-Z0-9])")
 NOISE = {"LN", "LOADING", "DVP", "AEP", "DAY", "CPLE", "PPL", "PSEG", "BGE", "PEPCO", "DPL", "APS", "ATSI", "COMED", "DEOK", "DOM", "EKPC", "JCPL",
          "METED", "PENELEC", "PECO", "RECO", "DUQ", "AC", "DC", "ER", "NR", "LD", "LTE", "STE", "NONE", "NON", "DCTL", "LFFB", "TOWER", "LINE", "BUS", "CIRCUIT"}
 
@@ -134,7 +134,11 @@ def name_pair(desc: str) -> tuple[str, str] | None:
     """Extract the (from, to) PSS/E bus-name pair from a (possibly polluted) facility description.
     A queue-tap end ("AB2-100 TAP") is returned as the literal tap token; callers map it to the POI."""
     best = None
-    for m in PAIR.finditer(desc.upper()):
+    up = desc.upper()
+    for m0 in re.finditer(r"(?=(" + PAIR.pattern + r"))", up):   # overlapping scan: "DVP - 8CHCKAHM-8ELMONT" must yield the second pair
+        m = PAIR.match(up, m0.start())
+        if not m:
+            continue
         a, b = m.group(1).strip(), m.group(2).strip()
         if a.split()[0] in NOISE or b.split()[0] in NOISE or re.match(r"^[A-Z]{1,2}\d?$", a) or re.match(r"^\d+$", b):
             continue

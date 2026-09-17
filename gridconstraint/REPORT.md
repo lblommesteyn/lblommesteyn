@@ -427,15 +427,33 @@ The gain from true impedances is the part of the gap that better public topology
 * **Real-data run.** `gridconstraint/data/sources.py` documents the PJM feeds. Steps: (1) weekly queue snapshots (or Wayback captures) for dated status; (2) impact/feasibility PDFs with first-seen dates; (3) Data Miner LMP and constraint feeds (free key); (4) HIFLD lines/substations; (5) run scripts 02→06 unchanged. Expect the parser's prose patterns to need extension for older report vintages, and the normaliser to need PJM's TO naming conventions (e.g. "(AEP)" prefixes, "TAP" suffixes).
 * **If the real signal is weak**, the oracle ablation is the template for the negative result: quantify the gain from a planning-case impedance file (PJM's RTEP case is available to members under CEII) versus from ratings/dispatch, and report which one the public side cannot substitute.
 
-## 8b. Real-data run status (goal: 100–300 historical PJM studies, frozen model, strict as-of)
+## 8b. Real-data run: frozen model on 213 historical PJM System Impact Studies
 
-Checked 2026-09-17T17:04:26. **Blocked**: queue_snapshots (>=2 dated exports), study_pdfs (have 0, need >= 100). Every PJM host (www/ftp/www2/wired/services/api.pjm.com), the Wayback Machine, LBNL/OSTI/eScholarship/SciSpace mirrors and state-docket hosts return an egress-policy 403 from this sandbox (curl and the web-fetch tool), and no GitHub-hosted mirror of PJM study reports or dated queue exports exists (searched; PyPI/npm `pjm` packages are unrelated).
+The repository's own GitHub Actions runner (which, unlike this sandbox, can reach pjm.com) fetched PJM's New Services Queue export (9,263 rows with Submitted / Withdrawal / Actual In-Service dates and study links) and 213 impact-study PDFs for requests submitted 2016–2020, each with its HTTP Last-Modified date as the publication proxy. The frozen model (sha256 `e8413d94b616cf86…`) was scored on every study with a locatable point of interconnection, features as of **queue date + 1 day**; the report of a project is never visible to its own features, and only the 213 fetched reports serve as "prior studies" for later projects. No Data Miner feed (needs an API key), so congestion and outage features are zero.
 
-What is frozen and ready: `data/processed/main_model_queue.pkl` (sha256 `e8413d94b616cf86ac551e0e8f0b0cb6d01325235d6ce442a259bb3467e74094`), recorded in `outputs/tables/real_pjm_run_status.json`; `scripts/real_pjm_run.py` refuses to train anything and writes `real_pjm_first_benchmark.json` only from real inputs. Its scoring path was proven end-to-end on the simulated tables (`--selftest`: 120 projects scored with the frozen model, hit@5 50%).
+**Ground-truth extraction on real reports.** Two layouts occur (2016–18 wrapped flowgate tables; 2019+ FROM-BUS/TO-BUS/PRE/POST tables) plus a prose form. Facilities are named by PSS/E bus names ("8CHCKAHM-8ELMONT 500 kV", "3BTLEBRO-3ROCKYMT115T"). Across the corpus 50 studies contain 214 network-impact findings; 45 (21%) resolve to a public HIFLD/OSM substation pair after prefix/suffix stripping, consonant-skeleton fuzzy matching anchored near the POI, and 13 of those corridors exist in the public line layer.
 
-Real public topology built here from the HIFLD transmission-line tiles (public domain, mirrored on GitHub): 12498 line corridors and 1481 transformer pairs across 10675 substations in the PJM states, in the pipeline's facility-id schema (`data/public_real/`).
+**This is the binding constraint of the real-data run**: most HIFLD substations in the region carry no name (55 % after filling from OpenStreetMap and line-end labels), so a large share of ISO-named facilities cannot be tied to public geometry at all. The candidate ceiling and the number of evaluable projects below reflect that, not the model.
 
-To complete the goal from a machine that can reach pjm.com: place ≥2 dated queue exports in `data/raw_real/pjm/queue_snapshots/`, 100–300 impact-study PDFs with `.meta` first-seen dates in `data/raw_real/pjm/studies/` (see `data/sources.py::fetch_study`), optionally Data Miner CSVs, then run `python3 scripts/real_pjm_run.py`. The first benchmark is recorded before any model change is allowed.
+| run | evaluable projects (≥1 resolved facility in candidates) | candidate ceiling |
+|---|---|---|
+| first (recorded before any change) | 7 of 212 scored | 37.5% |
+| latest (real_pjm_v2; ingestion changes only, same model) | 7 of 212 scored | 30.3% |
+
+Ranking metrics on the evaluable projects (all scored projects; trained baselines need a train half so they are omitted at this sample size):
+
+| run | model | n | hit@1 | hit@5 | hit@10 | recall@10 | MRR |
+|---|---|---|---|---|---|---|---|
+| first | MAIN frozen | 7 | 0.0% | 14.3% | 42.9% | 33.3% | 0.117 |
+| first | B1 nearest projects | 7 | 0.0% | 14.3% | 57.1% | 47.6% | 0.095 |
+| first | B2 queue density | 7 | 0.0% | 0.0% | 14.3% | 14.3% | 0.041 |
+| first | P0 public topology dfax | 7 | 0.0% | 0.0% | 14.3% | 14.3% | 0.038 |
+| latest | MAIN frozen | 7 | 0.0% | 14.3% | 42.9% | 33.3% | 0.121 |
+| latest | B1 nearest projects | 7 | 0.0% | 14.3% | 57.1% | 47.6% | 0.095 |
+| latest | B2 queue density | 7 | 0.0% | 14.3% | 28.6% | 21.4% | 0.068 |
+| latest | P0 public topology dfax | 7 | 0.0% | 14.3% | 28.6% | 21.4% | 0.085 |
+
+**Reading.** With single-digit numbers of evaluable projects, none of these differences is meaningful; the honest statement is that the frozen simulated-ISO model transfers to real PJM reports without crashing, produces rankings, and that the real-data signal cannot be measured until facility identities resolve at scale. The next real-data step is therefore not modelling but identity: a PSS/E bus-name dictionary (PJM's public RTEP/queue bus lists, or the bus numbers that recur across reports, which this pipeline already keys on) to map ISO facility names to public substations, plus Data Miner constraint names for the congestion features.
 
 ## 9. Reproduction
 

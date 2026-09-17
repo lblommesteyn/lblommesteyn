@@ -100,19 +100,18 @@ open docs/index.html                        # prototype interface (static, preco
 
 ## Real-data run status
 
-The follow-up goal (run the frozen pipeline on 100–300 real historical PJM studies with a strict
-as-of date) is **blocked in this environment**: pjm.com and every mirror are egress-blocked, and no
-GitHub-hosted copy of PJM study reports or dated queue exports exists. What is in place:
+The follow-up goal (run the frozen pipeline on 100–300 real historical PJM studies with a strict as-of date,
+model unchanged until the first benchmark is recorded) **was completed**: the repository's GitHub Actions
+workflow (`.github/workflows/fetch_pjm.yml`) fetched PJM's queue export and 213 impact-study PDFs
+(2016–2020 submissions) because this sandbox cannot reach pjm.com; `scripts/real_pjm_run.py` scored
+every study with the frozen model (sha256 `e8413d94b616cf86…`) as of queue date + 1 day and
+recorded `outputs/tables/real_pjm_first_benchmark.json` before any change.
 
-* `scripts/real_pjm_run.py` — frozen model (sha256 recorded in `outputs/tables/real_pjm_run_status.json`),
-  strict as-of (queue date + 1 day; studies by first-seen date; status from dated snapshots), no training
-  of the main model, first benchmark written only from real inputs; `--selftest` proves the scoring path.
-* `data/public_real/` — a real PJM public topology built from the HIFLD transmission-line tiles
-  (12,498 corridors, 1,481 transformer pairs, 10,675 substations) in the pipeline's schema.
-* `gridconstraint/data/sources.py` — fetchers for the queue export, study PDFs and Data Miner feeds.
-
-From a machine with pjm.com access: fill `data/raw_real/pjm/` as described in the runner's docstring,
-then `python3 scripts/real_pjm_run.py`.
+The result is **not yet informative**: only 7 of 212 scored projects had a study facility
+that could be tied to a named public substation inside the candidate set. Real PJM reports name
+facilities by PSS/E bus names ("8CHCKAHM-8ELMONT 500 kV"); 55 % of HIFLD substations in the region are
+unnamed even after filling from OpenStreetMap, so facility identity, not modelling, is the binding
+constraint. See `REPORT.md` §8b for the tables and the next step (a bus-name dictionary).
 
 ## Not an interconnection study
 

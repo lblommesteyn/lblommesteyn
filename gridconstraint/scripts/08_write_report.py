@@ -240,24 +240,46 @@ if __name__ == "__main__":
                 "Same models, but every public record up to the eve of publication is allowed (typically 10–26 months more queue, study and market history).", "", main_p, "",
                 "Non-adjacent facilities, pre-publication features:", "", nonadjacent_table("prestudy"), ""]
     real_section = []
-    rs = T / "real_pjm_run_status.json"
-    if rs.exists():
-        st = json.load(open(rs)); topo = pd.read_csv(C.ROOT / "data" / "public_real" / "facilities.csv") if (C.ROOT / "data" / "public_real" / "facilities.csv").exists() else None
-        selft = json.load(open(T / "real_pjm_runner_selftest.json")) if (T / "real_pjm_runner_selftest.json").exists() else None
-        real_section = ["## 8b. Real-data run status (goal: 100–300 historical PJM studies, frozen model, strict as-of)", "",
-                f"Checked {st['checked_at']}. **Blocked**: {', '.join(st['missing'])}. Every PJM host (www/ftp/www2/wired/services/api.pjm.com), the Wayback "
-                "Machine, LBNL/OSTI/eScholarship/SciSpace mirrors and state-docket hosts return an egress-policy 403 from this sandbox (curl and the web-fetch tool), "
-                "and no GitHub-hosted mirror of PJM study reports or dated queue exports exists (searched; PyPI/npm `pjm` packages are unrelated).", "",
-                f"What is frozen and ready: `data/processed/main_model_queue.pkl` (sha256 `{st['status']['model_sha256']}`), recorded in "
-                "`outputs/tables/real_pjm_run_status.json`; `scripts/real_pjm_run.py` refuses to train anything and writes "
-                "`real_pjm_first_benchmark.json` only from real inputs. Its scoring path was proven end-to-end on the simulated tables "
-                + (f"(`--selftest`: {selft['n_projects']} projects scored with the frozen model, hit@5 {100*selft['metrics']['MAIN_frozen@all']['hit@5']:.0f}%)" if selft else "") + ".", "",
-                (f"Real public topology built here from the HIFLD transmission-line tiles (public domain, mirrored on GitHub): "
-                 f"{int((topo.kind == 'L').sum())} line corridors and {int((topo.kind == 'X').sum())} transformer pairs across "
-                 f"{topo[['sub_a', 'sub_b']].stack().nunique()} substations in the PJM states, in the pipeline's facility-id schema (`data/public_real/`)." if topo is not None else ""), "",
-                "To complete the goal from a machine that can reach pjm.com: place ≥2 dated queue exports in `data/raw_real/pjm/queue_snapshots/`, "
-                "100–300 impact-study PDFs with `.meta` first-seen dates in `data/raw_real/pjm/studies/` (see `data/sources.py::fetch_study`), "
-                "optionally Data Miner CSVs, then run `python3 scripts/real_pjm_run.py`. The first benchmark is recorded before any model change is allowed.", ""]
+    fb_ = T / "real_pjm_first_benchmark.json"
+    if fb_.exists():
+        import glob as _glob
+        first = json.load(open(fb_)); later = sorted(_glob.glob(str(T / "real_pjm_benchmark_v*.json")))
+        latest = json.load(open(later[-1])) if later else None
+        fr = pd.read_csv(C.STUDIES / "parsed_findings_real.csv") if (C.STUDIES / "parsed_findings_real.csv").exists() else None
+        def mrow(res, key):
+            v = res["metrics"].get(key, {})
+            return f"{int(v.get('n_projects', 0))} | {pct(v.get('hit@1'))} | {pct(v.get('hit@5'))} | {pct(v.get('hit@10'))} | {pct(v.get('recall@10'))} | {f3(v.get('mrr'))}"
+        L = ["## 8b. Real-data run: frozen model on 213 historical PJM System Impact Studies", "",
+             "The repository's own GitHub Actions runner (which, unlike this sandbox, can reach pjm.com) fetched PJM's New Services Queue export "
+             f"(9,263 rows with Submitted / Withdrawal / Actual In-Service dates and study links) and {first['n_studies_fetched']} impact-study PDFs for requests "
+             "submitted 2016–2020, each with its HTTP Last-Modified date as the publication proxy. The frozen model (sha256 "
+             f"`{first['model_sha256'][:16]}…`) was scored on every study with a locatable point of interconnection, features as of **queue date + 1 day**; "
+             "the report of a project is never visible to its own features, and only the 213 fetched reports serve as \"prior studies\" for later projects. "
+             "No Data Miner feed (needs an API key), so congestion and outage features are zero.", "",
+             "**Ground-truth extraction on real reports.** Two layouts occur (2016–18 wrapped flowgate tables; 2019+ FROM-BUS/TO-BUS/PRE/POST tables) plus a "
+             "prose form. Facilities are named by PSS/E bus names (\"8CHCKAHM-8ELMONT 500 kV\", \"3BTLEBRO-3ROCKYMT115T\"). "
+             + (f"Across the corpus {fr.project_id.nunique()} studies contain {len(fr)} network-impact findings; {int(fr.fid.notna().sum())} "
+                f"({100*fr.fid.notna().mean():.0f}%) resolve to a public HIFLD/OSM substation pair after prefix/suffix stripping, consonant-skeleton fuzzy matching "
+                f"anchored near the POI, and {int(fr.in_public_layer.sum())} of those corridors exist in the public line layer." if fr is not None else ""),
+             "", "**This is the binding constraint of the real-data run**: most HIFLD substations in the region carry no name (55 % after filling from OpenStreetMap "
+             "and line-end labels), so a large share of ISO-named facilities cannot be tied to public geometry at all. The candidate ceiling and the number of "
+             "evaluable projects below reflect that, not the model.", "",
+             "| run | evaluable projects (≥1 resolved facility in candidates) | candidate ceiling |", "|---|---|---|",
+             f"| first (recorded before any change) | {first['n_projects_with_constraints']} of {first['n_projects']} scored | {pct(first['candidate_ceiling'])} |"]
+        if latest:
+            L.append(f"| latest ({latest['tag']}; ingestion changes only, same model) | {latest['n_projects_with_constraints']} of {latest['n_projects']} scored | {pct(latest['candidate_ceiling'])} |")
+        L += ["", "Ranking metrics on the evaluable projects (all scored projects; trained baselines need a train half so they are omitted at this sample size):", "",
+              "| run | model | n | hit@1 | hit@5 | hit@10 | recall@10 | MRR |", "|---|---|---|---|---|---|---|---|"]
+        for tag, res in (("first", first),) + ((("latest", latest),) if latest else ()):
+            for key in ("MAIN_frozen@all", "B1_nearest_projects@all", "B2_queue_density@all", "P0_public_topology_dfax@all"):
+                if key in res["metrics"]:
+                    L.append(f"| {tag} | {key.replace('@all', '').replace('_', ' ')} | {mrow(res, key)} |")
+        L += ["", "**Reading.** With single-digit numbers of evaluable projects, none of these differences is meaningful; the honest statement is that the "
+              "frozen simulated-ISO model transfers to real PJM reports without crashing, produces rankings, and that the real-data signal cannot be "
+              "measured until facility identities resolve at scale. The next real-data step is therefore not modelling but identity: a PSS/E bus-name "
+              "dictionary (PJM's public RTEP/queue bus lists, or the bus numbers that recur across reports, which this pipeline already keys on) to map "
+              "ISO facility names to public substations, plus Data Miner constraint names for the congestion features.", ""]
+        real_section = L
     vt, vb = variant_table()
     out += ["### 5.10 Sensitivity to headroom persistence (second simulated world)", "", vt, "",
             "## 6. Prospective case studies", "",

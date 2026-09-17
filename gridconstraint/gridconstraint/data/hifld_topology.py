@@ -90,7 +90,8 @@ def read_hifld_lines(pmtiles_path: str, bbox=PJM_BBOX, zoom: int | None = None) 
     return pd.DataFrame(out)
 
 
-def build_public_topology(lines: pd.DataFrame, subs: pd.DataFrame, max_snap_km: float = 3.0, osm_subs: pd.DataFrame | None = None):
+def build_public_topology(lines: pd.DataFrame, subs: pd.DataFrame, max_snap_km: float = 3.0, osm_subs: pd.DataFrame | None = None,
+                          extra_names: pd.DataFrame | None = None):
     """Snap line endpoints to HIFLD substations (by name when it matches within 15 km, else nearest
     within max_snap_km) and emit substations.csv / facilities.csv in the pipeline schema."""
     subs = subs.copy()
@@ -150,6 +151,15 @@ def build_public_topology(lines: pd.DataFrame, subs: pd.DataFrame, max_snap_km: 
         for k in range(len(nm)):
             if not nm[k] and d[k] <= 1.0:
                 nm[k] = re.sub(r"\s*(substation|sub|switching station|station)\s*$", "", str(o.name.values[j[k]]), flags=re.I).strip().title()
+        out_subs["name"] = nm
+    if extra_names is not None and len(extra_names):     # e.g. OSM backbone-line endpoint names
+        e = extra_names[extra_names.name.fillna("").str.len() > 2].reset_index(drop=True)
+        et = cKDTree(to_xy_km(e.lat.values, e.lon.values))
+        d, j = et.query(to_xy_km(out_subs.lat.values, out_subs.lon.values))
+        nm = out_subs.name.values.copy()
+        for k in range(len(nm)):
+            if not nm[k] and d[k] <= 2.0:
+                nm[k] = str(e.name.values[j[k]]).strip().title()
         out_subs["name"] = nm
     out_subs["name"] = [n if n else f"HIFLD {i}" for n, i in zip(out_subs.name, out_subs.hifld_id)]
     # transformers: a substation with several voltage levels gets an X facility per adjacent pair (HIFLD has no transformer records)

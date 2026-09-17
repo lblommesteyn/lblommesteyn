@@ -152,8 +152,15 @@ def main():
     res = score_frozen(P, C.STUDIES / "parsed_findings_real.csv", C.STUDIES / "parsed_meta_real.csv", tag="real_pjm", inputs="REAL PJM STUDIES")
     res["n_studies_fetched"] = int(len(index)); res["n_studies_with_resolved_facility"] = int(n_lab)
     res["labels"] = "network-impact sections (generator deliverability, multiple facility contingency, contribution to previously identified overloads)" + (" + energy-only congestion" if a.include_energy else "")
-    FIRST.write_text(json.dumps(res, indent=1, default=str))
-    print("FIRST BENCHMARK RECORDED:", FIRST)
+    if FIRST.exists():   # never overwrite the recorded first benchmark; later runs are numbered
+        n = 2
+        while (C.TABLES / f"real_pjm_benchmark_v{n}.json").exists():
+            n += 1
+        out = C.TABLES / f"real_pjm_benchmark_v{n}.json"; res["tag"] = f"real_pjm_v{n}"
+        res["note"] = "ingestion/name-resolution changes only; model unchanged (see model_sha256)"
+        out.write_text(json.dumps(res, indent=1, default=str)); print("BENCHMARK RECORDED:", out)
+    else:
+        FIRST.write_text(json.dumps(res, indent=1, default=str)); print("FIRST BENCHMARK RECORDED:", FIRST)
 
 
 def optional_tables(P: Path):
