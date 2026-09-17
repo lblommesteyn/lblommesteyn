@@ -1,0 +1,30 @@
+name: Discover PJM transmission-upgrade data sources
+
+on:
+  push:
+    branches: ["claude/upbeat-ramanujan-osd3q6"]
+    paths: [".github/workflows/discover_pjm_upgrades.yml", "upgraderisk/data/raw/discovery/TRIGGER"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests
+      - run: python upgraderisk/scripts/discover_pjm_actions.py
+      - name: Commit discovery results
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f upgraderisk/data/raw/discovery
+          git commit -m "PJM upgrade data discovery results (GitHub Actions)" || echo "nothing to commit"
+          for i in 1 2 3; do git push && break || (git pull --rebase && sleep 5); done
