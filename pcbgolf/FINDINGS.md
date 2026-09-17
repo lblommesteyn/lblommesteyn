@@ -136,14 +136,34 @@ assignment are annealed against `W*H*Z + lambda*HPWL`.
 
 | BOM | tightest legal board | Z | volume |
 |---|---|---|---|
-| stock | 42 x 36 mm (1512 mm^2) | 10.6 mm | 16,027 mm^3 |
-| optimised | **36 x 36 mm (1296 mm^2)** | **7.0 mm** | **9,072 mm^3** |
+| stock, double-sided | 42 x 46 mm (1932 mm^2) | 10.6 mm | 20,479 mm^3 |
+| optimised, double-sided | **40 x 42 mm (1680 mm^2)** | **7.0 mm** | **11,760 mm^3** |
+| optimised, single-sided | 58 x 54 mm (3132 mm^2) | 7.0 mm | 21,924 mm^3 |
 
 See `placement_stock.svg` / `placement_opt.svg`.
 
-A hard constraint worth knowing: the eight connectors need **~74 mm of board
-edge** between them. That alone floors the outline at roughly 20x20 mm however
-small the electronics get.
+These numbers were corrected after an autorouter run rejected the first pass:
+it found 299 pre-routing clearance violations and one connector placed off the
+board outline. Two real modelling errors caused that, both now fixed in
+`tools/geom2.py`:
+
+* placement boxes used pad bounding boxes only, ignoring plastic bodies and
+  solder tabs that stick out past them (the DC jack's true envelope is
+  15.25 x 13.00 mm, not the 15.65 x 9.40 I had), and ignoring **footprint-origin
+  offsets** — the microSD's pads sit 6.9 mm off its origin, so it landed
+  6.9 mm from where the placer thought;
+* inter-part clearance of 0.18 mm was below the 0.15 mm design rule once real
+  pad geometry was used. It is now 0.5 mm.
+
+The corrected boards are ~28% larger in volume than the first pass. Treat these
+as the honest numbers.
+
+**A connector subtlety that favours the stock parts:** only connectors that mate
+*sideways* need board edge. The stock vertical USB-C receptacles and the vertical
+2x4 header mate from above, so the stock BOM needs only **3** edge connectors
+(host USB-C, DC jack, microSD) totalling 42 mm of perimeter. Going to
+horizontal/mid-mount USB-C makes it **8** connectors and **92 mm** of perimeter.
+Part of what the swap wins in Z it gives back in outline.
 
 ## 6. Ideas that did *not* survive contact with the numbers
 
@@ -178,11 +198,22 @@ double-sided 2-layer board does not give you.
 
 | architecture | area | volume | via pts | layer pts | score |
 |---|---|---|---|---|---|
-| 4L, double-sided, 350 vias | 1296 | 9,072 | 17,500 | 20,000 | 46,572 |
-| 4L, double-sided, 250 vias | 1296 | 9,072 | 12,500 | 20,000 | 41,572 |
-| 2L, double-sided, 350 vias | 1296 | 9,072 | 17,500 | 10,000 | 36,572 |
-| **2L, 1-sided asm, solid GND, 80 vias** | 2392 | 16,744 | 4,000 | 10,000 | **30,744** |
+| 4L, double-sided, 400 vias | 1680 | 11,760 | 20,000 | 20,000 | 51,760 |
+| 4L, double-sided, 300 vias | 1680 | 11,760 | 15,000 | 20,000 | 46,760 |
+| **2L, double-sided, 300 vias** | 1680 | 11,760 | 15,000 | 10,000 | **36,760** |
+| 2L, 1-sided asm, solid GND, 90 vias + 300 jumpers | 3356 | 23,494 | 4,500 | 10,000 | 37,994 |
+| 2L, 1-sided asm, solid GND, 138 vias + 300 jumpers | 3356 | 23,494 | 6,900 | 10,000 | 40,394 |
 
+With the corrected geometry the single-sided design **no longer wins outright**.
+Forcing all 245 parts onto one face costs 3356 mm^2 against 1680, and that
+11,700-point volume penalty now roughly cancels the via saving. The two
+architectures are within ~1,200 points of each other.
+
+So the recommendation flips: **2 layers, double-sided, ~300 vias** is the target,
+with the single-sided solid-ground build as the fallback if double-sided 2-layer
+routing cannot be kept under ~500 vias or the USB return path proves unacceptable.
+The jumper trick stays valuable either way - it is what lets the single-sided
+variant compete at all, and it reduces vias on any layer count.
 Single-sided assembly nearly doubles the area — the placer's tightest legal
 single-sided board is **52 x 46 mm = 2392 mm^2** against 36 x 36 = 1296 mm^2
 double-sided (`placement_1side.svg`) — and that costs ~7,700 points of volume.
@@ -253,15 +284,73 @@ vias at all, but with no reference plane for 480 Mbps USB it would fail the
 
 ## 7. Where the score actually goes
 
-With the optimised 36x36 mm, Z=7 mm board:
+With the optimised 40 x 42 mm, Z = 7 mm board on 4 layers:
 
 | term | value | share |
 |---|---|---|
-| volume | 9,072 | 23% |
-| 4 copper layers | 20,000 | 50% |
-| ~200-400 vias | 10,000-20,000 | 27% |
-| **total** | **~39,000-49,000** | |
+| volume (40 x 42 x 7.0) | 11,760 | 25% |
+| 4 copper layers | 20,000 | 43% |
+| ~300 vias | 15,000 | 32% |
+| **total** | **46,760** | |
 
 **Half the score is the layer count, and most of the rest is vias.** Volume —
 the thing the challenge is named after — is the smallest term. Anyone optimising
 purely for a small outline is fighting for the least valuable 23%.
+
+
+## 9. Scoreboard
+
+Leaderboard to beat: **84,578** (abijahkaj); second 116,226 (Dsalzman).
+
+| design | volume | via pts | layer pts | score | vs 84,578 |
+|---|---|---|---|---|---|
+| stock BOM, repacked, 4L, 600 vias | 20,479 | 30,000 | 20,000 | 70,479 | -17% |
+| stock BOM, repacked, 4L, 400 vias | 20,479 | 20,000 | 20,000 | 60,479 | -28% |
+| optimised, 4L double-sided, 300 vias | 11,760 | 15,000 | 20,000 | 46,760 | -45% |
+| 2L single-sided, solid GND, 90 vias + 300 jumpers | 23,494 | 4,500 | 10,000 | 37,994 | -55% |
+| **optimised, 2L double-sided, 300 vias** | 11,760 | 15,000 | 10,000 | **36,760** | **-57%** |
+
+**The stock BOM beats the leaderboard.** Change no parts at all and simply pack
+the existing design onto a 42 x 46 mm double-sided board: ~60,000-70,000.
+Every part swap after that is gravy.
+
+Headroom, since these placements are geometric packings that may not route at
+this density — how far the board could grow before losing to 84,578:
+
+| design | break-even area | vs my estimate |
+|---|---|---|
+| stock, 4L, 400 vias | 4,205 mm^2 | 2.2x |
+| optimised, 4L, 300 vias | 7,083 mm^2 | 4.2x |
+| optimised, 2L, 300 vias | 8,511 mm^2 | 5.1x |
+
+### What 84,578 is made of
+
+Solving the score equation for the posted number: at 4 layers and 515 vias the
+volume must be 38,828 mm^3, which is 4,087 mm^2 at 9.5 mm tall — about 64 mm
+square, or 68 x 60. So the leader is paying roughly:
+
+| term | value | share |
+|---|---|---|
+| volume | ~38,800 | 46% |
+| ~515 vias | 25,750 | 30% |
+| 4 copper layers | 20,000 | 24% |
+
+They spend **45,750 on vias and layers combined — more than their entire
+volume.** That is the opening.
+
+## 10. Status / what is not yet proven
+
+* **Via counts are modelled, not measured.** Two Freerouting runs were attempted.
+  Both were abandoned: the first pair timed out at 25 minutes with no output, and
+  the relaunched pair was stopped once the logs showed the router's *fanout* stage
+  wanting to add a via to each of 908 SMD pins. A generic autorouter optimises for
+  routability, not for a scoring function where a via costs 50 points, so its via
+  count would be an upper bound of little use. The via figures here come from the
+  structural analysis in section 8 (237 GND pads on 138 components; 665 signal
+  pads), which is better grounded.
+* The routers did earn their keep: they found the placement bugs corrected in
+  section 5.
+* The 2-layer double-sided recommendation rests on hitting ~300 vias, which is
+  unproven. That is the next thing to settle, with a via-aware router or by hand.
+* Nothing here has been checked against JLCPCB's actual capability matrix for
+  0201 assembly, mid-mount cutouts, or minimum annular ring at the chosen via size.

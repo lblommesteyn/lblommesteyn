@@ -25,7 +25,28 @@ def load_footprints():
         for pd in pads:
             lo[0]=min(lo[0],pd['x']-pd['w']/2); lo[1]=min(lo[1],pd['y']-pd['h']/2)
             hi[0]=max(hi[0],pd['x']+pd['w']/2); hi[1]=max(hi[1],pd['y']+pd['h']/2)
-        out[name] = dict(pads=pads, bbox=lo+hi,
+        # body outline: solder tabs often stick out past the plastic, and the
+        # plastic often sticks out past the pads - the envelope is the union.
+        blo=[1e9,1e9]; bhi=[-1e9,-1e9]; has_body=False
+        for t in ('fp_line','fp_rect','fp_poly','fp_circle'):
+            for g in fp.find_all(t):
+                if g.val('layer') not in ('F.Fab','B.Fab','F.SilkS','B.SilkS',
+                                          'F.CrtYd','B.CrtYd'): continue
+                has_body=True
+                pts=[]
+                for k in ('start','end','center','mid'):
+                    q=g.find(k)
+                    if q: pts.append((q[1],q[2]))
+                pp=g.find('pts')
+                if pp: pts += [(xy[1],xy[2]) for xy in pp.find_all('xy')]
+                for (px,py) in pts:
+                    blo[0]=min(blo[0],px); blo[1]=min(blo[1],py)
+                    bhi[0]=max(bhi[0],px); bhi[1]=max(bhi[1],py)
+        env = list(lo)+list(hi)
+        if has_body:
+            env = [min(lo[0],blo[0]), min(lo[1],blo[1]),
+                   max(hi[0],bhi[0]), max(hi[1],bhi[1])]
+        out[name] = dict(pads=pads, bbox=lo+hi, env=env,
                          w=hi[0]-lo[0] if pads else 1.0, h=hi[1]-lo[1] if pads else 1.0)
     return out
 

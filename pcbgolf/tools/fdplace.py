@@ -97,6 +97,7 @@ class FD:
         return t
 
 def make_items(swaps, seed=0):
+    import geom2
     b = load_board()
     rng = random.Random(seed)
     items = []
@@ -104,9 +105,13 @@ def make_items(swaps, seed=0):
         fp = f.lib.split(':')[-1]
         s = swaps.get(fp)
         name = s['to'] if s else fp
-        w, h, z = (s['W'], s['H'], s['Z']) if s else GEOM[fp][:3]
+        z = s['Z'] if s else GEOM[fp][2]
+        w, h, ox, oy = geom2.box(name, None)
+        needs_edge, ew, dp = geom2.edge_orientation(name, w, h)
         items.append(dict(ref=f.ref, fp=name, src=fp, w=w, h=h, z=z,
-                          edge=name in EDGE_PARTS, top=name in TOP_ONLY, side=0))
+                          ox=ox, oy=oy, edge_w=ew, depth=dp,
+                          edge=needs_edge,
+                          top=needs_edge or name in ('EVQ-Q2','M2_BOLT'), side=0))
     # balance the two sides by area, connectors/LEDs/button stay on top
     free = [it for it in items if not it['top']]
     free.sort(key=lambda it: -it['w']*it['h'])
