@@ -1,0 +1,8 @@
+{
+  "n_train_projects": 1106,
+  "n_valid_projects": 363,
+  "n_test_projects": 279,
+  "n_test_projects_with_constraints": 155,
+  "candidate_ceiling": 0.8743545611015491,
+  "best_baseline": "B4_geo_size_logit"
+}

@@ -138,3 +138,9 @@ validation split, isotonic-calibrated on validation, bag spread as uncertainty. 
 one feature family at a time. Secondary models: severity bucket (≤105 / 105–120 / >120 % loading)
 among true facilities; project-level allocated-cost bucket ($0 / <1M / 1–10M / 10–50M / >50M) and
 withdrawal, both from aggregated ranker outputs plus project features.
+
+**Headroom-persistence variant.** A second world with the same seed, queue and procedure but with the yearly
+N-1 baseline pass run only every 4 years (`World(harden_every=4)`), so that a facility that sits near its
+limit stays there for several years, as on a real grid where ratings and baseline upgrades change slowly.
+The base world re-randomises headroom every year (2–30 % margin draws), which is the pessimistic case for
+history-based public evidence.

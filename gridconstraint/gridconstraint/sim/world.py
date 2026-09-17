@@ -73,9 +73,12 @@ class Project:
 
 class World:
     def __init__(self, seed: int = C.SEED, start_year: int = C.SIM_START_YEAR, end_year: int = C.SIM_END_YEAR,
-                 arrival_scale: float = 1.0, market_hours_per_year: int = 12, verbose: bool = True, n_workers: int = 4):
+                 arrival_scale: float = 1.0, market_hours_per_year: int = 12, verbose: bool = True, n_workers: int = 4,
+                 harden_every: int = 1):
         self.rng = np.random.default_rng(seed)
         self.n_workers = n_workers
+        self.harden_every = harden_every      # 1 = baseline reliability pass every year (headroom re-randomised yearly);
+                                              # k = only every k years (facility headroom persists, as in a real grid)
         self.start_year, self.end_year = start_year, end_year
         self.arrival_scale = arrival_scale
         self.market_hours_per_year = market_hours_per_year
@@ -555,7 +558,10 @@ class World:
             dispatch = self.market_year(year)
             Pd = self._peak_Pd
             w = self._withdraw_vec(dispatch)
-            nb = self.harden_n1(year, dispatch, Pd, w)
+            if (year - self.start_year) % self.harden_every == 0:
+                nb = self.harden_n1(year, dispatch, Pd, w)
+            else:
+                nb = 0
             self.rate0 = self.rate.copy() if year == self.start_year else self.rate0
             self._log(f"   baseline (N-1) upgrades: {nb}")
             n_stud = 0

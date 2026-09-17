@@ -58,7 +58,7 @@ def seen_poi_flags(pub, X):
     return X.project_id.map(seen)
 
 
-def run(mode="queue", n_bags=3, out_prefix="", verbose=True):
+def run(mode="queue", n_bags=3, out_prefix="", verbose=True, ablations=True):
     pub, X = load_dataset(mode)
     X = add_latent_feature(X, pub)
     X["seen_poi"] = seen_poi_flags(pub, X)
@@ -84,12 +84,12 @@ def run(mode="queue", n_bags=3, out_prefix="", verbose=True):
     p_te, raw_te, sd_te = main.predict(te); p_va, raw_va, _ = main.predict(va)
     scores["MAIN_all_features"] = dict(valid=raw_va, test=raw_te)
     te = te.copy(); te["p_main"] = p_te; te["p_main_raw"] = raw_te; te["p_main_sd"] = sd_te
-    ablations = {}
-    for fam, cols in FAMILIES.items():
+    ablations_out = {}
+    for fam, cols in (FAMILIES.items() if ablations else []):
         keep = [c for c in cols_all if c not in set(cols)]
         m = MainRanker(keep, n_bags=1).fit(tr, va)
         pp, rr, _ = m.predict(te)
-        scores[f"ABL_minus_{fam}"] = dict(test=rr); ablations[fam] = pp
+        scores[f"ABL_minus_{fam}"] = dict(test=rr); ablations_out[fam] = pp
     # ---- calibrate every score on validation for a fair calibration comparison
     results = []
     calib_tables = {}

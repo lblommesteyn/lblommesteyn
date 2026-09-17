@@ -7,8 +7,9 @@ from gridconstraint.sim.world import World
 
 if __name__ == "__main__":
     t = time.time()
+    harden_every = int(sys.argv[1]) if len(sys.argv) > 1 else 1
     w = World(seed=C.SEED, start_year=C.SIM_START_YEAR, end_year=C.SIM_END_YEAR, arrival_scale=1.0,
-              market_hours_per_year=12, n_workers=4)
+              market_hours_per_year=12, n_workers=4, harden_every=harden_every)
     w.build_queue()
     w.run()
     w.export()
