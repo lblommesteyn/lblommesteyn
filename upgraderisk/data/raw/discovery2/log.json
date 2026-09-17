@@ -1,0 +1,195 @@
+[
+ {
+  "page": "https://www.pjm.com/planning/m/project-construction",
+  "status": 200,
+  "size": 310265,
+  "final": "https://www.pjm.com/planning/m/project-construction",
+  "t": "18:06:06"
+ },
+ {
+  "page": "https://www.pjm.com/planning/m/cycle-service-request-status",
+  "status": 200,
+  "size": 340823,
+  "final": "https://www.pjm.com/planning/m/cycle-service-request-status",
+  "t": "18:06:08"
+ },
+ {
+  "page": "https://www.pjm.com/planning/m/",
+  "status": 200,
+  "size": 41748,
+  "final": "https://www.pjm.com/planning/m/",
+  "t": "18:06:08"
+ },
+ {
+  "page": "https://www.pjm.com/planning/m/project-construction/",
+  "status": 200,
+  "size": 310270,
+  "final": "https://www.pjm.com/planning/m/project-construction/",
+  "t": "18:06:09"
+ },
+ {
+  "js": "https://www.pjm.com/Scripts/MVC/Custom/PJM.Website.Feature.Planning.js",
+  "size": 14622,
+  "n_api": 0,
+  "n_exp": 1,
+  "guids": [],
+  "t": "18:06:09"
+ },
+ {
+  "js": "https://code.highcharts.com/7.0.3/highcharts.js",
+  "status": 403,
+  "t": "18:06:12"
+ },
+ {
+  "js": "https://www.pjm.com/Scripts/MVC/Custom/PJM.Website.Feature.Planning.ProjectTransition.js",
+  "size": 50571,
+  "n_api": 0,
+  "n_exp": 1,
+  "guids": [],
+  "t": "18:06:13"
+ },
+ {
+  "js": "https://www.pjm.com/assets/js/devicedetect.js",
+  "size": 916,
+  "n_api": 0,
+  "n_exp": 1,
+  "guids": [],
+  "t": "18:06:14"
+ },
+ {
+  "probe": "https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/ExportToXls",
+  "method": "POST",
+  "status": 200,
+  "size": 12189,
+  "ctype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "t": "18:06:19"
+ },
+ {
+  "probe": "https://services.pjm.com/PJMPlanningApi/api/Queue/ExportToXls",
+  "method": "POST",
+  "status": 200,
+  "size": 1748139,
+  "ctype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "t": "18:06:25"
+ },
+ {
+  "cdx": "tcs_export_all",
+  "rows": 1,
+  "t": "18:06:29"
+ },
+ {
+  "cdx": "tcs_export_prefix",
+  "rows": 484,
+  "t": "18:06:32"
+ },
+ {
+  "cdx": "project_construction_old",
+  "rows": 10,
+  "t": "18:06:35"
+ },
+ {
+  "cdx": "project_construction_old_all",
+  "rows": 95,
+  "t": "18:06:37"
+ },
+ {
+  "cdx": "project_construction_m",
+  "rows": 24,
+  "t": "18:06:39"
+ },
+ {
+  "cdx": "planning_api_host",
+  "rows": 7,
+  "t": "18:06:42"
+ },
+ {
+  "cdx": "pub_planning",
+  "rows": 1058,
+  "t": "18:06:45"
+ },
+ {
+  "cdx": "media_planning_rtep_dev",
+  "rows": 1394,
+  "t": "18:06:48"
+ },
+ {
+  "cdx": "media_planning_legacy",
+  "rows": 691,
+  "t": "18:06:50"
+ },
+ {
+  "cdx": "media_planning_legacy2",
+  "rows": 2714,
+  "t": "18:06:53"
+ },
+ {
+  "cdx": "rtep_development",
+  "rows": 818,
+  "t": "18:06:55"
+ },
+ {
+  "cdx": "rtep_upgrades_legacy",
+  "rows": 265,
+  "t": "18:06:57"
+ },
+ {
+  "cdx": "planning_xls_any",
+  "rows": 195,
+  "t": "18:07:22"
+ },
+ {
+  "cdx": "documents_reports_rtep",
+  "rows": 0,
+  "t": "18:07:24"
+ },
+ {
+  "cdx": "documents_reports_rtep_legacy",
+  "rows": 174,
+  "t": "18:07:30"
+ },
+ {
+  "sample": "https://www.pjm.com/-/media/DotCom/committees-groups/committees/srrtep-ma/20190325/20190325-m-3-process-needs-status.xlsx",
+  "status": 200,
+  "size": 137859,
+  "ctype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "t": "18:07:32"
+ },
+ {
+  "sample": "https://www.pjm.com/-/media/DotCom/committees-groups/committees/srrtep-ma/2022/20220613/informational-only---m-3-process-needs-status.xlsx",
+  "status": 200,
+  "size": 339977,
+  "ctype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "t": "18:07:33"
+ },
+ {
+  "sample": "https://www.pjm.com/-/media/DotCom/committees-groups/committees/srrtep-ma/2026/20260616/20260616-informational-only---m-3-process-needs-status.xlsx",
+  "status": 200,
+  "size": 991892,
+  "ctype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "t": "18:07:34"
+ },
+ {
+  "page": "https://www.pjm.com/planning/rtep-development/baseline-reports",
+  "status": 200,
+  "size": 51184,
+  "t": "18:07:35"
+ },
+ {
+  "page": "https://www.pjm.com/library/reports-notices/rtep-documents",
+  "status": 200,
+  "size": 45841,
+  "t": "18:07:35"
+ },
+ {
+  "page": "https://www.pjm.com/committees-and-groups/committees/teac",
+  "status": 200,
+  "size": 343599,
+  "t": "18:07:52"
+ },
+ {
+  "page": "https://www.pjm.com/planning/service-requests/serial-service-request-status",
+  "status": 200,
+  "size": 42646,
+  "t": "18:07:52"
+ }
+]

@@ -1,0 +1,131 @@
+{
+ "GET https://services.pjm.com/PJMPlanningApi/api/m/ProjectConst/GetUpgradesXL": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 220,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/m/ProjectConst/GetUpgradesXL'.\",\"messageDetail\":\"No type was found that matches the con"
+ },
+ "POST https://services.pjm.com/PJMPlanningApi/api/m/ProjectConst/GetUpgradesXL": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 220,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/m/ProjectConst/GetUpgradesXL'.\",\"messageDetail\":\"No type was found that matches the con"
+ },
+ "GET https://services.pjm.com/PJMPlanningApi/api/Construction/ExportToXls": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 227,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/Construction/ExportToXls'.\",\"messageDetail\":\"No type was found that matches the control"
+ },
+ "POST https://services.pjm.com/PJMPlanningApi/api/Construction/ExportToXls": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 227,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/Construction/ExportToXls'.\",\"messageDetail\":\"No type was found that matches the control"
+ },
+ "GET https://services.pjm.com/PJMPlanningApi/api/Construction/GetFilteredConstructionProjects": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 247,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/Construction/GetFilteredConstructionProjects'.\",\"messageDetail\":\"No type was found that"
+ },
+ "POST https://services.pjm.com/PJMPlanningApi/api/Construction/GetFilteredConstructionProjects": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 247,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/Construction/GetFilteredConstructionProjects'.\",\"messageDetail\":\"No type was found that"
+ },
+ "GET https://services.pjm.com/PJMPlanningApi/api/Project/GetFilteredProjects": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 225,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/Project/GetFilteredProjects'.\",\"messageDetail\":\"No type was found that matches the cont"
+ },
+ "POST https://services.pjm.com/PJMPlanningApi/api/Project/GetFilteredProjects": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 225,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/Project/GetFilteredProjects'.\",\"messageDetail\":\"No type was found that matches the cont"
+ },
+ "GET https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/ExportToXls": {
+  "status": 405,
+  "ctype": "application/json; charset=utf-8",
+  "size": 72,
+  "head": "{\"message\":\"The requested resource does not support http method 'GET'.\"}"
+ },
+ "POST https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/ExportToXls": {
+  "status": 200,
+  "ctype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "size": 12189,
+  "head": ""
+ },
+ "GET https://services.pjm.com/PJMPlanningApi/api/Queue/ExportToXls": {
+  "status": 405,
+  "ctype": "application/json; charset=utf-8",
+  "size": 72,
+  "head": "{\"message\":\"The requested resource does not support http method 'GET'.\"}"
+ },
+ "POST https://services.pjm.com/PJMPlanningApi/api/Queue/ExportToXls": {
+  "status": 200,
+  "ctype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "size": 1748139,
+  "head": ""
+ },
+ "GET https://services.pjm.com/PJMPlanningApi/api/Upgrade/GetFilteredUpgrades": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 225,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/Upgrade/GetFilteredUpgrades'.\",\"messageDetail\":\"No type was found that matches the cont"
+ },
+ "POST https://services.pjm.com/PJMPlanningApi/api/Upgrade/GetFilteredUpgrades": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 225,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/Upgrade/GetFilteredUpgrades'.\",\"messageDetail\":\"No type was found that matches the cont"
+ },
+ "GET https://services.pjm.com/PJMPlanningApi/api/Upgrades/GetFilteredUpgrades": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 227,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/Upgrades/GetFilteredUpgrades'.\",\"messageDetail\":\"No type was found that matches the con"
+ },
+ "POST https://services.pjm.com/PJMPlanningApi/api/Upgrades/GetFilteredUpgrades": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 227,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/Upgrades/GetFilteredUpgrades'.\",\"messageDetail\":\"No type was found that matches the con"
+ },
+ "GET https://services.pjm.com/PJMPlanningApi/api/asmx/GetDeviceType": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 213,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/asmx/GetDeviceType'.\",\"messageDetail\":\"No type was found that matches the controller na"
+ },
+ "POST https://services.pjm.com/PJMPlanningApi/api/asmx/GetDeviceType": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 213,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/asmx/GetDeviceType'.\",\"messageDetail\":\"No type was found that matches the controller na"
+ },
+ "GET https://www.pjm.com/Scripts/MVC/Custom/ProjectConstructionUpgrades.xlsx": {
+  "status": 404,
+  "ctype": "text/html",
+  "size": 103,
+  "final": "https://www.pjm.com/Scripts/MVC/Custom/ProjectConstructionUpgrades.xlsx",
+  "head": "The resource you are looking for has been removed, had its name changed, or is temporarily unavailable."
+ },
+ "GET https://www.pjm.com/Scripts/MVC/Custom/ProjectConstructionUpgrades": {
+  "status": 200,
+  "ctype": "text/html; charset=utf-8",
+  "size": 25999,
+  "final": "https://www.pjm.com/not-found",
+  "head": "\r\n\r\n<!DOCTYPE html>\r\n<html class=\"no-js\">\r\n<head id=\"Head1\">\r\n    <!-- Google Tag Manager -->\r\n    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':\r\n                new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],\r\n                j=d.createElement(s),dl=l!"
+ },
+ "GET https://www.pjm.com/planning/project-construction/ProjectConstructionUpgrades.xlsx": {
+  "status": 404,
+  "ctype": "text/html",
+  "size": 103,
+  "final": "https://www.pjm.com/planning/project-construction/ProjectConstructionUpgrades.xlsx",
+  "head": "The resource you are looking for has been removed, had its name changed, or is temporarily unavailable."
+ }
+}

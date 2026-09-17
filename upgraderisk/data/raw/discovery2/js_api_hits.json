@@ -1,0 +1,32 @@
+{
+ "https://www.pjm.com/Scripts/MVC/Custom/PJM.Website.Feature.Planning.js": {
+  "size": 14622,
+  "apis": [],
+  "exports": [
+   "/m/ProjectConst/GetUpgradesXL"
+  ],
+  "guids": [],
+  "hosts": [],
+  "context": []
+ },
+ "https://www.pjm.com/Scripts/MVC/Custom/PJM.Website.Feature.Planning.ProjectTransition.js": {
+  "size": 50571,
+  "apis": [],
+  "exports": [
+   "/m/ProjectConst/GetUpgradesXL"
+  ],
+  "guids": [],
+  "hosts": [],
+  "context": []
+ },
+ "https://www.pjm.com/assets/js/devicedetect.js": {
+  "size": 916,
+  "apis": [],
+  "exports": [
+   "asmx/GetDeviceType"
+  ],
+  "guids": [],
+  "hosts": [],
+  "context": []
+ }
+}
