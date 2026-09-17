@@ -45,7 +45,7 @@ def main(cutoff: str, max_rows: int, out: Path):
         def add_m(m):
             return None if pd.isna(exp) else str((exp + pd.Timedelta(days=float(m) * 30.4375)).date())
         order = np.argsort(-np.abs(contrib[i]))[:5]
-        drivers = [dict(f=cols[j], v=(jd(r[cols[j]]) if cols[j] in b["num"] else str(r[cols[j]])[:24]), c=round(float(contrib[i][j]), 2)) for j in order]
+        drivers = [dict(f=cols[j], v=((None if pd.isna(r[cols[j]]) else round(float(r[cols[j]]), 1)) if cols[j] in b["num"] else str(r[cols[j]])[:24]), c=round(float(contrib[i][j]), 2)) for j in order]
         fam = str(r["upgrade_id"]).split(".")[0]
         d = (1.0 * (an["to"].astype(str) != str(r["to"])).values + 0.7 * (an["voltage_class"].astype(str) != str(r["voltage_class"])).values
              + 0.7 * (an["equipment"].astype(str) != str(r["equipment"])).values + 0.5 * (an["status"].astype(str) != str(r["status"])).values
