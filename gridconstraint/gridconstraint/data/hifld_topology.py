@@ -90,7 +90,7 @@ def read_hifld_lines(pmtiles_path: str, bbox=PJM_BBOX, zoom: int | None = None) 
     return pd.DataFrame(out)
 
 
-def build_public_topology(lines: pd.DataFrame, subs: pd.DataFrame, max_snap_km: float = 3.0):
+def build_public_topology(lines: pd.DataFrame, subs: pd.DataFrame, max_snap_km: float = 3.0, osm_subs: pd.DataFrame | None = None):
     """Snap line endpoints to HIFLD substations (by name when it matches within 15 km, else nearest
     within max_snap_km) and emit substations.csv / facilities.csv in the pipeline schema."""
     subs = subs.copy()
@@ -139,8 +139,19 @@ def build_public_topology(lines: pd.DataFrame, subs: pd.DataFrame, max_snap_km: 
     # HIFLD's substation layer is sparsely named; the line records carry endpoint names, so an unnamed
     # substation takes the most frequent endpoint label of the lines snapped to it.
     from collections import Counter
-    out_subs["name"] = [n if n else (Counter(end_labels[int(i)]).most_common(1)[0][0] if int(i) in end_labels else f"HIFLD {i}")
+    out_subs["name"] = [n if n else (Counter(end_labels[int(i)]).most_common(1)[0][0] if int(i) in end_labels else "")
                         for n, i in zip(out_subs.name, out_subs.hifld_id)]
+    # OpenStreetMap substation names (ODbL) fill remaining gaps: nearest named OSM substation within 1 km
+    if osm_subs is not None and len(osm_subs):
+        o = osm_subs[osm_subs.name.fillna("").str.len() > 1].reset_index(drop=True)
+        ot = cKDTree(to_xy_km(o.lat.values, o.lon.values))
+        d, j = ot.query(to_xy_km(out_subs.lat.values, out_subs.lon.values))
+        nm = out_subs.name.values.copy()
+        for k in range(len(nm)):
+            if not nm[k] and d[k] <= 1.0:
+                nm[k] = re.sub(r"\s*(substation|sub|switching station|station)\s*$", "", str(o.name.values[j[k]]), flags=re.I).strip().title()
+        out_subs["name"] = nm
+    out_subs["name"] = [n if n else f"HIFLD {i}" for n, i in zip(out_subs.name, out_subs.hifld_id)]
     # transformers: a substation with several voltage levels gets an X facility per adjacent pair (HIFLD has no transformer records)
     lv = pd.concat([corridors[["sub_a", "kv"]].rename(columns={"sub_a": "sub"}), corridors[["sub_b", "kv"]].rename(columns={"sub_b": "sub"})])
     xf = []

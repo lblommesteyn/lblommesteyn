@@ -114,6 +114,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--min-studies", type=int, default=100); ap.add_argument("--max-studies", type=int, default=300)
     ap.add_argument("--dry-run", action="store_true"); ap.add_argument("--selftest", action="store_true", help="run the scoring path on simulated tables")
+    ap.add_argument("--rebuild-topology", action="store_true"); ap.add_argument("--include-energy", action="store_true", help="also label energy-only congestion facilities")
     a = ap.parse_args()
     if a.selftest:
         selftest(); return
@@ -133,58 +134,25 @@ def main():
         sys.exit(2)
     if a.dry_run:
         return
-    # ---- 1. public topology (real HIFLD)
-    lines = read_hifld_lines(next(p for p in HIFLD_CANDIDATES if Path(p).exists()), zoom=9)
-    subs, fac = build_public_topology(lines, L.load_hifld_substations())
+    # ---- 1. public topology (real HIFLD) -> data/public_real (built once; rebuild with --rebuild-topology)
     P = C.ROOT / "data" / "public_real"; P.mkdir(exist_ok=True)
-    subs.to_csv(P / "substations.csv", index=False); fac.to_csv(P / "facilities.csv", index=False)
-    # ---- 2. queue + events from dated snapshots; POI -> substation
-    queue, events = load_queue_snapshots()
-    N = FacilityNormalizer(subs, fac)
-    poi_sub = []
-    for s in queue.poi_name:
-        c = N.match_sub(str(s))
-        poi_sub.append(c[0][0] if c and c[0][1] >= 80 else None)
-    queue["poi_sub_id"] = poi_sub
-    queue = queue[queue.queue_date.notna()].copy()
-    queue["poi_kv"] = queue.poi_name.str.extract(r"(\d{2,3})\s*kV", expand=False).astype(float).fillna(138.0)
-    # ---- 3. studies -> labels with first-seen dates
-    rows, index = [], []
-    for p in sorted((RAW / "studies").glob("*_imp.pdf"))[: a.max_studies]:
-        meta = dict(l.split("=", 1) for l in p.with_suffix(".pdf.meta").read_text().splitlines() if "=" in l)
-        lm = pd.to_datetime(meta.get("last_modified", ""), errors="coerce", utc=True)
-        seen = (lm.tz_convert(None) if pd.notna(lm) else pd.Timestamp(meta.get("fetched", "")[:10])).normalize()
-        ps = parse_study(str(p))
-        pid = ps.meta.get("project_id") or p.name.split("_")[0].upper()
-        qmap = queue.set_index("project_id")
-        if pid not in qmap.index:
-            alt = [q for q in qmap.index if q.replace("-", "").lower() == p.name.split("_")[0].lower()]
-            if not alt:
-                continue
-            pid = alt[0]
-        if pd.isna(qmap.loc[pid].poi_sub_id) and ps.meta.get("poi_str"):
-            c = N.match_sub(ps.meta["poi_str"])
-            if c and c[0][1] >= 80:
-                queue.loc[queue.project_id == pid, "poi_sub_id"] = c[0][0]; qmap = queue.set_index("project_id")
-        if pd.isna(qmap.loc[pid].poi_sub_id):
-            continue
-        poi = int(qmap.loc[pid].poi_sub_id)
-        for f in ps.findings:
-            n = N.normalize(f["facility_str"], poi_sub=poi)
-            rows.append(dict(project_id=pid, publication_date=seen, facility_str=f["facility_str"], fid=n["fid"], fid_confidence=n["confidence"],
-                             loading_pct=f["loading_pct"], dfax_pct=f["dfax_pct"], contingency_str=f["contingency_str"]))
-        index.append(dict(project_id=pid, publication_date=seen, pdf_path=str(p), n_findings=len(ps.findings), n_resolved=sum(1 for r in rows if r["project_id"] == pid and r["fid"])))
-    findings = pd.DataFrame(rows); idx = pd.DataFrame(index)
-    if len(idx) < a.min_studies:
-        raise SystemExit(f"only {len(idx)} studies matched queue entries; need >= {a.min_studies}")
-    findings.to_csv(C.STUDIES / "parsed_findings_real.csv", index=False); idx.to_csv(P / "study_index.csv", index=False)
-    # ---- 4. features + frozen model, strict as-of = queue date + 1 day
-    queue.to_csv(P / "queue.csv", index=False); events.to_csv(P / "queue_events.csv", index=False)
-    meta_rows = idx.rename(columns={"n_resolved": "n_fid_resolved"}).assign(total_cost_usd=np.nan)
-    meta_rows.to_csv(C.STUDIES / "parsed_meta_real.csv", index=False)
+    if a.rebuild_topology or not (P / "facilities.csv").exists():
+        lines = read_hifld_lines(next(p for p in HIFLD_CANDIDATES if Path(p).exists()), zoom=9)
+        subs, fac = build_public_topology(lines, L.load_hifld_substations())
+        subs.to_csv(P / "substations.csv", index=False); fac.to_csv(P / "facilities.csv", index=False)
+    # ---- 2+3. queue, dated status events, parsed studies with HIFLD-resolved facilities
+    from gridconstraint.data.pjm_real_ingest import build_all
+    queue, events, findings, index = build_all(include_energy=a.include_energy)
+    n_lab = index.n_fid_resolved.gt(0).sum()
+    print(f"studies matched to queue: {len(index)}; with >=1 resolved facility: {n_lab}; findings {len(findings)} (resolved {findings.fid.notna().sum()})")
+    if len(index) < a.min_studies:
+        raise SystemExit(f"only {len(index)} studies matched queue entries; need >= {a.min_studies}")
     optional_tables(P)
+    # ---- 4. frozen model, strict as-of = queue date + 1 day; first benchmark recorded
     res = score_frozen(P, C.STUDIES / "parsed_findings_real.csv", C.STUDIES / "parsed_meta_real.csv", tag="real_pjm", inputs="REAL PJM STUDIES")
-    FIRST.write_text(json.dumps(res, indent=1))
+    res["n_studies_fetched"] = int(len(index)); res["n_studies_with_resolved_facility"] = int(n_lab)
+    res["labels"] = "network-impact sections (generator deliverability, multiple facility contingency, contribution to previously identified overloads)" + (" + energy-only congestion" if a.include_energy else "")
+    FIRST.write_text(json.dumps(res, indent=1, default=str))
     print("FIRST BENCHMARK RECORDED:", FIRST)
 
 
@@ -222,6 +190,7 @@ def score_frozen(P: Path, findings_path: Path, meta_path: Path, tag: str, inputs
     d = pickle.load(open(model_pkl, "rb")); model, cols = d["model"], d["cols"]
     labels = pub.findings[pub.findings.fid.notna()].groupby("project_id").apply(lambda g: dict(zip(g.fid, g.loading_pct)), include_groups=False).to_dict()
     studied = pub.study_index.merge(pub.queue, on="project_id").sort_values("queue_date")
+    studied = studied[studied.poi_sub_id.notna() & studied.queue_date.notna()]
     if max_projects:
         studied = studied.tail(max_projects)
     parts = []; lat_cache = {}
@@ -230,6 +199,7 @@ def score_frozen(P: Path, findings_path: Path, meta_path: Path, tag: str, inputs
         as_of = pd.Timestamp(r.queue_date) + pd.Timedelta(days=1)
         assert pd.Timestamp(r.publication_date) > pd.Timestamp(r.queue_date), "study published before queue date: as-of rule violated"
         proj = pub.q_by_pid.loc[r.project_id].copy(); proj["project_id"] = r.project_id
+        proj["poi_sub_id"] = int(proj.poi_sub_id); proj["mw"] = float(proj.mw) if proj.mw == proj.mw else 100.0
         X = fb.build(proj, as_of, labels.get(r.project_id, {}))
         y = as_of.year
         if y not in lat_cache:

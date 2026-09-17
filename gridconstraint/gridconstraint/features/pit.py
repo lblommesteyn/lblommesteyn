@@ -52,8 +52,9 @@ class PublicData:
         self._resolve_names(verbose)
         self.topo = PublicTopology(self.subs, self.fac)
         # derived
-        self.queue["xy"] = list(to_xy_km(self.queue.poi_sub_id.map(self.subs.set_index("sub_id").lat).values,
-                                         self.queue.poi_sub_id.map(self.subs.set_index("sub_id").lon).values))
+        _lat = self.queue.poi_sub_id.map(self.subs.set_index("sub_id").lat).values.astype(float)
+        _lon = self.queue.poi_sub_id.map(self.subs.set_index("sub_id").lon).values.astype(float)
+        self.queue["xy"] = list(to_xy_km(np.nan_to_num(_lat, nan=-999.0), np.nan_to_num(_lon, nan=-999.0)))   # unlocated rows sit far away
         self.queue_xy = np.vstack(self.queue.xy.values)
         self.q_by_pid = self.queue.set_index("project_id")
         self.lmp_hours = np.sort(self.lmp.datetime.unique())
