@@ -2,3 +2,11 @@
 # upgraderisk large/transient outputs
 upgraderisk/data/processed/model_bundle.pkl
 upgraderisk/outputs/tables/*.log
+
+# LaTeX build artifacts
+docs/summary/*.aux
+docs/summary/*.log
+docs/summary/*.out
+docs/summary/*.fls
+docs/summary/*.fdb_latexmk
+docs/summary/page*.png
