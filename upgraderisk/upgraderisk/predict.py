@@ -96,9 +96,9 @@ class Predictor:
 
     def analogs(self, f: pd.DataFrame, k: int = 8) -> pd.DataFrame:
         a = self.b["analogs"]
-        a = a[(a["resolved_done"] == 1) | (a["resolved_cancel"] == 1)]
         t = pd.Timestamp(f["obs_date"].iloc[0])
-        a = a[a["obs_date"] < t]
+        known = (pd.to_datetime(a["done_known_date"]) <= t) | (pd.to_datetime(a["cancel_label_known_date"]) <= t)
+        a = a[known & (a["obs_date"] < t)]
         row = f.iloc[0]
         fam = str(row["upgrade_id"]).split(".")[0]
         a = a[a["upgrade_id"].astype(str).str.split(".").str[0] != fam]
@@ -135,13 +135,16 @@ class Predictor:
         return self._package(f, k_analogs, "custom")
 
     def _package(self, f, k_analogs, upgrade_id):
-        out = dict(upgrade_id=upgrade_id, as_of=str(pd.Timestamp(f["obs_date"].iloc[0]).date()), snapshot_used=str(pd.Timestamp(f["snapshot_date"].iloc[0]).date()) if "snapshot_date" in f and pd.notna(f["snapshot_date"].iloc[0]) else None,
+        t = pd.Timestamp(f["obs_date"].iloc[0])
+        warn = (f"model bundle was trained with outcomes known by {self.b['cutoff']}, after this as-of date; features are point-in-time but the model is not" if t < pd.Timestamp(self.b["cutoff"]) else None)
+        out = dict(upgrade_id=upgrade_id, warning=warn, as_of=str(pd.Timestamp(f["obs_date"].iloc[0]).date()), snapshot_used=str(pd.Timestamp(f["snapshot_date"].iloc[0]).date()) if "snapshot_date" in f and pd.notna(f["snapshot_date"].iloc[0]) else None,
                    inputs=dict(to=str(f["to"].iloc[0]), voltage_kv=(None if pd.isna(f["voltage_kv"].iloc[0]) else float(f["voltage_kv"].iloc[0])), status=str(f["status"].iloc[0]), equipment=str(f["equipment"].iloc[0]),
                                est_cost_musd=(None if pd.isna(f["est_cost_musd"].iloc[0]) else float(f["est_cost_musd"].iloc[0])), expected_isd=(None if pd.isna(f["expected_isd"].iloc[0]) else str(pd.Timestamp(f["expected_isd"].iloc[0]).date())),
                                age_months=float(f["age_months"].iloc[0]), slip_so_far_months=(None if pd.isna(f["slip_so_far_months"].iloc[0]) else float(f["slip_so_far_months"].iloc[0])),
                                n_isd_revisions=int(f["n_isd_revisions"].iloc[0]), cost_growth_so_far=(None if pd.isna(f["cost_growth_so_far"].iloc[0]) else float(f["cost_growth_so_far"].iloc[0])),
                                scope=str(f["scope"].iloc[0])[:200]),
                    prediction=self.score(f), drivers=self.drivers(f), analogs=self.analogs(f, k_analogs).to_dict(orient="records"),
+                   analog_note="analog outcomes were already known at the as-of date",
                    caveat="Statistical estimate from public snapshots of the ISO's own tables; not an engineering or schedule assessment.")
         for a in out["analogs"]:
             for kk in ("obs_date", "expected_isd", "actual_isd"):

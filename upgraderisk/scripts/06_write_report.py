@@ -117,11 +117,19 @@ numeric features. Models: bagged LightGBM classifiers with isotonic calibration 
 window (slip, cost, cancellation), LightGBM quantile regressors (P10/P50/P90 months late and % cost change), and a
 discrete-time (monthly) hazard model for time-to-in-service (P(not in service by PJM's date + 12 months), median).
 
-## 4. Benchmark (chronological holdout)
+## 4. Benchmark (rolling-origin chronological holdout)
 
-Train: observations up to **{B['cutoff']}** ({B['n_train']:,} examples, {B['train_upgrades']:,} upgrades), labels only where knowable by
-the cutoff. Test: observations after the cutoff ({B['n_test']:,} examples, {B['test_upgrades']:,} upgrades, {B['n_test_new']:,} examples of
-upgrades never observed before the cutoff), labels from the full record.
+Test period: observations after **{B['first_cutoff']}** ({B['n_test']:,} examples, {B['test_upgrades']:,} upgrades, {B['n_test_new']:,} examples of
+upgrades never observed before their origin). For each test month, every baseline and model is refitted on all examples
+observed before that month using only labels knowable by then ({B['n_train']:,} rows at the first origin, {B['n_train_last']:,} at the
+last), then scores that month. Test labels come from the full record. Origins:
+
+{pd.DataFrame(B['origins']).to_markdown(index=False)}
+
+A first pass with a single fixed cutoff and labels taken from the full record (the leaky protocol) gave a slip AUROC of
+0.835; restricting training labels to what was knowable at the cutoff dropped it to 0.58, because most of that
+"skill" was the model recognising an upgrade seen in training and recalling its eventual fate. The numbers below use
+the honest protocol only.
 
 {main_md}
 
@@ -135,6 +143,10 @@ Cancellation AUROC: {f3((g['all'].get('cancel') or {}).get('auroc'))}.
 (n = {g['new_upgrades']['delay'].get('n')}). Most of the skill comes from an upgrade's own public history (how long it has been
 listed, how often its date moved, its owner's track record); for a brand-new upgrade the model is only modestly better
 than the baselines.
+
+### By test month (GBM slip AUROC / Brier; survival model in brackets)
+
+{pd.DataFrame([dict(origin=o, n=r['delay'].get('n'), rate=r['delay'].get('rate'), auroc=r['delay'].get('auroc'), brier=r['delay'].get('brier'), surv_auroc=R['dt_survival']['by_origin'][o]['delay'].get('auroc'), base_brier=R['base_rate']['by_origin'][o]['delay'].get('brier')) for o, r in g['by_origin'].items()]).round(3).to_markdown(index=False)}
 
 ### Breakdowns (GBM, slip label)
 

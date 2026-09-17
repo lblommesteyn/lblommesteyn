@@ -32,6 +32,8 @@ def fmt(r: dict) -> str:
         over_s = "n/a" if over is None or over != over else f"{over:+.0%}"
         canc = "  CANCELLED" if a["resolved_cancel"] else ""
         L.append(f"     {a['upgrade_id']:10s} {str(a['to']):9s} {str(a['voltage_kv']):6s} {str(a['equipment'])[:18]:18s} expected {a['expected_isd']} -> actual {a['actual_isd']}  late {late_s} mo  cost {over_s}{canc}")
+    if r.get("warning"):
+        L += ["", f"  WARNING: {r['warning']}"]
     L += ["", f"  {r['caveat']}"]
     return "\n".join(L)
 

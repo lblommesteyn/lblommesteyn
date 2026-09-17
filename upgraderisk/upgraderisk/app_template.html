@@ -95,7 +95,7 @@ button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
 <div class="wrap">
   <div class="eyebrow">PJM · Regional Transmission Expansion Plan upgrades · point-in-time prototype</div>
   <h1>Slip Ledger</h1>
-  <p class="sub">For a transmission upgrade as PJM listed it on a given day, what a model trained only on outcomes knowable at that time would have said about a
+  <p class="sub">For a transmission upgrade as PJM listed it on a given day, what a model refitted that month on outcomes knowable at that time would have said about a
     12-month slip and a 25 % cost increase, next to what PJM's table said, and what eventually happened. Every row is a real upgrade at a real archived snapshot date.</p>
 
   <div class="strip" id="strip"></div>
@@ -142,7 +142,8 @@ function strip(){
   t.push(['Cost +25 %, AUROC', g.over_auroc.toFixed(3) + ' <small>vs ' + META.best_baseline.over_auroc.toFixed(2) + '</small>', 'Brier ' + g.over_brier.toFixed(3) + ' vs ' + META.base.over_brier.toFixed(3) + ' base rate']);
   t.push(['Completion date error', g.cod_mae.toFixed(1) + ' mo <small>vs ' + g.iso_mae.toFixed(1) + " PJM's own date</small>", 'mean absolute error of the P50 month; P90 covers ' + Math.round(g.p90*100) + '% of outcomes']);
   t.push(['Upgrades unseen before cutoff', META.new.auroc.toFixed(2) + ' <small>slip AUROC</small>', META.new.n.toLocaleString() + ' rows; cost +25 % AUROC ' + META.new.over_auroc.toFixed(2) + ' — most of the skill is upgrade-specific history']);
-  t.push(['Training', META.n_train.toLocaleString() + ' <small>rows</small>', META.train_upgrades.toLocaleString() + ' upgrades observed up to ' + META.cutoff + ', labels only if knowable by then']);
+  t.push(['Training (rolling)', META.n_train.toLocaleString() + '–' + (META.n_train_last || META.n_train).toLocaleString() + ' <small>rows</small>', 'refitted each test month on earlier observations, labels only if knowable by then']);
+  t.push(['Survival model', META.surv.auroc.toFixed(3) + ' <small>slip AUROC</small>', 'Brier ' + META.surv.brier.toFixed(3) + '; P50 covers ' + Math.round(META.surv.p50*100) + '%, P90 ' + Math.round(META.surv.p90*100) + '% of completion months']);
   $('#strip').innerHTML = t.map(x => `<div class="tile"><div class="eyebrow">${x[0]}</div><div class="n">${x[1]}</div><div class="d">${x[2]}</div></div>`).join('');
 }
 
@@ -199,7 +200,7 @@ function detail(r){
     <div class="timeline">${timeline(r)}</div>
     <div class="two">
       <div class="box"><h3>Risk drivers (slip, log-odds)</h3><div class="drivers">${drv}</div></div>
-      <div class="box"><h3>Similar resolved upgrades before ${r.obs}</h3>${ana}<div style="color:var(--mute);font-size:11px;margin-top:6px">outcomes as recorded today</div></div>
+      <div class="box"><h3>Similar upgrades whose outcome was known by ${r.obs}</h3>${ana}<div style="color:var(--mute);font-size:11px;margin-top:6px">dates and costs as recorded today</div></div>
     </div>
     <div class="reveal"><button class="primary" id="rv">Reveal what happened</button><div id="oc" hidden></div></div>
     <p class="note" style="margin-top:12px">Statistical estimate from public snapshots of PJM's own tables; not an engineering or schedule assessment.</p>`;

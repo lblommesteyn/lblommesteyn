@@ -89,8 +89,8 @@
  "unique_upgrades_resolved": 2568,
  "delay_label_available": 25162,
  "delay_rate": 0.19052539543756458,
- "overrun_label_available": 27619,
- "overrun_rate": 0.16593649299395344,
+ "overrun_label_available": 24005,
+ "overrun_rate": 0.17817121433034785,
  "censored_examples": 6574,
  "months_late_quantiles": {
   "0.1": -9.494866529774127,
@@ -100,11 +100,11 @@
   "0.9": 19.942505133470227
  },
  "pct_overrun_quantiles": {
-  "0.1": -0.15126903553299498,
+  "0.1": -0.13636363636363635,
   "0.25": 0.0,
   "0.5": 0.0,
   "0.75": 0.0,
-  "0.9": 0.9090909090909092
+  "0.9": 0.95
  },
  "definitions": {
   "delay_months": 12,

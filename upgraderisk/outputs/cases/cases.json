@@ -1,0 +1,1730 @@
+[
+ {
+  "upgrade_id": "b2986",
+  "as_of": "2018-01-25",
+  "inputs": {
+   "to": "PSEG",
+   "voltage_kv": 230.0,
+   "status": "Engineering & Procurement",
+   "equipment": "Transmission Structures",
+   "est_cost_musd": 546.0,
+   "expected_isd": "2022-06-01",
+   "age_months": 0.0,
+   "slip_so_far_months": 0.0,
+   "n_isd_revisions": 0,
+   "cost_growth_so_far": 0.0,
+   "scope": "Replace the existing Roseland \u2013 Branchburg \u2013 Pleasant Valley 230 kV corridor with new structures."
+  },
+  "prediction": {
+   "p_delay_12m": 0.00933402093498255,
+   "p_cost_overrun_25": 0.6669140383426098,
+   "p_cancelled": 0.001,
+   "months_late_p10_p50_p90": [
+    -25.419755696431235,
+    -22.620549625168035,
+    -5.972458252128026
+   ],
+   "pct_overrun_p10_p50_p90": [
+    -0.5166277641366598,
+    -0.0911525712127003,
+    0.18939952073179966
+   ],
+   "survival_p_delay": 0.8226420971930609,
+   "survival_median_months_to_done": 84.0,
+   "iso_expected_isd": "2022-06-01",
+   "iso_cost_musd": 546.0,
+   "model_cod_p10": "2020-04-18",
+   "model_cod_p50": "2020-07-12",
+   "model_cod_p90": "2021-12-01",
+   "model_cost_p10": 263.92124078138374,
+   "model_cost_p50": 496.23069611786565,
+   "model_cost_p90": 649.4121383195627
+  },
+  "drivers": [
+   {
+    "feature": "log_cost",
+    "value": 6.304448802421981,
+    "contribution_logodds": 1.1038052093541337
+   },
+   {
+    "feature": "pct_complete",
+    "value": 0.0,
+    "contribution_logodds": 0.7453760231099721
+   },
+   {
+    "feature": "driver_short",
+    "value": "TO Criteria Violation",
+    "contribution_logodds": -0.5018482401917624
+   },
+   {
+    "feature": "months_to_expected_isd",
+    "value": 52.172484599589325,
+    "contribution_logodds": -0.40525348089001684
+   },
+   {
+    "feature": "months_required_minus_expected",
+    "value": -48.0,
+    "contribution_logodds": 0.39891634944805837
+   }
+  ],
+  "analogs": [
+   {
+    "upgrade_id": "b1099",
+    "obs_date": "2015-10-26",
+    "to": "PSEG",
+    "voltage_kv": 230.0,
+    "equipment": "Substation",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 242.3,
+    "expected_isd": "2018-06-01",
+    "actual_isd": "2018-03-20",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Build a new 230 kV substation (McArthur) by tapping the Aldene\u2013Essex circuit, include another feed from West Orange, install three 230/26 kV transformers, and serve some of the Newark area load from t",
+    "distance": 1.4439382177675806
+   },
+   {
+    "upgrade_id": "b2146",
+    "obs_date": "2015-09-08",
+    "to": "PSEG",
+    "voltage_kv": 230.0,
+    "equipment": "Substation",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 162.5,
+    "expected_isd": "2018-06-01",
+    "actual_isd": "2018-05-23",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Re-configure the Brunswick 230 kV and 69 kV substations",
+    "distance": 1.5713910804806865
+   },
+   {
+    "upgrade_id": "b2436.33",
+    "obs_date": "2015-09-08",
+    "to": "PSEG",
+    "voltage_kv": 345.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 160.38,
+    "expected_isd": "2018-06-01",
+    "actual_isd": "2018-03-28",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Construct a new Bayway - Bayonne 345 kV circuit and any associated substation upgrades",
+    "distance": 1.5766115436474657
+   },
+   {
+    "upgrade_id": "b2436.34",
+    "obs_date": "2015-09-08",
+    "to": "PSEG",
+    "voltage_kv": 345.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 139.77,
+    "expected_isd": "2018-06-01",
+    "actual_isd": "2018-04-24",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Construct a new North Ave - Bayonne 345 kV circuit and any associated substation upgrades",
+    "distance": 1.6312653354796602
+   }
+  ],
+  "actual": {
+   "text": "cancelled / withdrawn",
+   "delay_12m": null,
+   "months_late": null,
+   "cost_overrun_25": null,
+   "pct_overrun": null,
+   "cancelled": 1
+  },
+  "delay_call_correct": null
+ },
+ {
+  "upgrade_id": "b2443",
+  "as_of": "2018-01-25",
+  "inputs": {
+   "to": "Dominion",
+   "voltage_kv": 230.0,
+   "status": "Engineering & Procurement",
+   "equipment": "Transmission Line",
+   "est_cost_musd": 320.0,
+   "expected_isd": "2023-05-31",
+   "age_months": 28.583162217659137,
+   "slip_so_far_months": 59.9917864476386,
+   "n_isd_revisions": 2,
+   "cost_growth_so_far": 1.0592020592020592,
+   "scope": "Construct new underground 230kV line from Gelebe to Station C."
+  },
+  "prediction": {
+   "p_delay_12m": 0.018373371085461054,
+   "p_cost_overrun_25": 0.9100976679800312,
+   "p_cancelled": 0.001,
+   "months_late_p10_p50_p90": [
+    -30.366499139134778,
+    -28.10351967871991,
+    -8.475197569035297
+   ],
+   "pct_overrun_p10_p50_p90": [
+    -0.5203765223621842,
+    -0.020163960926062204,
+    1.5877863408375588
+   ],
+   "survival_p_delay": 0.8922902584552763,
+   "survival_median_months_to_done": 84.0,
+   "iso_expected_isd": "2023-05-31",
+   "iso_cost_musd": 320.0,
+   "model_cod_p10": "2020-11-17",
+   "model_cod_p50": "2021-01-25",
+   "model_cod_p90": "2022-09-15",
+   "model_cost_p10": 153.47951284410104,
+   "model_cost_p50": 313.5475325036601,
+   "model_cost_p90": 828.0916290680187
+  },
+  "drivers": [
+   {
+    "feature": "pct_complete",
+    "value": 3.0,
+    "contribution_logodds": 1.028943111256344
+   },
+   {
+    "feature": "log_cost",
+    "value": 5.771441123130016,
+    "contribution_logodds": 0.7711169534063563
+   },
+   {
+    "feature": "equipment",
+    "value": "Transmission Line",
+    "contribution_logodds": 0.41740985291258054
+   },
+   {
+    "feature": "cost_growth_so_far",
+    "value": 1.0592020592020592,
+    "contribution_logodds": 0.33364849785805023
+   },
+   {
+    "feature": "slip_so_far_months",
+    "value": 59.9917864476386,
+    "contribution_logodds": 0.3013092697955951
+   }
+  ],
+  "analogs": [
+   {
+    "upgrade_id": "b2871",
+    "obs_date": "2017-08-06",
+    "to": "Dominion",
+    "voltage_kv": 230.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 31.0,
+    "expected_isd": "2022-12-30",
+    "actual_isd": "2021-08-10",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Rebuild 230kV line #247 from Swamp to Suffolk (31 miles) to current standards with a summer emergency rating of 1047 MVA at 230kV.",
+    "distance": 0.93542377191035
+   },
+   {
+    "upgrade_id": "b2759",
+    "obs_date": "2016-12-22",
+    "to": "Dominion",
+    "voltage_kv": 500.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 225.0,
+    "expected_isd": "2021-06-01",
+    "actual_isd": "2023-12-01",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Rebuild Line #550 Mt. Storm \u2013 Valley 500kV",
+    "distance": 1.0572002318839542
+   },
+   {
+    "upgrade_id": "s1267",
+    "obs_date": "2017-08-06",
+    "to": "BGE",
+    "voltage_kv": 230.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 203.0,
+    "expected_isd": "2022-12-31",
+    "actual_isd": "2022-05-14",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Replace underground submarine cables portion of the Brandon Shores - Riverside 230 kV circuits #2344 and #2345 with overhead conductors on towers",
+    "distance": 1.1951272196814655
+   },
+   {
+    "upgrade_id": "b2626",
+    "obs_date": "2017-11-08",
+    "to": "Dominion",
+    "voltage_kv": 230.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 24.0,
+    "expected_isd": "2023-12-31",
+    "actual_isd": "2022-12-01",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Rebuild the 115kV Line #34  between Skiffes Creek and Yorktown and the double circuit portion of 115kV Line # 61 to current standards with a summer emergency rating of 353 MVA at 115 kV",
+    "distance": 1.2128947024669436
+   }
+  ],
+  "actual": {
+   "text": "cancelled / withdrawn",
+   "delay_12m": null,
+   "months_late": null,
+   "cost_overrun_25": null,
+   "pct_overrun": null,
+   "cancelled": 1
+  },
+  "delay_call_correct": null
+ },
+ {
+  "upgrade_id": "b2837",
+  "as_of": "2018-01-25",
+  "inputs": {
+   "to": "PSEG",
+   "voltage_kv": 138.0,
+   "status": "Engineering & Procurement",
+   "equipment": "Transmission Line",
+   "est_cost_musd": 312.0,
+   "expected_isd": "2022-06-01",
+   "age_months": 10.546201232032855,
+   "slip_so_far_months": null,
+   "n_isd_revisions": 0,
+   "cost_growth_so_far": 0.0,
+   "scope": "Convert the F-1358/Z1326 and K1363/Y-1325 (Trenton - Burlington) 138 kV circuits to 230 kV circuits"
+  },
+  "prediction": {
+   "p_delay_12m": 0.0029224451965579414,
+   "p_cost_overrun_25": 0.8942594963721725,
+   "p_cancelled": 0.001,
+   "months_late_p10_p50_p90": [
+    -24.426678654126405,
+    -23.581875396549776,
+    -6.184686732340069
+   ],
+   "pct_overrun_p10_p50_p90": [
+    -0.5416918413305297,
+    0.13035416793414142,
+    0.20545940626741285
+   ],
+   "survival_p_delay": 0.9531285607218629,
+   "survival_median_months_to_done": 84.0,
+   "iso_expected_isd": "2022-06-01",
+   "iso_cost_musd": 312.0,
+   "model_cod_p10": "2020-05-18",
+   "model_cod_p50": "2020-06-13",
+   "model_cod_p90": "2021-11-24",
+   "model_cost_p10": 142.9921455048747,
+   "model_cost_p50": 352.6705003954521,
+   "model_cost_p90": 376.1033347554328
+  },
+  "drivers": [
+   {
+    "feature": "log_cost",
+    "value": 5.746203190540153,
+    "contribution_logodds": 0.9778235662259145
+   },
+   {
+    "feature": "pct_complete",
+    "value": 5.0,
+    "contribution_logodds": 0.6846610814893125
+   },
+   {
+    "feature": "driver_short",
+    "value": "TO Criteria Violation",
+    "contribution_logodds": -0.5436328111636156
+   },
+   {
+    "feature": "months_to_expected_isd",
+    "value": 52.172484599589325,
+    "contribution_logodds": -0.30937230543977745
+   },
+   {
+    "feature": "equipment",
+    "value": "Transmission Line",
+    "contribution_logodds": 0.27796017820774355
+   }
+  ],
+  "analogs": [
+   {
+    "upgrade_id": "b2836",
+    "obs_date": "2017-08-06",
+    "to": "PSEG",
+    "voltage_kv": 138.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 302.0,
+    "expected_isd": "2021-12-31",
+    "actual_isd": "2020-04-27",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Convert the N-1340 and T-1372/D-1330 (Brunswick \u2013 Trenton) 138 kV circuits to 230 kV circuits",
+    "distance": 0.026129837790547727
+   },
+   {
+    "upgrade_id": "b2870",
+    "obs_date": "2017-03-24",
+    "to": "PSEG",
+    "voltage_kv": 138.0,
+    "equipment": "Substation",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 275.0,
+    "expected_isd": "2021-06-01",
+    "actual_isd": "2021-05-17",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Build new 138/26 kV Newark GIS station in a building (layout #1A) located adjacent to the existing Newark Switch and demolish the existing Newark Switch",
+    "distance": 0.7884318128860802
+   },
+   {
+    "upgrade_id": "b2835",
+    "obs_date": "2017-04-22",
+    "to": "PSEG",
+    "voltage_kv": 138.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 125.0,
+    "expected_isd": "2019-06-01",
+    "actual_isd": "2019-06-05",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Convert the R-1318 and Q1317 (Edison \u2013 Metuchen) 138 kV circuits to one 230 kV circuit",
+    "distance": 0.9014633799652442
+   },
+   {
+    "upgrade_id": "b2436.33",
+    "obs_date": "2015-09-08",
+    "to": "PSEG",
+    "voltage_kv": 345.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 160.38,
+    "expected_isd": "2018-06-01",
+    "actual_isd": "2018-03-28",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Construct a new Bayway - Bayonne 345 kV circuit and any associated substation upgrades",
+    "distance": 1.3533132988947345
+   }
+  ],
+  "actual": {
+   "text": "in service 2021-05-07 (-13 months vs the date published then)",
+   "delay_12m": 0,
+   "months_late": -12.813141683778234,
+   "cost_overrun_25": null,
+   "pct_overrun": null,
+   "cancelled": 0
+  },
+  "delay_call_correct": true
+ },
+ {
+  "upgrade_id": "b2838",
+  "as_of": "2018-01-25",
+  "inputs": {
+   "to": "PPL",
+   "voltage_kv": 230.0,
+   "status": "Engineering & Procurement",
+   "equipment": "Substation",
+   "est_cost_musd": 57.0,
+   "expected_isd": "2020-08-01",
+   "age_months": 9.13347022587269,
+   "slip_so_far_months": -13.010266940451745,
+   "n_isd_revisions": 0,
+   "cost_growth_so_far": 0.0,
+   "scope": "Build a new 230/69 kV substation by tapping the Montour - Susquehanna 230 kV double circuits and Berwick - Hunlock & Berwick - Colombia 69 kV circuits"
+  },
+  "prediction": {
+   "p_delay_12m": 0.0019987847742431726,
+   "p_cost_overrun_25": 0.5907148407148407,
+   "p_cancelled": 0.001,
+   "months_late_p10_p50_p90": [
+    -24.280121388067744,
+    -20.418759036492855,
+    -6.463355535494841
+   ],
+   "pct_overrun_p10_p50_p90": [
+    -0.16958499759652354,
+    -0.11816184847153412,
+    0.07809757866977106
+   ],
+   "survival_p_delay": 0.6614749199192375,
+   "survival_median_months_to_done": 62.42136443585214,
+   "iso_expected_isd": "2020-08-01",
+   "iso_cost_musd": 57.0,
+   "model_cod_p10": "2018-07-23",
+   "model_cod_p50": "2018-11-18",
+   "model_cod_p90": "2020-01-17",
+   "model_cost_p10": 47.33365513699815,
+   "model_cost_p50": 50.26477463712256,
+   "model_cost_p90": 61.45156198417695
+  },
+  "drivers": [
+   {
+    "feature": "log_cost",
+    "value": 4.060443010546419,
+    "contribution_logodds": 0.9278047176396993
+   },
+   {
+    "feature": "pct_complete",
+    "value": 30.0,
+    "contribution_logodds": -0.6469582241574722
+   },
+   {
+    "feature": "driver_short",
+    "value": "TO Criteria Violation",
+    "contribution_logodds": -0.449593370110735
+   },
+   {
+    "feature": "months_since_initial_teac",
+    "value": 12.02464065708419,
+    "contribution_logodds": 0.3232322999287735
+   },
+   {
+    "feature": "months_to_expected_isd",
+    "value": 30.193018480492814,
+    "contribution_logodds": -0.27913286623055195
+   }
+  ],
+  "analogs": [
+   {
+    "upgrade_id": "s0958.1",
+    "obs_date": "2017-08-06",
+    "to": "PPL",
+    "voltage_kv": 230.0,
+    "equipment": "Substation",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 51.7,
+    "expected_isd": "2020-02-01",
+    "actual_isd": "2019-05-31",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Rebuild the Siegfried 230/69 kV Substation",
+    "distance": 0.04490186388875807
+   },
+   {
+    "upgrade_id": "s0860",
+    "obs_date": "2017-05-21",
+    "to": "PPL",
+    "voltage_kv": 230.0,
+    "equipment": "Substation",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 33.4,
+    "expected_isd": "2019-05-31",
+    "actual_isd": "2019-05-29",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Build new 230-69 kV Substation near Mountain Top by tapping the Jenkins \u2013 Harwood 230 kV circuit and terminate Harwood-Jenkins 69 kV lines at the new station",
+    "distance": 0.32657264828202165
+   },
+   {
+    "upgrade_id": "s0944.1",
+    "obs_date": "2017-11-08",
+    "to": "PPL",
+    "voltage_kv": 230.0,
+    "equipment": "Substation",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 30.0,
+    "expected_isd": "2020-12-31",
+    "actual_isd": "2020-06-26",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Rebuild the West Shore 230/69 kV Substation",
+    "distance": 0.40171168587420103
+   },
+   {
+    "upgrade_id": "s0859",
+    "obs_date": "2017-08-06",
+    "to": "PPL",
+    "voltage_kv": 230.0,
+    "equipment": "Substation",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 38.5,
+    "expected_isd": "2018-12-31",
+    "actual_isd": "2018-10-23",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Build new 230-69 kV Substation between Cumberland and West Shore Substations and terminate Cumberland-West Shore 69 kV lines at the new station",
+    "distance": 0.42109020034280087
+   }
+  ],
+  "actual": {
+   "text": "in service 2022-05-20 (+22 months vs the date published then), final cost $57.00M (+0%)",
+   "delay_12m": 1,
+   "months_late": 21.585215605749486,
+   "cost_overrun_25": 0,
+   "pct_overrun": 0.0,
+   "cancelled": 0
+  },
+  "delay_call_correct": false
+ },
+ {
+  "upgrade_id": "b1570.2",
+  "as_of": "2018-01-25",
+  "inputs": {
+   "to": "Dayton",
+   "voltage_kv": 69.0,
+   "status": "Engineering & Procurement",
+   "equipment": "Transmission Line",
+   "est_cost_musd": 0.0,
+   "expected_isd": "2021-06-01",
+   "age_months": 51.71252566735113,
+   "slip_so_far_months": 84.0082135523614,
+   "n_isd_revisions": 1,
+   "cost_growth_so_far": null,
+   "scope": "Add Marysville - Union REA 69 kV line"
+  },
+  "prediction": {
+   "p_delay_12m": 0.009239371200705818,
+   "p_cost_overrun_25": 0.999,
+   "p_cancelled": 0.001,
+   "months_late_p10_p50_p90": [
+    -28.652562437796632,
+    -27.0963364068958,
+    -7.565107487510011
+   ],
+   "pct_overrun_p10_p50_p90": [
+    -0.10029566880659414,
+    0.10122273572832785,
+    2.3856560649681855
+   ],
+   "survival_p_delay": 0.9789138021014177,
+   "survival_median_months_to_done": 84.0,
+   "iso_expected_isd": "2021-06-01",
+   "iso_cost_musd": 0.0,
+   "model_cod_p10": "2019-01-10",
+   "model_cod_p50": "2019-02-27",
+   "model_cod_p90": "2020-10-13",
+   "model_cost_p10": 0.0,
+   "model_cost_p50": 0.0,
+   "model_cost_p90": 0.0
+  },
+  "drivers": [
+   {
+    "feature": "pct_complete",
+    "value": 2.0,
+    "contribution_logodds": 0.8381500462443384
+   },
+   {
+    "feature": "equipment",
+    "value": "Transmission Line",
+    "contribution_logodds": 0.6544805773503092
+   },
+   {
+    "feature": "slip_so_far_months",
+    "value": 84.0082135523614,
+    "contribution_logodds": 0.3438739396953836
+   },
+   {
+    "feature": "months_since_initial_teac",
+    "value": 80.49281314168378,
+    "contribution_logodds": 0.3371210053230424
+   },
+   {
+    "feature": "driver_short",
+    "value": "Baseline Load Growth Deliverability & Re",
+    "contribution_logodds": 0.3298409830961621
+   }
+  ],
+  "analogs": [
+   {
+    "upgrade_id": "s0325",
+    "obs_date": "2017-11-08",
+    "to": "Dayton",
+    "voltage_kv": 69.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 1.0,
+    "expected_isd": "2021-06-01",
+    "actual_isd": "2023-04-17",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Build Clinton - Wilmington 69 kV #2 circuit",
+    "distance": 0.32851143895909096
+   },
+   {
+    "upgrade_id": "b1269",
+    "obs_date": "2017-11-08",
+    "to": "Dayton",
+    "voltage_kv": 69.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 4.8,
+    "expected_isd": "2021-06-01",
+    "actual_isd": "2020-05-15",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Reconductor West Milton - Salem 69kV and West Milton - Englewood",
+    "distance": 0.7543957337560624
+   },
+   {
+    "upgrade_id": "s0329",
+    "obs_date": "2017-11-08",
+    "to": "Dayton",
+    "voltage_kv": 69.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 8.5,
+    "expected_isd": "2021-06-01",
+    "actual_isd": "2022-02-01",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Install Garage Road - New Lebanon 69 kV circuit",
+    "distance": 0.9517692861777111
+   },
+   {
+    "upgrade_id": "s0323",
+    "obs_date": "2017-11-08",
+    "to": "Dayton",
+    "voltage_kv": 69.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 8.6,
+    "expected_isd": "2021-06-01",
+    "actual_isd": "2024-05-30",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Install South Charleston - Jefferson 69 kV circuit",
+    "distance": 0.9559578061246292
+   }
+  ],
+  "actual": {
+   "text": "in service 2026-09-17 (+64 months vs the date published then)",
+   "delay_12m": 1,
+   "months_late": 63.540041067761805,
+   "cost_overrun_25": null,
+   "pct_overrun": null,
+   "cancelled": 0
+  },
+  "delay_call_correct": false
+ },
+ {
+  "upgrade_id": "b2970.5",
+  "as_of": "2019-08-19",
+  "inputs": {
+   "to": "APS",
+   "voltage_kv": 230.0,
+   "status": "Engineering & Procurement",
+   "equipment": "Substation",
+   "est_cost_musd": 2.2,
+   "expected_isd": "2020-11-01",
+   "age_months": 0.0,
+   "slip_so_far_months": 0.0,
+   "n_isd_revisions": 0,
+   "cost_growth_so_far": 0.0,
+   "scope": "Convert Garfield 138/12.5 kV substation to 230/12.5 kV"
+  },
+  "prediction": {
+   "p_delay_12m": 0.001244441203198242,
+   "p_cost_overrun_25": 0.4318488529014844,
+   "p_cancelled": 0.001,
+   "months_late_p10_p50_p90": [
+    -15.731874443032211,
+    -11.937466203797456,
+    -0.2621228875038926
+   ],
+   "pct_overrun_p10_p50_p90": [
+    -0.0072853333633297835,
+    0.02406400396800946,
+    0.04599694104266864
+   ],
+   "survival_p_delay": 0.7507555376779459,
+   "survival_median_months_to_done": 47.37995665657746,
+   "iso_expected_isd": "2020-11-01",
+   "iso_cost_musd": 2.2,
+   "model_cod_p10": "2019-07-11",
+   "model_cod_p50": "2019-11-03",
+   "model_cod_p90": "2020-10-24",
+   "model_cost_p10": 2.1839722666006747,
+   "model_cost_p50": 2.252940808729621,
+   "model_cost_p90": 2.3011932702938713
+  },
+  "drivers": [
+   {
+    "feature": "pct_complete",
+    "value": 0.0,
+    "contribution_logodds": 0.5930360852995799
+   },
+   {
+    "feature": "months_to_expected_isd",
+    "value": 14.455852156057494,
+    "contribution_logodds": -0.4467389734332526
+   },
+   {
+    "feature": "task",
+    "value": "Convert",
+    "contribution_logodds": -0.4024261582881315
+   },
+   {
+    "feature": "months_required_minus_expected",
+    "value": -5.026694045174538,
+    "contribution_logodds": -0.30828530605418053
+   },
+   {
+    "feature": "rate_to_cost_overrun_25",
+    "value": 0.001731539124582796,
+    "contribution_logodds": 0.29746566910822425
+   }
+  ],
+  "analogs": [
+   {
+    "upgrade_id": "b2261",
+    "obs_date": "2016-03-25",
+    "to": "APS",
+    "voltage_kv": 230.0,
+    "equipment": "Capacitor",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 1.05,
+    "expected_isd": "2017-06-01",
+    "actual_isd": "2017-05-25",
+    "months_late": -0.2299794661190965,
+    "pct_overrun": 0.0,
+    "resolved_cancel": 0,
+    "scope": "Install a 33 MVAR capacitor at Damascus",
+    "distance": 0.8827239959845274
+   },
+   {
+    "upgrade_id": "b2363",
+    "obs_date": "2017-03-10",
+    "to": "APS",
+    "voltage_kv": 230.0,
+    "equipment": "Ring Bus",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 5.5,
+    "expected_isd": "2018-06-01",
+    "actual_isd": null,
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 1,
+    "scope": "Convert the Shingletown 230kV bus into a 6 breaker ring bus",
+    "distance": 0.9887172203496578
+   },
+   {
+    "upgrade_id": "b2633.10",
+    "obs_date": "2017-11-08",
+    "to": "DPL",
+    "voltage_kv": 230.0,
+    "equipment": "Substation",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 2.0,
+    "expected_isd": "2019-06-01",
+    "actual_isd": "2020-05-21",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Interconnect the new Silver Run 230 kV substation with existing Red Lion - Cartanza and Red Lion - Cedar Creek 230 kV lines",
+    "distance": 1.1112363530135498
+   },
+   {
+    "upgrade_id": "s1162",
+    "obs_date": "2017-05-21",
+    "to": "APS",
+    "voltage_kv": 138.0,
+    "equipment": "Substation",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 0.8,
+    "expected_isd": "2017-11-01",
+    "actual_isd": "2019-12-11",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Tap the Catoctin-Ringgold 138 kV line and construct a 138-12 kV substation (Wolfsville)",
+    "distance": 1.1115008941010551
+   }
+  ],
+  "actual": {
+   "text": "not yet in service as of the last observation (2026-09-17)",
+   "delay_12m": 1,
+   "months_late": null,
+   "cost_overrun_25": null,
+   "pct_overrun": null,
+   "cancelled": 0
+  },
+  "delay_call_correct": false
+ },
+ {
+  "upgrade_id": "b2686.12",
+  "as_of": "2018-01-25",
+  "inputs": {
+   "to": "Dominion",
+   "voltage_kv": 115.0,
+   "status": "Engineering & Procurement",
+   "equipment": "Transmission Line",
+   "est_cost_musd": 0.0,
+   "expected_isd": "2020-06-01",
+   "age_months": 27.006160164271048,
+   "slip_so_far_months": null,
+   "n_isd_revisions": 0,
+   "cost_growth_so_far": null,
+   "scope": "Upgrading sections of the Somerset - Doubleday 115 kV circuit"
+  },
+  "prediction": {
+   "p_delay_12m": 0.0006507947993903792,
+   "p_cost_overrun_25": 0.8914817185943947,
+   "p_cancelled": 0.001,
+   "months_late_p10_p50_p90": [
+    -25.666455502046052,
+    -25.229598938596727,
+    -5.521598078549609
+   ],
+   "pct_overrun_p10_p50_p90": [
+    -0.15789152734302173,
+    0.19964135159776242,
+    0.5455123572621804
+   ],
+   "survival_p_delay": 0.6954701572422355,
+   "survival_median_months_to_done": 69.76141866154016,
+   "iso_expected_isd": "2020-06-01",
+   "iso_cost_musd": 0.0,
+   "model_cod_p10": "2018-04-11",
+   "model_cod_p50": "2018-04-25",
+   "model_cod_p90": "2019-12-15",
+   "model_cost_p10": 0.0,
+   "model_cost_p50": 0.0,
+   "model_cost_p90": 0.0
+  },
+  "drivers": [
+   {
+    "feature": "pct_complete",
+    "value": 0.0,
+    "contribution_logodds": 0.6576962941017851
+   },
+   {
+    "feature": "driver_short",
+    "value": "TO Criteria Violation",
+    "contribution_logodds": -0.5472008517244894
+   },
+   {
+    "feature": "equipment",
+    "value": "Transmission Line",
+    "contribution_logodds": 0.41298456246969445
+   },
+   {
+    "feature": "task",
+    "value": "Upgrade",
+    "contribution_logodds": -0.3223359551689018
+   },
+   {
+    "feature": "months_required_minus_expected",
+    "value": -12.02464065708419,
+    "contribution_logodds": -0.29257375956783066
+   }
+  ],
+  "analogs": [
+   {
+    "upgrade_id": "b2458.7",
+    "obs_date": "2016-08-23",
+    "to": "Dominion",
+    "voltage_kv": 115.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 0.0,
+    "expected_isd": "2018-12-31",
+    "actual_isd": "2018-04-04",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Reconductor 22.4 miles of Carolina\u2013Jackson 115kV for minimum 174 MVA summer STE rating using existing structures",
+    "distance": 0.0013141683778233927
+   },
+   {
+    "upgrade_id": "b2719.2",
+    "obs_date": "2016-06-17",
+    "to": "Dominion",
+    "voltage_kv": 115.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 0.0,
+    "expected_isd": "2018-09-25",
+    "actual_isd": "2017-11-15",
+    "months_late": -10.316221765913758,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Extend the Hickory Grove DP tap 0.28 miles to Perth and terminate it at Perth.",
+    "distance": 0.018398357289527708
+   },
+   {
+    "upgrade_id": "b2719.3",
+    "obs_date": "2016-06-17",
+    "to": "Dominion",
+    "voltage_kv": 115.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 0.0,
+    "expected_isd": "2018-07-24",
+    "actual_isd": "2017-11-15",
+    "months_late": -8.24640657084189,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Split Line #31 at Perth and terminate it into the new ring bus with 2 breakers separating each of the line terminals to prevent a breaker failure from taking out both 115 kV lines.",
+    "distance": 0.059794661190965076
+   },
+   {
+    "upgrade_id": "b2746.2",
+    "obs_date": "2016-09-23",
+    "to": "Dominion",
+    "voltage_kv": 115.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 0.0,
+    "expected_isd": "2018-05-01",
+    "actual_isd": "2018-07-21",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Rebuild Line #1009 Ridge Rd - Chase City 115 kV, 9.5 miles, for 346 MVA summer emergency rating",
+    "distance": 0.17938398357289528
+   }
+  ],
+  "actual": {
+   "text": "in service 2020-05-28 (-0 months vs the date published then), final cost $5.30M",
+   "delay_12m": 0,
+   "months_late": -0.13141683778234087,
+   "cost_overrun_25": null,
+   "pct_overrun": null,
+   "cancelled": 0
+  },
+  "delay_call_correct": true
+ },
+ {
+  "upgrade_id": "b3209",
+  "as_of": "2019-08-19",
+  "inputs": {
+   "to": "AEP",
+   "voltage_kv": 69.0,
+   "status": "Engineering & Procurement",
+   "equipment": "Transmission Line",
+   "est_cost_musd": 16.6,
+   "expected_isd": "2022-06-01",
+   "age_months": 0.0,
+   "slip_so_far_months": 0.0,
+   "n_isd_revisions": 0,
+   "cost_growth_so_far": 0.0,
+   "scope": "Rebuild the 10.5 mile Berne \u2013 South Decatur 69 kV line using 556 ACSR\nin order to alleviate the overload and address a deteriorating asset."
+  },
+  "prediction": {
+   "p_delay_12m": 0.0030307914548849887,
+   "p_cost_overrun_25": 0.2705064421482332,
+   "p_cancelled": 0.001,
+   "months_late_p10_p50_p90": [
+    -24.834260523392942,
+    -21.71792924743532,
+    -5.636042221018755
+   ],
+   "pct_overrun_p10_p50_p90": [
+    -0.5104034461796844,
+    0.0039016113373957126,
+    0.5125719126080798
+   ],
+   "survival_p_delay": 0.5925570894761826,
+   "survival_median_months_to_done": 56.58016029007996,
+   "iso_expected_isd": "2022-06-01",
+   "iso_cost_musd": 16.6,
+   "model_cod_p10": "2020-05-06",
+   "model_cod_p50": "2020-08-08",
+   "model_cod_p90": "2021-12-11",
+   "model_cost_p10": 8.12730279341724,
+   "model_cost_p50": 16.664766748200773,
+   "model_cost_p90": 25.108693749294126
+  },
+  "drivers": [
+   {
+    "feature": "state",
+    "value": "IN",
+    "contribution_logodds": 0.6731469626328245
+   },
+   {
+    "feature": "pct_complete",
+    "value": 0.0,
+    "contribution_logodds": 0.6547946610653329
+   },
+   {
+    "feature": "driver_short",
+    "value": "TO Criteria Violation",
+    "contribution_logodds": -0.5596221626396009
+   },
+   {
+    "feature": "log_cost",
+    "value": 2.8678989020441064,
+    "contribution_logodds": 0.47085737533590616
+   },
+   {
+    "feature": "equipment",
+    "value": "Transmission Line",
+    "contribution_logodds": 0.4640542565473506
+   }
+  ],
+  "analogs": [
+   {
+    "upgrade_id": "b2715",
+    "obs_date": "2017-08-06",
+    "to": "AEP",
+    "voltage_kv": 34.5,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 14.36,
+    "expected_isd": "2020-06-01",
+    "actual_isd": "2019-05-29",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Install a 69 kV ring bus at Flushing instead of a 69/34.5 kV transformer, Convert Smyrna to 69 kV and install two 69 kV breakers, Convert Vail to 69 kV and serve AEP Distribution via a 69/34.5 kV transformer, Build the Flushing \u2013 Smyrna line to 69 kV inst",
+    "distance": 0.06299496418568432
+   },
+   {
+    "upgrade_id": "b2606",
+    "obs_date": "2016-12-22",
+    "to": "AEP",
+    "voltage_kv": 69.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 9.3,
+    "expected_isd": "2019-06-01",
+    "actual_isd": "2019-07-18",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Convert Bane - Hammondsville from 23kV to 69kV operation",
+    "distance": 0.2970946105262813
+   },
+   {
+    "upgrade_id": "b2591",
+    "obs_date": "2016-12-22",
+    "to": "AEP",
+    "voltage_kv": 69.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 7.92,
+    "expected_isd": "2019-06-01",
+    "actual_isd": null,
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 1,
+    "scope": "Construct a new 69 kV line approximately 2.5 miles from Colfax to Drewry's. Construct a new Drewry's station and install a new circuit breaker at Colfax station.",
+    "distance": 0.35463378998375017
+   },
+   {
+    "upgrade_id": "s1290",
+    "obs_date": "2017-11-08",
+    "to": "AEP",
+    "voltage_kv": 69.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 9.4,
+    "expected_isd": "2021-06-01",
+    "actual_isd": "2021-10-08",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Rebuild Carbondale-Dunn Hollow 46kV line and retire Smither Swith",
+    "distance": 0.39704914800963576
+   }
+  ],
+  "actual": {
+   "text": "in service 2023-01-20 (+8 months vs the date published then), final cost $16.60M (+0%)",
+   "delay_12m": 0,
+   "months_late": 7.655030800821355,
+   "cost_overrun_25": 0,
+   "pct_overrun": 0.0,
+   "cancelled": 0
+  },
+  "delay_call_correct": true
+ },
+ {
+  "upgrade_id": "b2404",
+  "as_of": "2018-01-25",
+  "inputs": {
+   "to": "Dominion",
+   "voltage_kv": 230.0,
+   "status": "Engineering & Procurement",
+   "equipment": "Circuit Breaker",
+   "est_cost_musd": 0.27,
+   "expected_isd": "2018-07-20",
+   "age_months": 28.583162217659137,
+   "slip_so_far_months": 1.6098562628336757,
+   "n_isd_revisions": 1,
+   "cost_growth_so_far": 0.0,
+   "scope": "Replace the Beaumeade 230 kV breaker '227T2095' with 63kA rated breaker"
+  },
+  "prediction": {
+   "p_delay_12m": 0.000250840626529621,
+   "p_cost_overrun_25": 0.14994696302796004,
+   "p_cancelled": 0.001,
+   "months_late_p10_p50_p90": [
+    -11.063221826170818,
+    -8.348687181677024,
+    -1.0592281434338071
+   ],
+   "pct_overrun_p10_p50_p90": [
+    -0.021457336202495753,
+    0.05028863835699945,
+    0.13443388542730472
+   ],
+   "survival_p_delay": 0.27372204894297175,
+   "survival_median_months_to_done": 8.69998752951093,
+   "iso_expected_isd": "2018-07-20",
+   "iso_cost_musd": 0.27,
+   "model_cod_p10": "2017-08-17",
+   "model_cod_p50": "2017-11-07",
+   "model_cod_p90": "2018-06-17",
+   "model_cost_p10": 0.2642065192253262,
+   "model_cost_p50": 0.28357793235638984,
+   "model_cost_p90": 0.3062971490653723
+  },
+  "drivers": [
+   {
+    "feature": "pct_complete",
+    "value": 30.0,
+    "contribution_logodds": -0.67293784600365
+   },
+   {
+    "feature": "equipment",
+    "value": "Circuit Breaker",
+    "contribution_logodds": -0.35139410926913284
+   },
+   {
+    "feature": "months_to_expected_isd",
+    "value": 5.782340862422998,
+    "contribution_logodds": -0.28723936784933707
+   },
+   {
+    "feature": "log_cost",
+    "value": 0.23901690047049992,
+    "contribution_logodds": -0.2788627157295161
+   },
+   {
+    "feature": "n_status_cost_overrun_25",
+    "value": 5267.0,
+    "contribution_logodds": -0.21637070468921782
+   }
+  ],
+  "analogs": [
+   {
+    "upgrade_id": "b2405",
+    "obs_date": "2017-09-29",
+    "to": "Dominion",
+    "voltage_kv": 230.0,
+    "equipment": "Circuit Breaker",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 0.27,
+    "expected_isd": "2018-04-01",
+    "actual_isd": "2018-03-23",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Replace the Pleasant View 230 kV breaker '203T274' with 63kA rated breaker",
+    "distance": 0.005256673511293624
+   },
+   {
+    "upgrade_id": "b1698.7",
+    "obs_date": "2015-10-26",
+    "to": "Dominion",
+    "voltage_kv": 230.0,
+    "equipment": "Circuit Breaker",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 0.31,
+    "expected_isd": "2016-04-29",
+    "actual_isd": "2015-09-10",
+    "months_late": -7.62217659137577,
+    "pct_overrun": 0.0,
+    "resolved_cancel": 0,
+    "scope": "Replace Loudoun 230 kV breaker '203052' with 63kA rating",
+    "distance": 0.018974936586141126
+   },
+   {
+    "upgrade_id": "b1698.5",
+    "obs_date": "2015-11-27",
+    "to": "Dominion",
+    "voltage_kv": 230.0,
+    "equipment": "Circuit Breaker",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 0.22,
+    "expected_isd": "2016-06-01",
+    "actual_isd": "2015-11-07",
+    "months_late": -6.80082135523614,
+    "pct_overrun": 0.0,
+    "resolved_cancel": 0,
+    "scope": "Replace Brambleton 230 kV breaker '20102' with 63 kA breaker",
+    "distance": 0.02329434276816262
+   },
+   {
+    "upgrade_id": "b1698.2",
+    "obs_date": "2015-10-26",
+    "to": "Dominion",
+    "voltage_kv": 230.0,
+    "equipment": "Circuit Breaker",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 0.22,
+    "expected_isd": "2016-05-01",
+    "actual_isd": "2015-09-24",
+    "months_late": -7.227926078028747,
+    "pct_overrun": 0.0,
+    "resolved_cancel": 0,
+    "scope": "Replace Brambleton 230 kV breaker '2045T2095' with 63 kA breaker",
+    "distance": 0.023951426957074334
+   }
+  ],
+  "actual": {
+   "text": "in service 2018-07-03 (-1 months vs the date published then), final cost $0.27M (+0%)",
+   "delay_12m": 0,
+   "months_late": -0.5585215605749486,
+   "cost_overrun_25": 0,
+   "pct_overrun": 0.0,
+   "cancelled": 0
+  },
+  "delay_call_correct": true
+ },
+ {
+  "upgrade_id": "b2676",
+  "as_of": "2018-01-25",
+  "inputs": {
+   "to": "JCPL",
+   "voltage_kv": 230.0,
+   "status": "Engineering & Procurement",
+   "equipment": "Capacitor",
+   "est_cost_musd": 3.5,
+   "expected_isd": "2020-06-01",
+   "age_months": 27.006160164271048,
+   "slip_so_far_months": null,
+   "n_isd_revisions": 0,
+   "cost_growth_so_far": 1.3333333333333335,
+   "scope": "Install one (1) 72 MVAR fast switched capacitor at the Englishtown 230 kV substation"
+  },
+  "prediction": {
+   "p_delay_12m": 0.0018251970454877381,
+   "p_cost_overrun_25": 0.9615290411155494,
+   "p_cancelled": 0.6413843104275051,
+   "months_late_p10_p50_p90": [
+    -23.512924921674323,
+    -22.047193413750616,
+    -4.325060161780873
+   ],
+   "pct_overrun_p10_p50_p90": [
+    -0.11035650560193362,
+    -0.030599984932223878,
+    0.05586521077982357
+   ],
+   "survival_p_delay": 0.969981651191913,
+   "survival_median_months_to_done": 84.0,
+   "iso_expected_isd": "2020-06-01",
+   "iso_cost_musd": 3.5,
+   "model_cod_p10": "2018-06-16",
+   "model_cod_p50": "2018-07-30",
+   "model_cod_p90": "2020-01-21",
+   "model_cost_p10": 3.1137522303932323,
+   "model_cost_p50": 3.3929000527372164,
+   "model_cost_p90": 3.6955282377293828
+  },
+  "drivers": [
+   {
+    "feature": "pct_complete",
+    "value": 1.0,
+    "contribution_logodds": 0.734722967863909
+   },
+   {
+    "feature": "equipment",
+    "value": "Capacitor",
+    "contribution_logodds": -0.48586925248149604
+   },
+   {
+    "feature": "cost_growth_so_far",
+    "value": 1.3333333333333335,
+    "contribution_logodds": 0.38525690839477766
+   },
+   {
+    "feature": "months_to_expected_isd",
+    "value": 28.188911704312115,
+    "contribution_logodds": -0.3737661715860079
+   },
+   {
+    "feature": "n_status_cost_overrun_25",
+    "value": 5267.0,
+    "contribution_logodds": -0.29391084496025605
+   }
+  ],
+  "analogs": [
+   {
+    "upgrade_id": "b2708",
+    "obs_date": "2017-11-08",
+    "to": "JCPL",
+    "voltage_kv": 230.0,
+    "equipment": "Transformer",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 4.07,
+    "expected_isd": "2021-06-01",
+    "actual_isd": "2026-09-17",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Replace the Oceanview 230/34.5 kV transformer #1",
+    "distance": 1.0387936640186122
+   },
+   {
+    "upgrade_id": "b2709",
+    "obs_date": "2017-11-08",
+    "to": "JCPL",
+    "voltage_kv": 230.0,
+    "equipment": "Transformer",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 2.43,
+    "expected_isd": "2021-06-01",
+    "actual_isd": "2021-05-28",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Replace the Deep Run 230/34.5 kV #1",
+    "distance": 1.0996951499272551
+   },
+   {
+    "upgrade_id": "b2570",
+    "obs_date": "2016-12-22",
+    "to": "JCPL",
+    "voltage_kv": 230.0,
+    "equipment": "Bus",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 0.6,
+    "expected_isd": "2019-06-01",
+    "actual_isd": "2019-03-08",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Upgrade limiting terminal facilities at Freneau, Parlin, and Williams substations",
+    "distance": 1.1353132852463017
+   },
+   {
+    "upgrade_id": "b2754.3.1",
+    "obs_date": "2017-08-06",
+    "to": "JCPL",
+    "voltage_kv": 230.0,
+    "equipment": "Communication Equipment",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 0.25,
+    "expected_isd": "2019-12-01",
+    "actual_isd": "2019-12-20",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Install 3 mi of all-dielectric self-supporting (ADSS) fiber optic cable between Morris Park and Northwood 230 kV substations",
+    "distance": 1.2196014642628545
+   }
+  ],
+  "actual": {
+   "text": "cancelled / withdrawn",
+   "delay_12m": null,
+   "months_late": null,
+   "cost_overrun_25": null,
+   "pct_overrun": null,
+   "cancelled": 1
+  },
+  "delay_call_correct": null
+ },
+ {
+  "upgrade_id": "b2666.8",
+  "as_of": "2018-01-25",
+  "inputs": {
+   "to": "APS",
+   "voltage_kv": 138.0,
+   "status": "On Hold",
+   "equipment": "Circuit Breaker",
+   "est_cost_musd": 0.82,
+   "expected_isd": "2019-06-01",
+   "age_months": 27.006160164271048,
+   "slip_so_far_months": null,
+   "n_isd_revisions": 0,
+   "cost_growth_so_far": null,
+   "scope": "Replace Yukon 138kV breaker 'Y-9(SPRINGD)' with an 80kA breaker"
+  },
+  "prediction": {
+   "p_delay_12m": 0.003632518134681108,
+   "p_cost_overrun_25": 0.0306559624561681,
+   "p_cancelled": 0.001,
+   "months_late_p10_p50_p90": [
+    -19.236277120115187,
+    -12.104832682949079,
+    -1.1458449136044753
+   ],
+   "pct_overrun_p10_p50_p90": [
+    -0.05950383533398302,
+    0.0013687039804246362,
+    0.10262034100111987
+   ],
+   "survival_p_delay": 0.8811725314085096,
+   "survival_median_months_to_done": 84.0,
+   "iso_expected_isd": "2019-06-01",
+   "iso_cost_musd": 0.82,
+   "model_cod_p10": "2017-10-23",
+   "model_cod_p50": "2018-05-28",
+   "model_cod_p90": "2019-04-27",
+   "model_cost_p10": 0.7712068550261338,
+   "model_cost_p50": 0.8211223372639481,
+   "model_cost_p90": 0.9041486796209183
+  },
+  "drivers": [
+   {
+    "feature": "pct_complete",
+    "value": 1.0,
+    "contribution_logodds": 0.9762188816169243
+   },
+   {
+    "feature": "months_to_expected_isd",
+    "value": 16.164271047227928,
+    "contribution_logodds": -0.5156158576750361
+   },
+   {
+    "feature": "equipment",
+    "value": "Circuit Breaker",
+    "contribution_logodds": -0.40564062550196134
+   },
+   {
+    "feature": "slip_so_far_months",
+    "value": null,
+    "contribution_logodds": -0.3069166214691512
+   },
+   {
+    "feature": "driver_short",
+    "value": "Baseline Load Growth Deliverability & Re",
+    "contribution_logodds": 0.28251349416347094
+   }
+  ],
+  "analogs": [
+   {
+    "upgrade_id": "b2612.2",
+    "obs_date": "2017-11-08",
+    "to": "APS",
+    "voltage_kv": 138.0,
+    "equipment": "Circuit Breaker",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 0.71,
+    "expected_isd": "2019-06-01",
+    "actual_isd": "2019-10-29",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Install 138 kV 3000A bus tie breaker, foundation, control cable and associated facilities at Springdale substation.",
+    "distance": 0.5761898189647672
+   },
+   {
+    "upgrade_id": "b2142",
+    "obs_date": "2015-11-27",
+    "to": "APS",
+    "voltage_kv": 138.0,
+    "equipment": "Circuit Breaker",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 0.5,
+    "expected_isd": "2017-06-01",
+    "actual_isd": null,
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 1,
+    "scope": "Replace Weirton 138 kV breaker 'Wylie Ridge 210' with 63 kA breaker",
+    "distance": 0.6167736085269181
+   },
+   {
+    "upgrade_id": "b2143",
+    "obs_date": "2015-11-27",
+    "to": "APS",
+    "voltage_kv": 138.0,
+    "equipment": "Circuit Breaker",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 0.5,
+    "expected_isd": "2017-06-01",
+    "actual_isd": null,
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 1,
+    "scope": "Replace Weirton 138 kV breaker 'Wylie Ridge 216' with 63 kA breaker",
+    "distance": 0.6167736085269181
+   },
+   {
+    "upgrade_id": "b2426",
+    "obs_date": "2016-09-25",
+    "to": "APS",
+    "voltage_kv": 138.0,
+    "equipment": "Circuit Breaker",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 0.2,
+    "expected_isd": "2018-06-01",
+    "actual_isd": null,
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 1,
+    "scope": "Replace the Oak Grove 138 kV breaker 'OG1' with 63 kA breakers",
+    "distance": 0.7467702487651277
+   }
+  ],
+  "actual": {
+   "text": "cancelled / withdrawn",
+   "delay_12m": null,
+   "months_late": null,
+   "cost_overrun_25": null,
+   "pct_overrun": null,
+   "cancelled": 1
+  },
+  "delay_call_correct": null
+ },
+ {
+  "upgrade_id": "b2993",
+  "as_of": "2018-06-09",
+  "inputs": {
+   "to": "AEP",
+   "voltage_kv": 69.0,
+   "status": "Engineering & Procurement",
+   "equipment": "Transmission Line",
+   "est_cost_musd": 2.8,
+   "expected_isd": "2018-12-01",
+   "age_months": 0.0,
+   "slip_so_far_months": 0.0,
+   "n_isd_revisions": 0,
+   "cost_growth_so_far": 0.0,
+   "scope": "Rebuild the Torrey \u2013 South Gambrinus Switch \u2013 Gambrinus Road 69kV line section (1.3 miles) with 1033 ACSR \u2018Curlew\u2019 conductor and steel poles."
+  },
+  "prediction": {
+   "p_delay_12m": 0.000562649208300091,
+   "p_cost_overrun_25": 0.6669140383426098,
+   "p_cancelled": 0.001,
+   "months_late_p10_p50_p90": [
+    -14.011070811789182,
+    -3.7919276863563045,
+    0.7905788090334814
+   ],
+   "pct_overrun_p10_p50_p90": [
+    -0.17682810984373573,
+    0.07431044922494648,
+    0.883319851422054
+   ],
+   "survival_p_delay": 0.2057791767621294,
+   "survival_median_months_to_done": 7.735977651309212,
+   "iso_expected_isd": "2018-12-01",
+   "iso_cost_musd": 2.8,
+   "model_cod_p10": "2017-09-30",
+   "model_cod_p50": "2018-08-07",
+   "model_cod_p90": "2018-12-25",
+   "model_cost_p10": 2.30488129243754,
+   "model_cost_p50": 3.00806925782985,
+   "model_cost_p90": 5.273295583981751
+  },
+  "drivers": [
+   {
+    "feature": "driver_short",
+    "value": "TO Criteria Violation",
+    "contribution_logodds": -0.595182369795063
+   },
+   {
+    "feature": "pct_complete",
+    "value": 0.0,
+    "contribution_logodds": 0.5721841656988876
+   },
+   {
+    "feature": "equipment",
+    "value": "Transmission Line",
+    "contribution_logodds": 0.49148227986158494
+   },
+   {
+    "feature": "months_to_expected_isd",
+    "value": 5.749486652977413,
+    "contribution_logodds": -0.40490629205893547
+   },
+   {
+    "feature": "months_required_minus_expected",
+    "value": -6.012320328542095,
+    "contribution_logodds": -0.24731809269845187
+   }
+  ],
+  "analogs": [
+   {
+    "upgrade_id": "b2258",
+    "obs_date": "2016-12-22",
+    "to": "AEP",
+    "voltage_kv": 46.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 3.0,
+    "expected_isd": "2017-06-01",
+    "actual_isd": "2017-07-20",
+    "months_late": 1.6098562628336757,
+    "pct_overrun": 0.9866666666666666,
+    "resolved_cancel": 0,
+    "scope": "Rebuild 1.41 miles of #2 CU 46 kV line between Tams Mountain - Slab Fork to 138 kV standards. The line will be strung with 1033 ACSR",
+    "distance": 0.02971649639978409
+   },
+   {
+    "upgrade_id": "s1335.2",
+    "obs_date": "2017-08-06",
+    "to": "AEP",
+    "voltage_kv": 34.5,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 3.3,
+    "expected_isd": "2017-12-01",
+    "actual_isd": "2017-12-05",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Terminate New Carlisle, West Side, Scrap Metals, and Edco lines into the new station.",
+    "distance": 0.08755646534374953
+   },
+   {
+    "upgrade_id": "b2882",
+    "obs_date": "2017-11-08",
+    "to": "AEP",
+    "voltage_kv": 69.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 2.9,
+    "expected_isd": null,
+    "actual_isd": "2020-05-29",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Rebuild Reusens-Peakland Switch 69kV line.  Replace Peakland Switch.",
+    "distance": 0.1253799276208525
+   },
+   {
+    "upgrade_id": "s1322",
+    "obs_date": "2017-08-06",
+    "to": "AEP",
+    "voltage_kv": 69.0,
+    "equipment": "Transmission Line",
+    "status": "Engineering & Procurement",
+    "est_cost_musd": 1.9,
+    "expected_isd": "2017-12-01",
+    "actual_isd": "2017-12-31",
+    "months_late": NaN,
+    "pct_overrun": NaN,
+    "resolved_cancel": 0,
+    "scope": "Rebuild 2.71 miles of  Heath- Southgate 69 kV 4/0 copper conductor with 556 ACSR conductor (102 MVA rating). The customer project associated with the Marathon-Heath proposal has rebuilt the first section of this line",
+    "distance": 0.14622701485284353
+   }
+  ],
+  "actual": {
+   "text": "in service 2019-05-24 (+6 months vs the date published then), final cost $4.60M (+64%)",
+   "delay_12m": 0,
+   "months_late": 5.716632443531828,
+   "cost_overrun_25": 1,
+   "pct_overrun": 0.6428571428571428,
+   "cancelled": 0
+  },
+  "delay_call_correct": true
+ }
+]
