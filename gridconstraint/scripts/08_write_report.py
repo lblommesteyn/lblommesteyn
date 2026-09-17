@@ -239,6 +239,25 @@ if __name__ == "__main__":
         out += ["### 5.7b Variant — features as of the day before the study was published", "",
                 "Same models, but every public record up to the eve of publication is allowed (typically 10–26 months more queue, study and market history).", "", main_p, "",
                 "Non-adjacent facilities, pre-publication features:", "", nonadjacent_table("prestudy"), ""]
+    real_section = []
+    rs = T / "real_pjm_run_status.json"
+    if rs.exists():
+        st = json.load(open(rs)); topo = pd.read_csv(C.ROOT / "data" / "public_real" / "facilities.csv") if (C.ROOT / "data" / "public_real" / "facilities.csv").exists() else None
+        selft = json.load(open(T / "real_pjm_runner_selftest.json")) if (T / "real_pjm_runner_selftest.json").exists() else None
+        real_section = ["## 8b. Real-data run status (goal: 100–300 historical PJM studies, frozen model, strict as-of)", "",
+                f"Checked {st['checked_at']}. **Blocked**: {', '.join(st['missing'])}. Every PJM host (www/ftp/www2/wired/services/api.pjm.com), the Wayback "
+                "Machine, LBNL/OSTI/eScholarship/SciSpace mirrors and state-docket hosts return an egress-policy 403 from this sandbox (curl and the web-fetch tool), "
+                "and no GitHub-hosted mirror of PJM study reports or dated queue exports exists (searched; PyPI/npm `pjm` packages are unrelated).", "",
+                f"What is frozen and ready: `data/processed/main_model_queue.pkl` (sha256 `{st['status']['model_sha256']}`), recorded in "
+                "`outputs/tables/real_pjm_run_status.json`; `scripts/real_pjm_run.py` refuses to train anything and writes "
+                "`real_pjm_first_benchmark.json` only from real inputs. Its scoring path was proven end-to-end on the simulated tables "
+                + (f"(`--selftest`: {selft['n_projects']} projects scored with the frozen model, hit@5 {100*selft['metrics']['MAIN_frozen@all']['hit@5']:.0f}%)" if selft else "") + ".", "",
+                (f"Real public topology built here from the HIFLD transmission-line tiles (public domain, mirrored on GitHub): "
+                 f"{int((topo.kind == 'L').sum())} line corridors and {int((topo.kind == 'X').sum())} transformer pairs across "
+                 f"{topo[['sub_a', 'sub_b']].stack().nunique()} substations in the PJM states, in the pipeline's facility-id schema (`data/public_real/`)." if topo is not None else ""), "",
+                "To complete the goal from a machine that can reach pjm.com: place ≥2 dated queue exports in `data/raw_real/pjm/queue_snapshots/`, "
+                "100–300 impact-study PDFs with `.meta` first-seen dates in `data/raw_real/pjm/studies/` (see `data/sources.py::fetch_study`), "
+                "optionally Data Miner CSVs, then run `python3 scripts/real_pjm_run.py`. The first benchmark is recorded before any model change is allowed.", ""]
     vt, vb = variant_table()
     out += ["### 5.10 Sensitivity to headroom persistence (second simulated world)", "", vt, "",
             "## 6. Prospective case studies", "",
@@ -266,7 +285,7 @@ if __name__ == "__main__":
             "conventions (e.g. \"(AEP)\" prefixes, \"TAP\" suffixes).",
             "* **If the real signal is weak**, the oracle ablation is the template for the negative result: quantify the gain from a planning-case impedance file "
             "(PJM's RTEP case is available to members under CEII) versus from ratings/dispatch, and report which one the public side cannot substitute.", "",
-            "## 9. Reproduction", "", "`sh scripts/run_all.sh` (≈1.5 h on 4 cores). Tables in `outputs/tables/`, case studies in `outputs/case_studies/`, "
+            *real_section, "## 9. Reproduction", "", "`sh scripts/run_all.sh` (≈1.5 h on 4 cores). Tables in `outputs/tables/`, case studies in `outputs/case_studies/`, "
             "the prototype interface in `docs/index.html`, the CLI in `gridconstraint/app/predict.py`.", ""]
     (C.ROOT / "REPORT.md").write_text("\n".join(out))
     print("wrote REPORT.md; verdict_ok =", verdict_ok)

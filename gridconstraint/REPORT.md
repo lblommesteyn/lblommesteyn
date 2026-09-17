@@ -427,6 +427,16 @@ The gain from true impedances is the part of the gap that better public topology
 * **Real-data run.** `gridconstraint/data/sources.py` documents the PJM feeds. Steps: (1) weekly queue snapshots (or Wayback captures) for dated status; (2) impact/feasibility PDFs with first-seen dates; (3) Data Miner LMP and constraint feeds (free key); (4) HIFLD lines/substations; (5) run scripts 02→06 unchanged. Expect the parser's prose patterns to need extension for older report vintages, and the normaliser to need PJM's TO naming conventions (e.g. "(AEP)" prefixes, "TAP" suffixes).
 * **If the real signal is weak**, the oracle ablation is the template for the negative result: quantify the gain from a planning-case impedance file (PJM's RTEP case is available to members under CEII) versus from ratings/dispatch, and report which one the public side cannot substitute.
 
+## 8b. Real-data run status (goal: 100–300 historical PJM studies, frozen model, strict as-of)
+
+Checked 2026-09-17T17:04:26. **Blocked**: queue_snapshots (>=2 dated exports), study_pdfs (have 0, need >= 100). Every PJM host (www/ftp/www2/wired/services/api.pjm.com), the Wayback Machine, LBNL/OSTI/eScholarship/SciSpace mirrors and state-docket hosts return an egress-policy 403 from this sandbox (curl and the web-fetch tool), and no GitHub-hosted mirror of PJM study reports or dated queue exports exists (searched; PyPI/npm `pjm` packages are unrelated).
+
+What is frozen and ready: `data/processed/main_model_queue.pkl` (sha256 `e8413d94b616cf86ac551e0e8f0b0cb6d01325235d6ce442a259bb3467e74094`), recorded in `outputs/tables/real_pjm_run_status.json`; `scripts/real_pjm_run.py` refuses to train anything and writes `real_pjm_first_benchmark.json` only from real inputs. Its scoring path was proven end-to-end on the simulated tables (`--selftest`: 120 projects scored with the frozen model, hit@5 50%).
+
+Real public topology built here from the HIFLD transmission-line tiles (public domain, mirrored on GitHub): 12498 line corridors and 1481 transformer pairs across 10675 substations in the PJM states, in the pipeline's facility-id schema (`data/public_real/`).
+
+To complete the goal from a machine that can reach pjm.com: place ≥2 dated queue exports in `data/raw_real/pjm/queue_snapshots/`, 100–300 impact-study PDFs with `.meta` first-seen dates in `data/raw_real/pjm/studies/` (see `data/sources.py::fetch_study`), optionally Data Miner CSVs, then run `python3 scripts/real_pjm_run.py`. The first benchmark is recorded before any model change is allowed.
+
 ## 9. Reproduction
 
 `sh scripts/run_all.sh` (≈1.5 h on 4 cores). Tables in `outputs/tables/`, case studies in `outputs/case_studies/`, the prototype interface in `docs/index.html`, the CLI in `gridconstraint/app/predict.py`.

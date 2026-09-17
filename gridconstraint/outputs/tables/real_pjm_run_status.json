@@ -1,0 +1,17 @@
+{
+ "checked_at": "2026-09-17T17:04:26",
+ "status": {
+  "model": true,
+  "model_sha256": "e8413d94b616cf86ac551e0e8f0b0cb6d01325235d6ce442a259bb3467e74094",
+  "queue_snapshots": [],
+  "study_pdfs": 0,
+  "study_pdfs_with_first_seen": 0,
+  "dataminer_constraints": false,
+  "dataminer_lmps": false,
+  "hifld_lines": true
+ },
+ "missing": [
+  "queue_snapshots (>=2 dated exports)",
+  "study_pdfs (have 0, need >= 100)"
+ ]
+}

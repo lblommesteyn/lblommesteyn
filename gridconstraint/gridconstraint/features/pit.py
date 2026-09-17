@@ -13,6 +13,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 from scipy.spatial import cKDTree
+from pathlib import Path
 from .. import config as C
 from ..extract.normalize import FacilityNormalizer
 from ..sim.naming import to_xy_km
@@ -22,22 +23,31 @@ from .topology import PublicTopology
 class PublicData:
     """All public tables, with free-text facility names resolved to canonical ids once."""
 
-    def __init__(self, root=None, verbose=True):
-        P = C.PUBLIC if root is None else root
+    def __init__(self, root=None, verbose=True, findings_path=None, meta_path=None):
+        """root: directory of public tables (default data/public). Optional tables (market LMPs,
+        constraints, outages, baseline upgrades, generators, load) may be absent for a real-data
+        run; they are then empty and the corresponding features are zero (documented in REPORT)."""
+        P = C.PUBLIC if root is None else Path(root)
+        self.root = P
         self.subs = pd.read_csv(P / "substations.csv")
         self.fac = pd.read_csv(P / "facilities.csv")
         self.queue = pd.read_csv(P / "queue.csv", parse_dates=["queue_date"])
         self.events = pd.read_csv(P / "queue_events.csv", parse_dates=["date"])
         self.study_index = pd.read_csv(P / "study_index.csv", parse_dates=["publication_date"])
-        self.findings = pd.read_csv(C.STUDIES / "parsed_findings.csv", parse_dates=["publication_date"])
-        self.meta = pd.read_csv(C.STUDIES / "parsed_meta.csv", parse_dates=["publication_date"])
-        self.lmp = pd.read_parquet(P / "market_lmp.parquet")
+        self.findings = pd.read_csv(findings_path or (C.STUDIES / "parsed_findings.csv"), parse_dates=["publication_date"])
+        self.meta = pd.read_csv(meta_path or (C.STUDIES / "parsed_meta.csv"), parse_dates=["publication_date"])
+        if (P / "market_lmp.parquet").exists():
+            self.lmp = pd.read_parquet(P / "market_lmp.parquet")
+        elif (P / "market_lmp.csv").exists():
+            self.lmp = pd.read_csv(P / "market_lmp.csv")
+        else:
+            self.lmp = pd.DataFrame(dict(datetime=pd.to_datetime([]), sub_id=pd.Series([], dtype=int), lmp=[], congestion=[]))
         self.lmp["datetime"] = pd.to_datetime(self.lmp.datetime)
-        self.constraints = pd.read_csv(P / "market_constraints.csv", parse_dates=["datetime"])
-        self.outages = pd.read_csv(P / "outages.csv", parse_dates=["start", "end"])
-        self.baseline = pd.read_csv(P / "baseline_upgrades.csv", parse_dates=["date"]) if (P / "baseline_upgrades.csv").exists() else pd.DataFrame(columns=["date", "facility_name"])
-        self.generators = pd.read_csv(P / "generators.csv")
-        self.load = pd.read_csv(P / "load_zonal_annual.csv")
+        self.constraints = pd.read_csv(P / "market_constraints.csv", parse_dates=["datetime"]) if (P / "market_constraints.csv").exists() else pd.DataFrame(dict(datetime=pd.to_datetime([]), constraint_name=[], shadow_price=[]))
+        self.outages = pd.read_csv(P / "outages.csv", parse_dates=["start", "end"]) if (P / "outages.csv").exists() else pd.DataFrame(dict(facility_name=[], start=pd.to_datetime([]), end=pd.to_datetime([])))
+        self.baseline = pd.read_csv(P / "baseline_upgrades.csv", parse_dates=["date"]) if (P / "baseline_upgrades.csv").exists() else pd.DataFrame(dict(date=pd.to_datetime([]), facility_name=[]))
+        self.generators = pd.read_csv(P / "generators.csv") if (P / "generators.csv").exists() else pd.DataFrame(dict(plant_id=[], sub_id=[], fuel=[], mw=[], online_year=[], retire_year=[]))
+        self.load = pd.read_csv(P / "load_zonal_annual.csv") if (P / "load_zonal_annual.csv").exists() else pd.DataFrame(dict(year=[], zone_id=[], peak_mw=[]))
         self.norm = FacilityNormalizer(self.subs, self.fac)
         self._resolve_names(verbose)
         self.topo = PublicTopology(self.subs, self.fac)
@@ -47,8 +57,11 @@ class PublicData:
         self.queue_xy = np.vstack(self.queue.xy.values)
         self.q_by_pid = self.queue.set_index("project_id")
         self.lmp_hours = np.sort(self.lmp.datetime.unique())
-        piv = self.lmp.pivot_table(index="datetime", columns="sub_id", values="congestion", aggfunc="mean")
-        self.lmp_mat = piv.reindex(self.lmp_hours)
+        if len(self.lmp):
+            piv = self.lmp.pivot_table(index="datetime", columns="sub_id", values="congestion", aggfunc="mean")
+            self.lmp_mat = piv.reindex(self.lmp_hours)
+        else:
+            self.lmp_mat = pd.DataFrame(index=pd.DatetimeIndex([]))
         self.findings = self.findings[self.findings.fid.notna()].copy()
         self.findings = self.findings.merge(self.queue[["project_id", "poi_sub_id", "mw", "project_type", "queue_date"]], on="project_id", how="left")
         self.findings["xy_idx"] = self.findings.project_id.map({p: i for i, p in enumerate(self.queue.project_id)})
@@ -63,7 +76,7 @@ class PublicData:
         self.sub_xy = dict(zip(self.subs.sub_id, to_xy_km(self.subs.lat.values, self.subs.lon.values)))
 
     def _resolve_names(self, verbose):
-        cache_path = C.PROCESSED / "name_map.csv"
+        cache_path = C.PROCESSED / ("name_map.csv" if self.root == C.PUBLIC else f"name_map_{self.root.name}.csv")
         names = pd.unique(pd.concat([self.constraints.constraint_name, self.outages.facility_name, self.baseline.facility_name], ignore_index=True).dropna())
         if cache_path.exists():
             mp = pd.read_csv(cache_path)

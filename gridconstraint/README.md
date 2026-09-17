@@ -98,6 +98,22 @@ python3 -m gridconstraint.app.predict --sub "Robison Park" --type gen --mw 200 -
 open docs/index.html                        # prototype interface (static, precomputed)
 ```
 
+## Real-data run status
+
+The follow-up goal (run the frozen pipeline on 100–300 real historical PJM studies with a strict
+as-of date) is **blocked in this environment**: pjm.com and every mirror are egress-blocked, and no
+GitHub-hosted copy of PJM study reports or dated queue exports exists. What is in place:
+
+* `scripts/real_pjm_run.py` — frozen model (sha256 recorded in `outputs/tables/real_pjm_run_status.json`),
+  strict as-of (queue date + 1 day; studies by first-seen date; status from dated snapshots), no training
+  of the main model, first benchmark written only from real inputs; `--selftest` proves the scoring path.
+* `data/public_real/` — a real PJM public topology built from the HIFLD transmission-line tiles
+  (12,498 corridors, 1,481 transformer pairs, 10,675 substations) in the pipeline's schema.
+* `gridconstraint/data/sources.py` — fetchers for the queue export, study PDFs and Data Miner feeds.
+
+From a machine with pjm.com access: fill `data/raw_real/pjm/` as described in the runner's docstring,
+then `python3 scripts/real_pjm_run.py`.
+
 ## Not an interconnection study
 
 Nothing here replaces an ISO feasibility / system impact / facilities study. The prototype ranks
