@@ -1,0 +1,9 @@
+# regenerable / large artefacts
+data/studies/pdf/
+data/processed/*.parquet
+data/processed/*.pkl
+data/raw_real/
+logs/
+docs/ui_data.json
+__pycache__/
+*.pyc

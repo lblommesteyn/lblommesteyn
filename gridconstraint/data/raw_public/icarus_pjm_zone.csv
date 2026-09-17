@@ -1,0 +1,22 @@
+zone_id,zone_name,state,interconnect,time_zone
+7,New York City,New York,Eastern,ETC/GMT+5
+8,Upstate New York,New York,Eastern,ETC/GMT+5
+9,New Jersey,New Jersey,Eastern,ETC/GMT+5
+10,Pennsylvania Eastern,Pennsylvania,Eastern,ETC/GMT+5
+11,Pennsylvania Western,Pennsylvania,Eastern,ETC/GMT+5
+12,Delaware,Delaware,Eastern,ETC/GMT+5
+13,Maryland,Maryland,Eastern,ETC/GMT+5
+14,Virginia Mountains,Virginia,Eastern,ETC/GMT+5
+15,Virginia Tidewater,Virginia,Eastern,ETC/GMT+5
+16,North Carolina,North Carolina,Eastern,ETC/GMT+5
+26,Tennessee,Tennessee,Eastern,ETC/GMT+6
+27,Kentucky,Kentucky,Eastern,ETC/GMT+5
+28,West Virginia,West Virginia,Eastern,ETC/GMT+5
+29,Ohio River,Ohio,Eastern,ETC/GMT+5
+30,Ohio Lake Erie,Ohio,Eastern,ETC/GMT+5
+32,Michigan Southern,Michigan,Eastern,ETC/GMT+5
+33,Indiana,Indiana,Eastern,ETC/GMT+5
+34,Chicago North Illinois,Illinois,Eastern,ETC/GMT+6
+35,Illinois Downstate,Illinois,Eastern,ETC/GMT+6
+36,Wisconsin,Wisconsin,Eastern,ETC/GMT+6
+39,Iowa,Iowa,Eastern,ETC/GMT+6

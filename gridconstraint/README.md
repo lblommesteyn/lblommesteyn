@@ -1,0 +1,81 @@
+# gridconstraint — predicting which transmission facilities a proposed project will constrain
+
+A research prototype that answers, from **public, pre-study information only**:
+
+> Given a proposed generator / battery / large load at substation *L* with size *P* and type *T*,
+> which transmission facilities are most likely to be identified as limiting in the ISO's
+> interconnection study, how severe, how costly, and how confident is that prediction?
+
+It ships the full chain: point-in-time dataset with vintage guards → study-report parser and
+facility-identity normaliser → required baselines → learned facility-risk models (tabular,
+retrieval, public-topology physics, latent factors) → chronological benchmark with calibration
+and breakdowns → prospective case studies → a prototype interface.
+
+## Read this first: what is real and what is simulated
+
+The build environment could reach **only PyPI and GitHub**. Every ISO and data host
+(pjm.com, dataminer2.pjm.com, misoenergy.org, emp.lbl.gov, eia.gov, HIFLD/ArcGIS, Zenodo,
+state PUC dockets, FERC eLibrary) returned an egress-policy 403, for both `curl` and the web
+fetch tool. The real study PDFs — the ground truth this project is about — could therefore not
+be downloaded here.
+
+So the pipeline was built *for* PJM's real data (`gridconstraint/data/sources.py` documents the
+fetchers, and the parser is written against PJM System Impact Study phrasing) and *validated*
+on a **simulated ISO** that is as close to the real problem as public data allows:
+
+| Component | Status |
+|---|---|
+| Transmission topology | **Real public data**: ICARUS PJM nodal testbed (Johns Hopkins, 17,467 buses / 21,554 branches with reactances and MVA ratings, clipped from Breakthrough Energy's USATestSystem), HIFLD substation names, EIA-860 generators, PJM zonal hourly load 2002–2018 — all mirrored on GitHub. |
+| Queue projects | **Synthetic queue calibrated to real distributions** (MISO queue snapshot for size/fuel/withdrawal statistics; 211 of the 2024–25 projects carry the real MW / fuel / state of PJM Transition Cycle 2 entries). POIs are real substations of the nodal case. |
+| ISO studies (ground truth) | **Simulated**: a PJM-style procedure (generator/load deliverability + N-1 contingency screening with the 5 % DFAX attribution rule, queue-ahead projects and their assumed upgrades in the base case, cost allocation, withdrawal/in-service fates, upgrades that change ratings) run on the hidden nodal case, then **rendered to PDF in three report layouts with realistic naming noise**. |
+| Market congestion, outages, baseline upgrades | **Simulated** from soft-limit DC-OPF snapshots on the same hidden case (LMPs, binding constraints, shadow prices), planned outages, and yearly N-1 baseline upgrades. |
+| Everything the models see | Public-style tables only: substations/lines with voltages (no impedances, no ratings, 3 % of corridors hidden), queue + dated status events, published study PDFs (parsed back), LMP/constraint history, outages, generators, zonal load — each with an availability date. |
+
+The result is a **methodological** answer ("can public information recover the latent electrical
+structure that determines study outcomes, and how much better than heuristics?"), not an
+empirical claim about PJM. `REPORT.md` states this in every results table and records exactly what
+would be needed to run the real thing.
+
+## Results (chronological hold-out, projects queued after 2022-06-30)
+
+See `REPORT.md` for the full tables. Headline numbers are written there by the benchmark script.
+
+## Layout
+
+```
+gridconstraint/
+  data/loaders.py, sources.py        real public inputs; real-data fetchers (documented, blocked here)
+  sim/network.py                     DC power flow, PTDF / LODF engine
+  sim/world.py, study.py, market.py  hidden ISO: queue, base case evolution, studies, market, fates, upgrades
+  sim/naming.py, report_writer.py    facility identity, naming noise, PJM-style PDF rendering
+  extract/pdf_parser.py              PDF -> findings (tables, field lists, prose)
+  extract/normalize.py               free-text facility names -> canonical ids (fuzzy, abbreviation, kV, circuit aware)
+  features/topology.py               public-topology DC model (guessed impedances) -> approximate DFAX
+  features/pit.py                    point-in-time data access with vintage assertions; candidate + feature builder
+  models/baselines.py                nearest projects, queue density, congestion, geo+size, simple tabular, public DFAX
+  models/latent.py                   latent factors from project->constraint outcomes + market co-binding
+  models/tabular.py                  main bagged LightGBM ranker with isotonic calibration
+  eval/metrics.py, benchmark.py      hit@K / recall@K / precision@K / MRR / ECE, ablations, breakdowns, secondary tasks
+  eval/case_studies.py               prospective reconstructions with explanations
+  app/predict.py, build_ui.py        prediction service, CLI, static prototype UI (docs/index.html)
+scripts/                             00..06 pipeline; run_all.sh
+tests/                               vintage-leak invariance test; parser fixtures in PJM report language
+data/raw_public/                     the mirrored real inputs (~7 MB)
+data/world/  data/public/  data/studies/   simulated hidden truth / public observables / rendered+parsed studies
+outputs/tables, outputs/case_studies documented results
+```
+
+## Run
+
+```
+pip install -r requirements.txt
+sh scripts/run_all.sh                       # ~1.5 h; or run the numbered scripts individually
+python3 -m gridconstraint.app.predict --sub "Robison Park" --type gen --mw 200 --as-of 2026-01-01
+open docs/index.html                        # prototype interface (static, precomputed)
+```
+
+## Not an interconnection study
+
+Nothing here replaces an ISO feasibility / system impact / facilities study. The prototype ranks
+public evidence; it does not model the ISO's planning case, its contingency lists, its dispatch
+assumptions or its cost estimates.
