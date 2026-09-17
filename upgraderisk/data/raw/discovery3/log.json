@@ -1,0 +1,254 @@
+[
+ {
+  "js": "https://www.pjm.com/Scripts/MVC/Custom/PJM.Website.Foundation.PjmGrid.js",
+  "status": 200,
+  "size": 19402,
+  "t": "18:13:49"
+ },
+ {
+  "js": "https://www.pjm.com/Scripts/MVC/custom/master.js",
+  "status": 200,
+  "size": 8796,
+  "t": "18:13:50"
+ },
+ {
+  "page": "loaded",
+  "showing": "Showing results 1 - 100 of 15556 [Next]\n100",
+  "t": "18:14:01"
+ },
+ {
+  "model": "{\"GridName\":\"CostAllocation\",\"ItemType\":0,\"Items\":[],\"Paginator\":{\"ItemType\":7,\"CurrentItmsPerPageValue\":\"100\",\"CurrentPageIndex\":\"1\"},\"Sort\":\"UpgradeID\",\"SortDirection\":\"asc\",\"RelatedGridsFilters\":\"\"}",
+  "t": "18:14:01"
+ },
+ {
+  "export": "saved",
+  "size": 2623720,
+  "t": "18:14:22"
+ },
+ {
+  "replay": "https://www.pjm.com/m/ProjectConst/ProjectConstructionUpgrades",
+  "label": "as_is",
+  "status": 200,
+  "size": 2623720,
+  "ctype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "t": "18:15:05"
+ },
+ {
+  "replay": "https://www.pjm.com/m/ProjectConst/CostAllocResetGrdBody",
+  "label": "as_is",
+  "status": 200,
+  "size": 200702,
+  "ctype": "text/html; charset=utf-8",
+  "t": "18:15:05"
+ },
+ {
+  "replay": "https://www.pjm.com/m/ProjectConst/CostAllocReset",
+  "label": "as_is",
+  "status": 200,
+  "size": 226614,
+  "ctype": "text/html; charset=utf-8",
+  "t": "18:15:05"
+ },
+ {
+  "replay": "https://www.pjm.com/m/ProjectConst/ProjectConstructionUpgrades",
+  "label": "pagesize_100000",
+  "status": 200,
+  "size": 2623839,
+  "ctype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "t": "18:15:25"
+ },
+ {
+  "replay": "https://www.pjm.com/m/ProjectConst/CostAllocResetGrdBody",
+  "label": "pagesize_100000",
+  "status": 200,
+  "size": 2016,
+  "ctype": "text/html; charset=utf-8",
+  "t": "18:15:25"
+ },
+ {
+  "replay": "https://www.pjm.com/m/ProjectConst/CostAllocReset",
+  "label": "pagesize_100000",
+  "status": 200,
+  "size": 27852,
+  "ctype": "text/html; charset=utf-8",
+  "t": "18:15:25"
+ },
+ {
+  "cdx": "construct_status",
+  "rows": 117,
+  "t": "18:15:48"
+ },
+ {
+  "cdx": "rtep_upgrades_status",
+  "rows": 77,
+  "t": "18:15:51"
+ },
+ {
+  "cdx": "cost_allocation_view",
+  "rows": 52,
+  "t": "18:15:55"
+ },
+ {
+  "cdx": "queues_status",
+  "rows": 49,
+  "t": "18:16:06"
+ },
+ {
+  "cdx": "www_construct_status",
+  "rows": 124,
+  "t": "18:16:09"
+ },
+ {
+  "cdx": "project_construction_tcs",
+  "rows": 10,
+  "t": "18:16:13"
+ },
+ {
+  "cdx": "rtep_upgrades_status_all",
+  "rows": 263,
+  "t": "18:16:17"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20150908233314id_/http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx",
+  "status": 200,
+  "size": 620647,
+  "t": "18:16:20"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20160416142828id_/http://www.pjm.com/planning/rtep-upgrades-status/construct-status.aspx",
+  "status": 200,
+  "size": 648987,
+  "t": "18:16:22"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20160923163817id_/http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx",
+  "status": 200,
+  "size": 545600,
+  "t": "18:16:26"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20170524045447id_/http://pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx",
+  "status": 200,
+  "size": 540246,
+  "t": "18:16:29"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20180125060140id_/http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx",
+  "status": 200,
+  "size": 576248,
+  "t": "18:16:35"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20190825133101id_/https://pjm.com/planning/rtep-upgrades-status/construct-status.aspx",
+  "status": 200,
+  "size": 518972,
+  "t": "18:16:37"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20130910161356id_/http://www.pjm.com/planning/rtep-upgrades-status.aspx?p=1",
+  "status": 200,
+  "size": 344165,
+  "t": "18:16:40"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20140712062807id_/http://pjm.com/planning/rtep-upgrades-status.aspx?p=1",
+  "status": 200,
+  "size": 357564,
+  "t": "18:16:42"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20150909120120id_/http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx",
+  "status": 200,
+  "size": 1650856,
+  "t": "18:16:44"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20160228181406id_/http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx",
+  "status": 200,
+  "size": 1777698,
+  "t": "18:16:47"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20160904212135id_/http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx",
+  "status": 200,
+  "size": 1764851,
+  "t": "18:16:49"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20170612130737id_/http://pjm.com/planning/rtep-upgrades-status/cost-allocation-view.aspx",
+  "status": 200,
+  "size": 2116559,
+  "t": "18:16:51"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20180125055952id_/http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx",
+  "status": 200,
+  "size": 2550242,
+  "t": "18:16:54"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20180726095020id_/http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx",
+  "error": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20180726095020id_/http://www.pjm.com:80/planning/rtep-upgrades-status",
+  "t": "18:16:55"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20170823052527id_/http://www.pjm.com:80/planning/rtep-upgrades-status/queues-status.aspx",
+  "error": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20170823052527id_/http://www.pjm.com:80/planning/rtep-upgrades-status",
+  "t": "18:16:56"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20170923154528id_/http://www.pjm.com:80/planning/rtep-upgrades-status/queues-status.aspx",
+  "error": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20170923154528id_/http://www.pjm.com:80/planning/rtep-upgrades-status",
+  "t": "18:16:57"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20170929090451id_/http://pjm.com:80/planning/rtep-upgrades-status/queues-status.aspx",
+  "error": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20170929090451id_/http://pjm.com:80/planning/rtep-upgrades-status/que",
+  "t": "18:16:58"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20171210011853id_/http://www.pjm.com:80/planning/rtep-upgrades-status/queues-status.aspx",
+  "error": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20171210011853id_/http://www.pjm.com:80/planning/rtep-upgrades-status",
+  "t": "18:16:59"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20180125055958id_/http://www.pjm.com:80/planning/rtep-upgrades-status/queues-status.aspx",
+  "error": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20180125055958id_/http://www.pjm.com:80/planning/rtep-upgrades-status",
+  "t": "18:17:00"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20180126123503id_/http://www.pjm.com:80/planning/rtep-upgrades-status/queues-status.aspx",
+  "error": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20180126123503id_/http://www.pjm.com:80/planning/rtep-upgrades-status",
+  "t": "18:17:01"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20150908233314id_/http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx",
+  "error": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20150908233314id_/http://www.pjm.com:80/planning/rtep-upgrades-status",
+  "t": "18:17:02"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20160416142828id_/http://www.pjm.com/planning/rtep-upgrades-status/construct-status.aspx",
+  "error": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20160416142828id_/http://www.pjm.com/planning/rtep-upgrades-status/co",
+  "t": "18:17:03"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20160923163817id_/http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx",
+  "error": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20160923163817id_/http://www.pjm.com:80/planning/rtep-upgrades-status",
+  "t": "18:17:04"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20170524045447id_/http://pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx",
+  "error": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20170524045447id_/http://pjm.com:80/planning/rtep-upgrades-status/con",
+  "t": "18:17:05"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20180125060140id_/http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx",
+  "error": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20180125060140id_/http://www.pjm.com:80/planning/rtep-upgrades-status",
+  "t": "18:17:06"
+ },
+ {
+  "wayback": "https://web.archive.org/web/20190825133101id_/https://pjm.com/planning/rtep-upgrades-status/construct-status.aspx",
+  "error": "HTTPSConnectionPool(host='web.archive.org', port=443): Max retries exceeded with url: /web/20190825133101id_/https://pjm.com/planning/rtep-upgrades-status/const",
+  "t": "18:17:07"
+ }
+]

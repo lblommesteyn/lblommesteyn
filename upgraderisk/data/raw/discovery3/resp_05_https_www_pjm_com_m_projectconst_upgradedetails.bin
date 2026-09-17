@@ -1,0 +1,54 @@
+
+<div id="upgradeDetailsContent" class="modal-content modal-content-upgradeDetails">
+    <span class="close" onclick="CloseUpgradeDetails()">&times;</span>
+    <div class="modal-header">
+        <h2>
+            <label id="txtUpgrId">n0381.1</label> Detail
+        </h2>
+    </div>
+    <div>
+
+            <div class="modal-body">
+            <div class="upgradeIDGrid">
+            <div class="upgradeIDRowHeader">Criteria Violation</div>
+            <div class="upgradeIDRowContent"></div>
+
+            <div class="upgradeIDRowHeader">Description</div>
+            <div class="upgradeIDRowContent">Support Laurel Hill 230kV switchyard interconnection  </div>
+
+            <div class="upgradeIDRowHeader">Project Type</div>
+            <div class="upgradeIDRowContent">Network</div>
+            <div class="upgradeIDRowHeader">Driver</div>
+            <div class="upgradeIDRowContent">K02</div>
+
+            <div class="upgradeIDRowHeader">Sub Region</div>
+            <div class="upgradeIDRowContent">PJM MA</div>
+            <div class="upgradeIDRowHeader">Location</div>
+            <div class="upgradeIDRowContent">Laurel Hill</div>
+            <div class="upgradeIDRowHeader">Task</div>
+            <div class="upgradeIDRowContent">Support</div>
+            <div class="upgradeIDRowHeader">Equipment</div>
+            <div class="upgradeIDRowContent">Substation</div>
+            </div>
+            <div class="upgradeIDRelatedMaterialGrid">
+            <div class="upgradeIDRowHeader">Related Projects & Materials</div>
+            <div class="upgradeIDnonGridContent"></div>
+            <div class="upgradeIDRowContent">
+            </div>
+
+
+            </div>
+
+            <div style="text-align-last: center;place-content:center;display:flex">
+                <div style="margin-right: 12px;width:20px"></div>
+            <div class="upgradePaginationDesc">
+			<span>
+                n0381.1
+			</span>
+            </div>
+                <span style="margin-left: 12px;width:20px" onclick="OpenUpgradeDetails('n0381.2')">
+                    <img style="transform:rotate(-90deg)" src="/assets/MVC/images/planning/project-construction/arrowclosed.svg" />
+            </div>
+        </div>
+    </div>
+</div>

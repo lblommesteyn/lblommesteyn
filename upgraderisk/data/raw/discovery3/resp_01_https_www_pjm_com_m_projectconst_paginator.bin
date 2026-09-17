@@ -1,0 +1,25 @@
+
+
+    <div class="pagination-section">
+        <label class="pagination-section">Showing results  </label>
+        <label id="closedPagesCountMessage" class="pagination-message"> 1 - 500 of 15556 </label>
+            <a id="closedPrevPageImg" class="blueText" data-grid-id="CostAllocation" hidden onclick="prevPage(this)">[Previous]</a>
+            <a id="closedNextPageImg" class="blueText" data-grid-id="CostAllocation"  onclick="nextPage(this)">[Next]</a>
+        <div>
+            <select data-type="paginator" data-filter-type="enPaginator" data-current-page="1" data-grid-id="CostAllocation" name="Showing results " onchange="RefreshGrid(this, true,false)">
+                    <option value="100"
+ >
+100                    </option>
+                    <option value="250"
+ >
+250                    </option>
+                    <option value="500"
+  selected
+ >
+500                    </option>
+            </select>
+        </div>
+        <label class="pagination-section"> </label>
+        
+    </div>
+

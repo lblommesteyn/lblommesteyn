@@ -1,0 +1,53 @@
+
+<div id="upgradeDetailsContent" class="modal-content modal-content-upgradeDetails">
+    <span class="close" onclick="CloseUpgradeDetails()">&times;</span>
+    <div class="modal-header">
+        <h2>
+            <label id="txtUpgrId">b0001</label> Detail
+        </h2>
+    </div>
+    <div>
+
+            <div class="modal-body">
+            <div class="upgradeIDGrid">
+            <div class="upgradeIDRowHeader">Criteria Violation</div>
+            <div class="upgradeIDRowContent"></div>
+
+            <div class="upgradeIDRowHeader">Description</div>
+            <div class="upgradeIDRowContent">Seven 230 kV breakers at Shawville</div>
+
+            <div class="upgradeIDRowHeader">Project Type</div>
+            <div class="upgradeIDRowContent">Baseline</div>
+            <div class="upgradeIDRowHeader">Driver</div>
+            <div class="upgradeIDRowContent">Baseline Load Growth Deliverability &amp; Reliability</div>
+
+            <div class="upgradeIDRowHeader">Sub Region</div>
+            <div class="upgradeIDRowContent">PJM MA</div>
+            <div class="upgradeIDRowHeader">Location</div>
+            <div class="upgradeIDRowContent">Shawville</div>
+            <div class="upgradeIDRowHeader">Task</div>
+            <div class="upgradeIDRowContent">Install</div>
+            <div class="upgradeIDRowHeader">Equipment</div>
+            <div class="upgradeIDRowContent">Circuit Breaker</div>
+            </div>
+            <div class="upgradeIDRelatedMaterialGrid">
+            <div class="upgradeIDRowHeader">Related Projects & Materials</div>
+            <div class="upgradeIDnonGridContent"></div>
+            <div class="upgradeIDRowContent">
+            </div>
+
+
+            </div>
+
+            <div style="text-align-last: center;place-content:center;display:flex">
+                <div style="margin-right: 12px;width:20px"></div>
+            <div class="upgradePaginationDesc">
+			<span>
+                b0001
+			</span>
+            </div>
+                <div style="width:20px;margin-left: 12px;"></div>
+            </div>
+        </div>
+    </div>
+</div>

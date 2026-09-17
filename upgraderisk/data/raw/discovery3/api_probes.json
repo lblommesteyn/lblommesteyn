@@ -1,0 +1,182 @@
+{
+ "POST ProjectConstruction/ExportToXls [empty]": {
+  "status": 200,
+  "ctype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "size": 12189,
+  "head": ""
+ },
+ "POST ProjectConstruction/GetFilteredProjectConstructions [empty]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 303,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetFilteredProjectConstructions'.\",\"messageDetail\":\"No action was f"
+ },
+ "POST ProjectConstruction/GetFilteredUpgrades [empty]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 279,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetFilteredUpgrades'.\",\"messageDetail\":\"No action was found on the "
+ },
+ "POST ProjectConstruction/GetUpgrades [empty]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 263,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetUpgrades'.\",\"messageDetail\":\"No action was found on the controll"
+ },
+ "POST ProjectConstruction/Search [empty]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 253,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/Search'.\",\"messageDetail\":\"No action was found on the controller 'P"
+ },
+ "POST ProjectConstruction/GetAll [empty]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 253,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetAll'.\",\"messageDetail\":\"No action was found on the controller 'P"
+ },
+ "POST ProjectConstruction/ExportToXls [pagesize]": {
+  "status": 200,
+  "ctype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "size": 12189,
+  "head": ""
+ },
+ "POST ProjectConstruction/GetFilteredProjectConstructions [pagesize]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 303,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetFilteredProjectConstructions'.\",\"messageDetail\":\"No action was f"
+ },
+ "POST ProjectConstruction/GetFilteredUpgrades [pagesize]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 279,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetFilteredUpgrades'.\",\"messageDetail\":\"No action was found on the "
+ },
+ "POST ProjectConstruction/GetUpgrades [pagesize]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 263,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetUpgrades'.\",\"messageDetail\":\"No action was found on the controll"
+ },
+ "POST ProjectConstruction/Search [pagesize]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 253,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/Search'.\",\"messageDetail\":\"No action was found on the controller 'P"
+ },
+ "POST ProjectConstruction/GetAll [pagesize]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 253,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetAll'.\",\"messageDetail\":\"No action was found on the controller 'P"
+ },
+ "POST ProjectConstruction/ExportToXls [Paginator]": {
+  "status": 200,
+  "ctype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "size": 12189,
+  "head": ""
+ },
+ "POST ProjectConstruction/GetFilteredProjectConstructions [Paginator]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 303,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetFilteredProjectConstructions'.\",\"messageDetail\":\"No action was f"
+ },
+ "POST ProjectConstruction/GetFilteredUpgrades [Paginator]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 279,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetFilteredUpgrades'.\",\"messageDetail\":\"No action was found on the "
+ },
+ "POST ProjectConstruction/GetUpgrades [Paginator]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 263,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetUpgrades'.\",\"messageDetail\":\"No action was found on the controll"
+ },
+ "POST ProjectConstruction/Search [Paginator]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 253,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/Search'.\",\"messageDetail\":\"No action was found on the controller 'P"
+ },
+ "POST ProjectConstruction/GetAll [Paginator]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 253,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetAll'.\",\"messageDetail\":\"No action was found on the controller 'P"
+ },
+ "POST ProjectConstruction/ExportToXls [model]": {
+  "status": 200,
+  "ctype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "size": 12189,
+  "head": ""
+ },
+ "POST ProjectConstruction/GetFilteredProjectConstructions [model]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 303,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetFilteredProjectConstructions'.\",\"messageDetail\":\"No action was f"
+ },
+ "POST ProjectConstruction/GetFilteredUpgrades [model]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 279,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetFilteredUpgrades'.\",\"messageDetail\":\"No action was found on the "
+ },
+ "POST ProjectConstruction/GetUpgrades [model]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 263,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetUpgrades'.\",\"messageDetail\":\"No action was found on the controll"
+ },
+ "POST ProjectConstruction/Search [model]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 253,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/Search'.\",\"messageDetail\":\"No action was found on the controller 'P"
+ },
+ "POST ProjectConstruction/GetAll [model]": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 253,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetAll'.\",\"messageDetail\":\"No action was found on the controller 'P"
+ },
+ "GET ProjectConstruction/UpgradeDetails?upgradeId=b2752": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 285,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/UpgradeDetails?upgradeId=b2752'.\",\"messageDetail\":\"No action was found on the controller 'ProjectConstruction' that matches the name 'UpgradeDetails'.\"}"
+ },
+ "GET ProjectConstruction/GetUpgradeDetails?upgradeId=b2752": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 291,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetUpgradeDetails?upgradeId=b2752'.\",\"messageDetail\":\"No action was found on the controller 'ProjectConstruction' that matches the name 'GetUpgradeDetails'.\"}"
+ },
+ "GET ProjectConstruction/b2752": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 251,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/b2752'.\",\"messageDetail\":\"No action was found on the controller 'ProjectConstruction' that matches the name 'b2752'.\"}"
+ },
+ "GET ProjectConstruction/UpgradeDetails?upgradeId=n0381.1": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 287,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/UpgradeDetails?upgradeId=n0381.1'.\",\"messageDetail\":\"No action was found on the controller 'ProjectConstruction' that matches the name 'UpgradeDetails'.\"}"
+ },
+ "GET ProjectConstruction/GetUpgradeDetails?upgradeId=n0381.1": {
+  "status": 404,
+  "ctype": "application/json; charset=utf-8",
+  "size": 293,
+  "head": "{\"message\":\"No HTTP resource was found that matches the request URI 'https://services.pjm.com/PJMPlanningApi/api/ProjectConstruction/GetUpgradeDetails?upgradeId=n0381.1'.\",\"messageDetail\":\"No action was found on the controller 'ProjectConstruction' that matches the name 'GetUpgradeDetails'.\"}"
+ },
+ "GET ProjectConstruction/n0381.1": {
+  "status": 404,
+  "ctype": "text/html",
+  "size": 103,
+  "head": "The resource you are looking for has been removed, had its name changed, or is temporarily unavailable."
+ }
+}

@@ -1,0 +1,250 @@
+[
+ {
+  "url": "https://www.pjm.com/m/ProjectConst/CostAllocResetGrdBody",
+  "method": "POST",
+  "post": "jsonModel=%7B%22GridName%22%3A%22CostAllocation%22%2C%22ItemType%22%3A0%2C%22Items%22%3A%5B%5D%2C%22Paginator%22%3A%7B%22ItemType%22%3A7%2C%22CurrentItmsPerPageValue%22%3A%22500%22%2C%22CurrentPageIndex%22%3A%221%22%7D%2C%22Sort%22%3A%22UpgradeID%22%2C%22SortDirection%22%3A%22asc%22%2C%22RelatedGridsFilters%22%3A%22%22%7D",
+  "headers": {
+   "sec-ch-ua-full-version-list": "\"HeadlessChrome\";v=\"153.0.8010.12\", \"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"153.0.8010.12\"",
+   "sec-ch-ua-platform": "\"Linux\"",
+   "referer": "https://www.pjm.com/planning/m/project-construction",
+   "sec-ch-ua": "\"HeadlessChrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+   "sec-ch-ua-bitness": "\"64\"",
+   "sec-ch-ua-model": "\"\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-arch": "\"x86\"",
+   "x-requested-with": "XMLHttpRequest",
+   "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+   "accept": "*/*",
+   "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+   "sec-ch-ua-platform-version": "\"\""
+  }
+ },
+ {
+  "url": "https://www.pjm.com/m/ProjectConst/Paginator",
+  "method": "POST",
+  "post": "jsonModel=%7B%22GridName%22%3A%22CostAllocation%22%2C%22ItemType%22%3A0%2C%22Items%22%3A%5B%5D%2C%22Paginator%22%3A%7B%22ItemType%22%3A7%2C%22CurrentItmsPerPageValue%22%3A%22500%22%2C%22CurrentPageIndex%22%3A%221%22%7D%2C%22Sort%22%3A%22UpgradeID%22%2C%22SortDirection%22%3A%22asc%22%2C%22RelatedGridsFilters%22%3A%22%22%7D",
+  "headers": {
+   "sec-ch-ua-full-version-list": "\"HeadlessChrome\";v=\"153.0.8010.12\", \"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"153.0.8010.12\"",
+   "sec-ch-ua-platform": "\"Linux\"",
+   "referer": "https://www.pjm.com/planning/m/project-construction",
+   "sec-ch-ua": "\"HeadlessChrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+   "sec-ch-ua-bitness": "\"64\"",
+   "sec-ch-ua-model": "\"\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-arch": "\"x86\"",
+   "x-requested-with": "XMLHttpRequest",
+   "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+   "accept": "*/*",
+   "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+   "sec-ch-ua-platform-version": "\"\""
+  }
+ },
+ {
+  "url": "https://www.pjm.com/m/ProjectConst/ProjectConstructionUpgrades",
+  "method": "POST",
+  "post": "jsonModel={\"GridName\":\"CostAllocation\",\"ItemType\":0,\"Items\":[],\"Paginator\":{\"ItemType\":7,\"CurrentItmsPerPageValue\":\"500\",\"CurrentPageIndex\":\"1\"},\"Sort\":\"UpgradeID\",\"SortDirection\":\"asc\",\"RelatedGridsFilters\":\"\"}",
+  "headers": {
+   "sec-ch-ua-full-version-list": "\"HeadlessChrome\";v=\"153.0.8010.12\", \"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"153.0.8010.12\"",
+   "sec-ch-ua-platform": "\"Linux\"",
+   "referer": "https://www.pjm.com/planning/m/project-construction",
+   "sec-ch-ua": "\"HeadlessChrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+   "sec-ch-ua-bitness": "\"64\"",
+   "sec-ch-ua-model": "\"\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-arch": "\"x86\"",
+   "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+   "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+   "sec-ch-ua-platform-version": "\"\""
+  }
+ },
+ {
+  "url": "https://www.pjm.com/m/ProjectConst/UpgradeDetails?upgradeId=b2752",
+  "method": "GET",
+  "post": null,
+  "headers": {
+   "sec-ch-ua-full-version-list": "\"HeadlessChrome\";v=\"153.0.8010.12\", \"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"153.0.8010.12\"",
+   "sec-ch-ua-platform": "\"Linux\"",
+   "referer": "https://www.pjm.com/planning/m/project-construction",
+   "sec-ch-ua": "\"HeadlessChrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+   "sec-ch-ua-bitness": "\"64\"",
+   "sec-ch-ua-model": "\"\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-arch": "\"x86\"",
+   "x-requested-with": "XMLHttpRequest",
+   "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+   "accept": "text/html, */*; q=0.01",
+   "sec-ch-ua-platform-version": "\"\""
+  }
+ },
+ {
+  "url": "https://www.pjm.com/m/ProjectConst/UpgradeDetails?upgradeId=n0381.1",
+  "method": "GET",
+  "post": null,
+  "headers": {
+   "sec-ch-ua-full-version-list": "\"HeadlessChrome\";v=\"153.0.8010.12\", \"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"153.0.8010.12\"",
+   "sec-ch-ua-platform": "\"Linux\"",
+   "referer": "https://www.pjm.com/planning/m/project-construction",
+   "sec-ch-ua": "\"HeadlessChrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+   "sec-ch-ua-bitness": "\"64\"",
+   "sec-ch-ua-model": "\"\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-arch": "\"x86\"",
+   "x-requested-with": "XMLHttpRequest",
+   "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+   "accept": "text/html, */*; q=0.01",
+   "sec-ch-ua-platform-version": "\"\""
+  }
+ },
+ {
+  "url": "https://www.pjm.com/m/ProjectConst/UpgradeDetails?upgradeId=s2069",
+  "method": "GET",
+  "post": null,
+  "headers": {
+   "sec-ch-ua-full-version-list": "\"HeadlessChrome\";v=\"153.0.8010.12\", \"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"153.0.8010.12\"",
+   "sec-ch-ua-platform": "\"Linux\"",
+   "referer": "https://www.pjm.com/planning/m/project-construction",
+   "sec-ch-ua": "\"HeadlessChrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+   "sec-ch-ua-bitness": "\"64\"",
+   "sec-ch-ua-model": "\"\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-arch": "\"x86\"",
+   "x-requested-with": "XMLHttpRequest",
+   "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+   "accept": "text/html, */*; q=0.01",
+   "sec-ch-ua-platform-version": "\"\""
+  }
+ },
+ {
+  "url": "https://www.pjm.com/m/ProjectConst/UpgradeDetails?upgradeId=b3123",
+  "method": "GET",
+  "post": null,
+  "headers": {
+   "sec-ch-ua-full-version-list": "\"HeadlessChrome\";v=\"153.0.8010.12\", \"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"153.0.8010.12\"",
+   "sec-ch-ua-platform": "\"Linux\"",
+   "referer": "https://www.pjm.com/planning/m/project-construction",
+   "sec-ch-ua": "\"HeadlessChrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+   "sec-ch-ua-bitness": "\"64\"",
+   "sec-ch-ua-model": "\"\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-arch": "\"x86\"",
+   "x-requested-with": "XMLHttpRequest",
+   "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+   "accept": "text/html, */*; q=0.01",
+   "sec-ch-ua-platform-version": "\"\""
+  }
+ },
+ {
+  "url": "https://www.pjm.com/m/ProjectConst/UpgradeDetails?upgradeId=b0001",
+  "method": "GET",
+  "post": null,
+  "headers": {
+   "sec-ch-ua-full-version-list": "\"HeadlessChrome\";v=\"153.0.8010.12\", \"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"153.0.8010.12\"",
+   "sec-ch-ua-platform": "\"Linux\"",
+   "referer": "https://www.pjm.com/planning/m/project-construction",
+   "sec-ch-ua": "\"HeadlessChrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+   "sec-ch-ua-bitness": "\"64\"",
+   "sec-ch-ua-model": "\"\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-arch": "\"x86\"",
+   "x-requested-with": "XMLHttpRequest",
+   "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+   "accept": "text/html, */*; q=0.01",
+   "sec-ch-ua-platform-version": "\"\""
+  }
+ },
+ {
+  "url": "https://www.pjm.com/m/ProjectConst/UpgradeDetails?upgradeId=b2436",
+  "method": "GET",
+  "post": null,
+  "headers": {
+   "sec-ch-ua-full-version-list": "\"HeadlessChrome\";v=\"153.0.8010.12\", \"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"153.0.8010.12\"",
+   "sec-ch-ua-platform": "\"Linux\"",
+   "referer": "https://www.pjm.com/planning/m/project-construction",
+   "sec-ch-ua": "\"HeadlessChrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+   "sec-ch-ua-bitness": "\"64\"",
+   "sec-ch-ua-model": "\"\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-arch": "\"x86\"",
+   "x-requested-with": "XMLHttpRequest",
+   "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+   "accept": "text/html, */*; q=0.01",
+   "sec-ch-ua-platform-version": "\"\""
+  }
+ },
+ {
+  "url": "https://www.pjm.com/m/ProjectConst/UpgradeDetails?upgradeId=s1234",
+  "method": "GET",
+  "post": null,
+  "headers": {
+   "sec-ch-ua-full-version-list": "\"HeadlessChrome\";v=\"153.0.8010.12\", \"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"153.0.8010.12\"",
+   "sec-ch-ua-platform": "\"Linux\"",
+   "referer": "https://www.pjm.com/planning/m/project-construction",
+   "sec-ch-ua": "\"HeadlessChrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+   "sec-ch-ua-bitness": "\"64\"",
+   "sec-ch-ua-model": "\"\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-arch": "\"x86\"",
+   "x-requested-with": "XMLHttpRequest",
+   "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+   "accept": "text/html, */*; q=0.01",
+   "sec-ch-ua-platform-version": "\"\""
+  }
+ },
+ {
+  "url": "https://www.pjm.com/m/ProjectConst/UpgradeDetails?upgradeId=n5678",
+  "method": "GET",
+  "post": null,
+  "headers": {
+   "sec-ch-ua-full-version-list": "\"HeadlessChrome\";v=\"153.0.8010.12\", \"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"153.0.8010.12\"",
+   "sec-ch-ua-platform": "\"Linux\"",
+   "referer": "https://www.pjm.com/planning/m/project-construction",
+   "sec-ch-ua": "\"HeadlessChrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+   "sec-ch-ua-bitness": "\"64\"",
+   "sec-ch-ua-model": "\"\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-arch": "\"x86\"",
+   "x-requested-with": "XMLHttpRequest",
+   "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+   "accept": "text/html, */*; q=0.01",
+   "sec-ch-ua-platform-version": "\"\""
+  }
+ },
+ {
+  "url": "https://www.pjm.com/m/ProjectConst/UpgradeCostAllocations?upgradeId=b2752",
+  "method": "GET",
+  "post": null,
+  "headers": {
+   "sec-ch-ua-full-version-list": "\"HeadlessChrome\";v=\"153.0.8010.12\", \"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"153.0.8010.12\"",
+   "sec-ch-ua-platform": "\"Linux\"",
+   "referer": "https://www.pjm.com/planning/m/project-construction",
+   "sec-ch-ua": "\"HeadlessChrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+   "sec-ch-ua-bitness": "\"64\"",
+   "sec-ch-ua-model": "\"\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-arch": "\"x86\"",
+   "x-requested-with": "XMLHttpRequest",
+   "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+   "accept": "text/html, */*; q=0.01",
+   "sec-ch-ua-platform-version": "\"\""
+  }
+ },
+ {
+  "url": "https://www.pjm.com/m/ProjectConst/UpgradeCostAllocations?upgradeId=b3123",
+  "method": "GET",
+  "post": null,
+  "headers": {
+   "sec-ch-ua-full-version-list": "\"HeadlessChrome\";v=\"153.0.8010.12\", \"Not_A Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"153.0.8010.12\"",
+   "sec-ch-ua-platform": "\"Linux\"",
+   "referer": "https://www.pjm.com/planning/m/project-construction",
+   "sec-ch-ua": "\"HeadlessChrome\";v=\"153\", \"Not_A Brand\";v=\"8\", \"Chromium\";v=\"153\"",
+   "sec-ch-ua-bitness": "\"64\"",
+   "sec-ch-ua-model": "\"\"",
+   "sec-ch-ua-mobile": "?0",
+   "sec-ch-ua-arch": "\"x86\"",
+   "x-requested-with": "XMLHttpRequest",
+   "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36",
+   "accept": "text/html, */*; q=0.01",
+   "sec-ch-ua-platform-version": "\"\""
+  }
+ }
+]

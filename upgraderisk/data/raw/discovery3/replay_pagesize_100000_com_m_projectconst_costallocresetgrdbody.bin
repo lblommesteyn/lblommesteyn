@@ -1,0 +1,59 @@
+
+
+
+
+
+<input type="hidden" id="CostAllocation_relFilters" name="CostAllocation_relFilters" value="">
+
+
+        <tr  class="grid-row">
+                <td class="gridcell pjmGridCellUpgradeId"  onclick="OpenUpgradeDetails('b0001',this)">
+                    <div class="blueText"  >b0001</div>
+
+<div   >Seven 230 kV breakers at Shawville</div>
+
+
+                </td>
+                <td class="gridcell pjmGridCellVoltage" >
+                    <div class="gridcell pjmGridCellVoltage "  >230</div>
+
+                </td>
+                <td class="gridcell pjmGridCellTransmissionOwner" >
+                    <div class="gridcell pjmGridCellTransmissionOwner "  >PENELEC</div>
+
+                </td>
+                <td class="gridcell pjmGridCellState" >
+                    <div class="gridcell pjmGridCellState "  >PA</div>
+
+                </td>
+                <td class="gridcell pjmGridCellStatus" >
+                    <img class="gridcell pjmGridCellStatus " onclick="" src="/assets/MVC/images/planning/project-construction/in-service.png" onmouseenter="" onmouseleave="" alt="IS" />
+
+                </td>
+                <td class="gridcell pjmGridCellCost" >
+                    <div class="gridcell pjmGridCellCost "  >1.3</div>
+
+                </td>
+                <td class="gridcell " >
+                    
+                </td>
+                <td class="gridcell pjmGridCellDate" >
+                    <div class="gridcell pjmGridCellDate "  ></div>
+
+                </td>
+                <td class="gridcell pjmGridCellDate" >
+                    <div class="gridcell pjmGridCellDate "  ></div>
+
+                </td>
+                <td class="gridcell pjmGridCellDate" >
+                    <div class="gridcell pjmGridCellDate "  ></div>
+
+                </td>
+                <td class="gridcell pjmGridCellDate" >
+                    <div class="gridcell pjmGridCellDate "  >5.9.2005</div>
+
+                </td>
+        </tr>
+
+
+

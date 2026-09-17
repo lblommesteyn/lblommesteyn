@@ -1,0 +1,82 @@
+[
+ {
+  "name": "appgaffinity",
+  "value": "f76a768ab34b5b39b50fbcc29563d9ea",
+  "domain": "www.pjm.com",
+  "path": "/",
+  "expires": -1,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "shell#lang",
+  "value": "en",
+  "domain": "www.pjm.com",
+  "path": "/",
+  "expires": -1,
+  "httpOnly": false,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "ASP.NET_SessionId",
+  "value": "opb2xtdt42crzhtjskrsma22",
+  "domain": "www.pjm.com",
+  "path": "/",
+  "expires": -1,
+  "httpOnly": true,
+  "secure": true,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "__RequestVerificationToken",
+  "value": "Mi3hXPmWUAVpoHvOfudFXM_38TfaCFKaRsxIrbzsVrraKPkkaHVQexp5dhR5UeLunxhw5ZzwtsWOQjQK3nDbLiFGTcGVzfbnha7oqWUIJmI1",
+  "domain": "www.pjm.com",
+  "path": "/",
+  "expires": -1,
+  "httpOnly": true,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "sxa_site",
+  "value": "pjm",
+  "domain": "www.pjm.com",
+  "path": "/",
+  "expires": -1,
+  "httpOnly": true,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "ASLBSA",
+  "value": "00037e5333a7f915127150639b9cf1131bfb7d2b875122c47f7ec6027423c5eab2df",
+  "domain": "www.pjm.com",
+  "path": "/",
+  "expires": -1,
+  "httpOnly": true,
+  "secure": true,
+  "sameSite": "Lax"
+ },
+ {
+  "name": "ASLBSACORS",
+  "value": "00037e5333a7f915127150639b9cf1131bfb7d2b875122c47f7ec6027423c5eab2df",
+  "domain": "www.pjm.com",
+  "path": "/",
+  "expires": -1,
+  "httpOnly": true,
+  "secure": true,
+  "sameSite": "None"
+ },
+ {
+  "name": "nmstat",
+  "value": "577705f0-02b2-4888-a8ac-b57079c26920",
+  "domain": ".pjm.com",
+  "path": "/",
+  "expires": 1824228836.765209,
+  "httpOnly": false,
+  "secure": false,
+  "sameSite": "Lax"
+ }
+]

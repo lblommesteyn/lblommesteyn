@@ -1,0 +1,2245 @@
+Sign In
+ Go
+Communities
+Calendar
+about pjm
+training
+committees & groups
+planning
+markets & operations
+library
+HomePlanningProject Status & Cost Allocation
+Project Status & Cost Allocation
+
+The table below provides project status and cost allocation information for baseline, network and supplemental projects in PJM's Regional Transmission Expansion Plan (RTEP). Immediate-need reliability projects (exempted from proposal windows) are now consolidated with other project types and displayed on this page.
+
+PJM’s Open Access Transmission Tariff, Schedule 12 contains the cost allocation factors and responsible parties, as filed with FERC:
+
+Appendix
+Appendix A
+Transmission Cost Planner (TC Planner)
+
+Transmission Cost Planner (TC Planner) may be used to help PJM stakeholders better understand their current transmission costs and estimate their future transmission costs. TC Planner provides a wealth of pertinent information for PJM Regional Transmission Expansion Plan (RTEP) Baseline and Supplemental upgrades. TC Planner enables users to estimate annual revenue requirement and monthly transmission cost charges for the current month and a user selected future month within the 10-year horizon for a user selected responsible transmission zone.
+
+An existing account in the PJM Account Manager will automatically grant users read-only access to the TC Planner. No additional access requests are required beyond having a valid Account Manager account. To request access or to set up a new PJM account, refer to the instructions (PDF).
+
+Transmission Owner Non-binding indication of Intent to Fund Network Upgrades (PDF).
+
+Production: Sign In | Register
+
+
+
+
+Filters
+
+Upgrade Types (All)
+Region (All)
+Project Years
+ Immediate Need Only
+Export:
+XLS
+XML
+Showing results 1 - 100 of 15556 [Next]
+100
+250
+500
+Upgrade ID
+	
+Voltage (kV)
+	
+Transmission Owner
+	
+State
+	
+Status
+	
+Cost (millions)
+	
+Cost Allocation (%)
+	
+Required Date
+	
+Projected In-Service
+	
+Actual In-Service
+	
+PJM Board Approval
+
+
+b0001
+Seven 230 kV breakers at Shawville
+	
+230
+	
+PENELEC
+	
+PA
+		
+1.3
+		
+	
+	
+	
+5.9.2005
+
+
+b0002
+Increase emergency rating of Windy Edge - Lakespring - Texas 115 kV
+	
+115
+	
+BGE
+	
+MD
+		
+3.77
+	
+BGE: 100.00
+	
+	
+	
+1.1.2006
+	
+5.9.2005
+
+
+b0003
+Install second East Windsor 500/230 kV transformer
+	
+500/230
+	
+JCPL
+	
+NJ
+		
+9.5
+		
+	
+	
+	
+5.9.2005
+
+
+b0004
+Increase rating of Collins - Cly Tap - Newberry - Round Top 115 kV
+	
+115
+	
+ME
+	
+PA
+		
+0.33
+	
+ME: 100.00
+	
+	
+	
+4.1.2002
+	
+5.9.2005
+
+
+b0005
+Upgrade two 230 kV breakers at Whitpain #235 and #325
+	
+230
+	
+PECO
+	
+PA
+		
+0.89
+	
+PECO: 100.00
+	
+	
+	
+1.1.2006
+	
+5.9.2005
+
+
+b0006
+Upgrade four 230 kV breakers at Whippany
+	
+230
+	
+JCPL
+	
+NJ
+		
+0.1
+		
+	
+	
+	
+5.9.2005
+
+
+b0007
+Addition of third Lewistown 230/115 kV transformer
+	
+230/115
+	
+PENELEC
+	
+PA
+		
+2.75
+		
+	
+	
+	
+5.9.2005
+
+
+b0008
+Install 2-12 MVAR capacitors at Mansfield 115 kV
+	
+115
+	
+PENELEC
+	
+PA
+		
+0.9
+	
+PENELEC: 100.00
+	
+	
+6.1.2003
+	
+5.30.2003
+	
+5.9.2005
+
+
+b0009
+Loop 230 kV into North Meshoppen install second 230/115 kV
+	
+230/115
+	
+PENELEC
+	
+PA
+		
+2.07
+	
+PENELEC: 100.00
+	
+	
+7.31.2003
+	
+10.27.2003
+	
+5.9.2005
+
+
+b0010
+Replace Northwest 230/115 kV transformers with 500 MVA transformers
+	
+230/115
+	
+BGE
+	
+MD
+		
+9.06
+	
+BGE: 100.00
+	
+	
+5.1.2003
+	
+5.1.2003
+	
+5.9.2005
+
+
+b0011
+Install a single 24 MVAR capacitors bank at Round Top 115 kV
+	
+115
+	
+ME
+	
+PA
+		
+0.5
+	
+ME: 100.00
+	
+	
+8.22.2003
+	
+8.29.2003
+	
+5.9.2005
+
+
+b0012
+Install distribution capacitors in South Akron and South Manheim area
+	
+230
+	
+PPL
+	
+PA
+		
+0.4
+	
+PPL: 100.00
+	
+6.1.2004
+	
+6.30.2004
+	
+6.30.2004
+	
+5.9.2005
+
+
+b0013
+Construct Yorkanna - Otter Creek 230 kV and Otter Creek substation
+	
+230
+	
+PPL
+	
+PA
+		
+22.3
+	
+PPL: 100.00
+	
+	
+6.1.2004
+	
+5.20.2004
+	
+5.9.2005
+
+
+b0015
+Replace one Athenia 230 kV breaker #B-2228-5
+	
+230
+	
+PSEG
+	
+NJ
+		
+0.35
+	
+PSEG: 100.00
+	
+6.1.2002
+	
+5.31.2002
+	
+5.31.2002
+	
+5.9.2005
+
+
+b0016
+Replace one Hudson 230 kV breaker #BS1-6
+	
+230
+	
+PSEG
+	
+NJ
+		
+0.35
+	
+PSEG: 100.00
+	
+6.1.2002
+	
+6.30.2002
+	
+6.30.2002
+	
+5.9.2005
+
+
+b0017
+Replace four Roseland 230 kV breakers #BS3-4 #BS4-5 #BS5-6 #BS1-7 with 50KA
+	
+230
+	
+PSEG
+	
+NJ
+		
+1.4
+	
+PSEG: 100.00
+	
+6.1.2002
+	
+5.1.2005
+	
+5.1.2005
+	
+5.9.2005
+
+
+b0018
+Provide additional cooling for Hudson 230/138 kV #2 transformer
+	
+230/138
+	
+PSEG
+	
+NJ
+		
+0.1
+	
+PSEG: 100.00
+	
+6.1.2003
+	
+5.1.2005
+	
+1.10.2005
+	
+5.9.2005
+
+
+b0022
+Upgrade Plymouth Meeting 230 kV breakers #215
+	
+230
+	
+PECO
+	
+PA
+		
+0.1
+	
+PECO: 100.00
+	
+6.1.2003
+	
+	
+5.31.2003
+	
+5.9.2005
+
+
+b0023
+Construct four breaker ring bus and install SVC at Cardiff
+	
+	
+AEC
+	
+NJ
+		
+13.9
+	
+AEC: 100.00
+	
+6.1.2003
+	
+6.1.2003
+	
+4.24.2003
+	
+5.9.2005
+
+
+b0024
+Construct new 230 kV circuit between Cardiff and Oyster Creek
+	
+230
+	
+AEC
+	
+NJ
+		
+58
+	
+AEC: 100.00
+	
+6.1.2005
+	
+7.1.2005
+	
+6.29.2005
+	
+5.9.2005
+
+
+b0025
+Convert the Bergen-Leonia 138kV circuit to 230kV circuit.
+	
+230
+	
+PSEG
+	
+NJ
+		
+25
+	
+PSEG: 100.00
+	
+6.1.2008
+	
+6.1.2008
+	
+5.23.2008
+	
+9.22.2005
+
+
+b0026
+Install a breaker at Brunner Island 230 kV on the Yorkanna circuit
+	
+230
+	
+PPL
+	
+PA
+		
+0.8
+	
+PPL: 100.00
+	
+6.1.2004
+	
+6.1.2004
+	
+11.9.2003
+	
+5.9.2005
+
+
+b0027
+Replace two Manor 230 kV Breakers WH-N WH-S
+	
+230
+	
+PPL
+	
+PA
+		
+1
+	
+PPL: 100.00
+	
+6.1.2004
+	
+6.1.2004
+	
+5.23.2003
+	
+5.9.2005
+
+
+b0030
+Construct a new 230kV tower line to separate the existing Brandon Shores-Riverside DCTL to...
+	
+230
+	
+BGE
+	
+MD
+		
+4
+	
+BGE: 100.00
+	
+6.1.2005
+	
+1.1.2007
+	
+11.6.2006
+	
+5.9.2005
+
+
+b0031.1
+Replace one (1) Conastone 230 kV breaker #6 (GCB) (2322/2302 line)
+	
+230
+	
+BGE
+	
+MD
+		
+0.5
+	
+BGE: 100.00
+	
+	
+5.14.2004
+	
+5.14.2004
+	
+5.9.2005
+
+
+b0031.2
+Replace one (1) Conastone 230 kV breaker #5(ATB) (500-2/2322 line)
+	
+230
+	
+BGE
+	
+MD
+		
+0.22
+	
+BGE: 100.00
+	
+	
+3.7.2003
+	
+3.7.2003
+	
+5.9.2005
+
+
+b0032
+Upgrade two Waugh Chapel 230 kV breakers
+	
+230
+	
+BGE
+	
+MD
+		
+0
+	
+BGE: 100.00
+	
+	
+	
+1.1.2006
+	
+5.9.2005
+
+
+b0034
+Replace one Sewaren 230 kV breaker
+	
+230
+	
+PSEG
+	
+NJ
+		
+0.35
+	
+PSEG: 100.00
+	
+	
+10.31.2002
+	
+10.31.2002
+	
+5.9.2005
+
+
+b0035
+Change Calvert Cliffs unit 1 & 2 GSU tap settings
+	
+	
+BGE
+	
+MD
+		
+0
+	
+BGE: 100.00
+	
+	
+5.1.2004
+	
+5.1.2004
+	
+5.9.2005
+
+
+b0036
+Install a second 230/138 kV transformer at Indian River
+	
+230/138
+	
+DPL
+	
+DE
+		
+5.04
+	
+DPL: 100.00
+	
+	
+6.1.2004
+	
+6.1.2004
+	
+5.9.2005
+
+
+b0039.1
+BGE Reactive Upgrades
+	
+	
+BGE
+	
+MD
+		
+9.12
+	
+BGE: 100.00
+	
+6.1.2007
+	
+6.1.2004
+	
+6.1.2004
+	
+5.9.2005
+
+
+b0039.2
+PEPCO Reactive Upgrades
+	
+	
+PEPCO
+	
+MD
+		
+2.64
+	
+PEPCO: 100.00
+	
+6.1.2007
+	
+6.1.2005
+	
+5.31.2005
+	
+5.9.2005
+
+
+b0039.5
+Install Waugh Chapel 230kV 360MVAR capacitor bank
+	
+230
+	
+BGE
+	
+MD
+		
+1.7
+	
+BGE: 100.00
+	
+6.1.2006
+	
+6.1.2006
+	
+6.29.2006
+	
+11.1.2006
+
+
+b0040
+Replace Doubs 500/230 kv transformer #1
+	
+500/230
+	
+APS
+	
+MD
+		
+4.1
+	
+APS: 100.00
+	
+6.1.2007
+	
+12.31.2005
+	
+12.31.2005
+	
+5.9.2005
+
+
+b0042
+Upgrade Midd Jct - Zions View 115 kV
+	
+115
+	
+ME
+	
+PA
+		
+0.95
+	
+ME: 100.00
+	
+6.1.2007
+	
+6.1.2005
+	
+6.1.2005
+	
+5.9.2005
+
+
+b0043.1
+Add capacitors in north Philadelphia - Buckingham
+	
+	
+PECO
+	
+PA
+		
+1.38
+	
+PECO: 100.00
+	
+12.1.2007
+	
+	
+6.1.2003
+	
+5.9.2005
+
+
+b0043.2
+Add capacitors in north Philadelphia - Woodburne
+	
+	
+PECO
+	
+PA
+		
+1.38
+	
+PECO: 100.00
+	
+12.1.2007
+	
+	
+5.14.2004
+	
+5.9.2005
+
+
+b0043.3
+Add capacitors in north Philadelphia - North Wales
+	
+	
+PECO
+	
+PA
+		
+1.38
+	
+PECO: 100.00
+	
+12.1.2007
+	
+6.1.2005
+	
+5.31.2005
+	
+5.9.2005
+
+
+b0044
+Replace Richmond 69KV breaker #20 with 40,000 A
+	
+69
+	
+PECO
+	
+PA
+		
+0.1
+	
+PECO: 100.00
+	
+	
+2.1.2004
+	
+2.1.2004
+	
+5.9.2005
+
+
+b0045
+Jumper out Richmond 69KV breaker #40
+	
+69
+	
+PECO
+	
+PA
+		
+0
+	
+PECO: 100.00
+	
+	
+12.12.2003
+	
+12.12.2003
+	
+5.9.2005
+
+
+b0047
+Replace Richmond 69KV breaker #120 with 40,000 A
+	
+69
+	
+PECO
+	
+PA
+		
+0.1
+	
+PECO: 100.00
+	
+	
+11.18.2003
+	
+11.18.2003
+	
+5.9.2005
+
+
+b0049
+Modify 21 structures for Canaan Valley-Williams 138KV circuit
+	
+138
+	
+APS
+	
+WV
+		
+0.4
+	
+APS: 100.00
+	
+10.1.2003
+	
+12.31.2003
+	
+11.3.2003
+	
+5.9.2005
+
+
+b0050.1
+Add 5.1 MVAR cap at W. Waynesboro 34.5KV
+	
+34
+	
+APS
+	
+PA
+		
+0.05
+	
+APS: 100.00
+	
+10.1.2003
+	
+5.1.2003
+	
+8.1.2003
+	
+5.9.2005
+
+
+b0050.2
+5.1 MVAR cap at Lime Kiln 34.5 KV
+	
+34
+	
+APS
+	
+MD
+		
+0.05
+	
+APS: 100.00
+	
+10.1.2003
+	
+5.1.2003
+	
+8.1.2003
+	
+5.9.2005
+
+
+b0050.3
+2.1 MVAR cap at Chamber's No. 5
+	
+	
+APS
+	
+PA
+		
+0.05
+	
+APS: 100.00
+	
+10.1.2003
+	
+6.30.2003
+	
+5.23.2003
+	
+5.9.2005
+
+
+b0051
+Add 10.2 MVAR cap at Aqueduct 34.5KV
+	
+34
+	
+APS
+	
+MD
+		
+0.15
+	
+APS: 100.00
+	
+10.1.2003
+	
+5.1.2003
+	
+8.26.2003
+	
+5.9.2005
+
+
+b0052.1
+Add a second 10.2 MVAR at Montgomery 34.5 KV for a total of 20.4 MVAR (eff.)
+	
+34
+	
+APS
+	
+MD
+		
+0.34
+	
+APS: 100.00
+	
+6.1.2005
+	
+6.15.2006
+	
+6.15.2006
+	
+5.9.2005
+
+
+b0052.2
+5.1 MVAR cap at Boonsboro 34.5 KV
+	
+34
+	
+APS
+	
+MD
+		
+0.34
+	
+APS: 100.00
+	
+6.1.2004
+	
+9.30.2004
+	
+9.16.2004
+	
+5.9.2005
+
+
+b0052.3
+Add a second 10.2 MVAR cap at Mt. Airy 34.5 KV for a total of 20.4 MVAR (eff.)
+	
+34
+	
+APS
+	
+MD
+		
+0.34
+	
+APS: 100.00
+	
+6.1.2004
+	
+9.30.2004
+	
+10.27.2004
+	
+5.9.2005
+
+
+b0052.4
+Increase the 8.2 MVAR capacitor to 10.2 MVAR (eff.) at Antietam 34.5 KV
+	
+34
+	
+APS
+	
+MD
+		
+0.34
+	
+APS: 100.00
+	
+6.1.2004
+	
+10.15.2004
+	
+11.1.2004
+	
+5.9.2005
+
+
+b0052.5
+Install 10.2 MVAR (effective) 34.5 kV Capacitor at McCain Substation
+	
+34
+	
+APS
+	
+MD
+		
+0.19
+	
+APS: 100.00
+	
+6.1.2006
+	
+1.15.2005
+	
+2.2.2005
+	
+5.9.2005
+
+
+b0053
+Add a second 10.2 MVAR capacitor for a total of 20.4 MVAR (eff.) at Davis Mill 34.5 KV
+	
+34
+	
+APS
+	
+MD
+		
+0.3
+	
+APS: 100.00
+	
+6.1.2006
+	
+9.1.2005
+	
+8.3.2005
+	
+5.9.2005
+
+
+b0054
+Add 22 MVAR of capacitance at Ringgold 138 KV for a total of 66 MVAR (eff.)
+	
+138
+	
+APS
+	
+MD
+		
+0.17
+	
+APS: 100.00
+	
+6.1.2005
+	
+6.30.2005
+	
+6.30.2005
+	
+5.9.2005
+
+
+b0055
+Add 44 MVAR cap at Carroll 138 KV
+	
+138
+	
+APS
+	
+MD
+		
+0.4
+	
+APS: 100.00
+	
+6.1.2005
+	
+6.30.2006
+	
+5.23.2006
+	
+5.9.2005
+
+
+b0057
+Install two breakers at Lake Nelson 230kV
+	
+230
+	
+PSEG
+	
+NJ
+		
+5.2
+	
+PSEG: 100.00
+	
+6.1.2005
+	
+5.26.2006
+	
+6.9.2006
+	
+5.9.2005
+
+
+b0058
+Replace two Athenia 230/138KV transformers
+	
+230/138
+	
+PSEG
+	
+NJ
+		
+6
+	
+PSEG: 100.00
+	
+6.1.2007
+	
+6.1.2005
+	
+6.1.2005
+	
+5.9.2005
+
+
+b0059
+Add a new Roxborough 69kV breaker (#215)
+	
+69
+	
+PECO
+	
+PA
+		
+0.25
+	
+PECO: 100.00
+	
+1.1.2003
+	
+	
+1.1.2003
+	
+5.9.2005
+
+
+b0060
+Replace Deans 230KV circuit breaker #2-10
+	
+230
+	
+PSEG
+	
+NJ
+		
+0.48
+	
+PSEG: 100.00
+	
+4.30.2006
+	
+4.7.2006
+	
+4.7.2006
+	
+5.9.2005
+
+
+b0061
+Replace Deans 230KV circuit breaker #2-8
+	
+230
+	
+PSEG
+	
+NJ
+		
+0.48
+	
+PSEG: 100.00
+	
+6.1.2006
+	
+3.24.2006
+	
+3.24.2006
+	
+5.9.2005
+
+
+b0062
+Replace Deans 230KV circuit breaker #5-6
+	
+230
+	
+PSEG
+	
+NJ
+		
+0.48
+	
+PSEG: 100.00
+	
+6.1.2006
+	
+4.21.2006
+	
+4.21.2006
+	
+5.9.2005
+
+
+b0063
+Replace Deans 230KV circuit breaker #2-6
+	
+230
+	
+PSEG
+	
+NJ
+		
+0.48
+	
+PSEG: 100.00
+	
+4.30.2006
+	
+3.10.2006
+	
+3.10.2006
+	
+5.9.2005
+
+
+b0064
+Replace Linden 230 KV breaker#1-5
+	
+230
+	
+PSEG
+	
+NJ
+		
+0.48
+	
+PSEG: 100.00
+	
+4.30.2006
+	
+5.15.2006
+	
+5.11.2006
+	
+5.9.2005
+
+
+b0065
+Replace Linden 230 kV circuit breaker #1-3
+	
+230
+	
+PSEG
+	
+NJ
+		
+0.48
+	
+PSEG: 100.00
+	
+4.30.2006
+	
+4.30.2006
+	
+4.26.2006
+	
+5.9.2005
+
+
+b0066
+Replace Linden 230KV circuit breaker #2-3
+	
+230
+	
+PSEG
+	
+NJ
+		
+0.48
+	
+PSEG: 100.00
+	
+4.30.2006
+	
+6.1.2007
+	
+2.2.2007
+	
+5.9.2005
+
+
+b0067
+Replace a section of Jackson-Baker Tap bus
+	
+115
+	
+ME
+	
+PA
+		
+0.02
+	
+ME: 100.00
+	
+6.1.2008
+	
+12.31.2004
+	
+12.31.2004
+	
+5.9.2005
+
+
+b0069
+Replace disconnect switch at Glory/Dixonville
+	
+230
+	
+PENELEC
+	
+PA
+		
+0.1
+	
+PENELEC: 100.00
+	
+6.1.2008
+	
+5.31.2007
+	
+4.27.2007
+	
+5.9.2005
+
+
+b0071
+Loop the W-1323 line into the Bayway 138 kV bus
+	
+138
+	
+PSEG
+	
+NJ
+		
+4.5
+	
+PSEG: 100.00
+	
+6.1.2008
+	
+6.1.2008
+	
+7.14.2008
+	
+5.9.2005
+
+
+b0073
+Reconductor 605 ft of the Kearny-Turnpike "D" 138 kV circuit
+	
+138
+	
+PSEG
+	
+NJ
+		
+0.2
+	
+PSEG: 100.00
+	
+6.1.2008
+	
+6.1.2008
+	
+3.5.2013
+	
+5.9.2005
+
+
+b0074
+S. Akron-Berks, Double Circuit, Rebuild 12 miles of S Akron-Berks to double circuit, looping Met...
+	
+	
+PPL
+	
+PA
+		
+48.27
+	
+PPL: 100.00
+	
+6.1.2008
+	
+6.1.2008
+	
+5.2.2008
+	
+5.9.2005
+
+
+b0076
+Add Werner 230/115 KV transformer
+	
+230/115
+	
+JCPL
+	
+NJ
+		
+0
+	
+JCPL: 100.00
+	
+6.1.2004
+	
+5.19.2004
+	
+5.19.2004
+	
+5.9.2005
+
+
+b0077
+Replace wavetrap on Morris Park - Gilbert 230kV
+	
+230
+	
+JCPL
+	
+NJ
+		
+0
+	
+JCPL: 100.00
+	
+6.1.2008
+	
+6.1.2004
+	
+5.27.2004
+	
+5.9.2005
+
+
+b0078
+Replace disconnect switch on Morris Park - Gilbert 230kV
+	
+230
+	
+JCPL
+	
+NJ
+		
+0
+	
+JCPL: 100.00
+	
+6.1.2008
+	
+6.1.2004
+	
+5.27.2004
+	
+5.9.2005
+
+
+b0079
+Install SPS at Branchburg
+	
+	
+PSEG
+	
+NJ
+		
+0
+	
+PSEG: 100.00
+	
+6.1.2008
+	
+6.1.2004
+	
+6.1.2004
+	
+5.9.2005
+
+
+b0080
+Relay upgrade on Dresden 345/138 kV “Blue”
+	
+345/138
+	
+ComEd
+	
+IL
+		
+0.1
+	
+ComEd: 100.00
+	
+6.1.2004
+	
+4.30.2004
+	
+4.16.2004
+	
+5.9.2005
+
+
+b0081
+Reconductor Des Plaines - Howard 138 kV
+	
+138
+	
+ComEd
+	
+IL
+		
+1.4
+	
+ComEd: 100.00
+	
+6.1.2005
+	
+6.1.2005
+	
+5.14.2005
+	
+5.9.2005
+
+
+b0085
+Install third Branchburg 500/230 kV transformer
+	
+500/230
+	
+PSEG
+	
+NJ
+		
+15
+	
+PSEG: 100.00
+	
+6.30.2005
+	
+6.30.2005
+	
+4.24.2005
+	
+5.9.2005
+
+
+b0086
+Capacitor Additions at Cedar
+	
+	
+AEC
+	
+NJ
+		
+0.07
+	
+AEC: 100.00
+	
+6.30.2004
+	
+	
+6.30.2004
+	
+5.9.2005
+
+
+b0087
+Capacitor Additions at Motts Farm
+	
+	
+AEC
+	
+NJ
+		
+0.76
+	
+AEC: 100.00
+	
+6.30.2004
+	
+	
+6.29.2004
+	
+5.9.2005
+
+
+b0088
+Landis - Minotola 138kV upgrade
+	
+138
+	
+AEC
+	
+NJ
+		
+0.08
+	
+AEC: 100.00
+	
+6.30.2004
+	
+	
+4.21.2004
+	
+5.9.2005
+
+
+b0089
+Load reconfiguration at Motts Farm
+	
+	
+AEC
+	
+NJ
+		
+0
+	
+AEC: 100.00
+	
+6.30.2004
+	
+	
+6.30.2004
+	
+5.9.2005
+
+
+b0090
+Add 150 MVAR capacitor at Camden 230 kV
+	
+230
+	
+PSEG
+	
+NJ
+		
+1.25
+	
+PSEG: 100.00
+	
+6.1.2005
+	
+7.14.2005
+	
+7.14.2005
+	
+5.9.2005
+
+
+b0091
+Replace Wavetrap on Doubs - Montgomery Tap 230 kV
+	
+230
+	
+APS
+	
+WV
+		
+0.05
+	
+APS: 100.00
+	
+6.1.2008
+	
+11.1.2005
+	
+5.6.2005
+	
+5.9.2005
+
+
+b0098
+Install Silver Lake - Pleasant Valley 345 kV and Pleasant Valley 345/138 kV
+	
+345/138
+	
+ComEd
+	
+IL
+		
+13.5
+	
+ComEd: 100.00
+	
+6.1.2005
+	
+5.27.2005
+	
+5.25.2005
+	
+5.9.2005
+
+
+b0099
+Install third Nelson 345/138 kV
+	
+345/138
+	
+ComEd
+	
+IL
+		
+5
+	
+ComEd: 100.00
+	
+6.1.2008
+	
+6.1.2008
+	
+3.29.2008
+	
+5.9.2005
+
+
+b0101
+Install auto-close scheme at Waukegan
+	
+	
+ComEd
+	
+IL
+		
+0.05
+	
+ComEd: 100.00
+	
+6.1.2005
+	
+6.1.2005
+	
+5.25.2005
+	
+5.9.2005
+
+
+b0104
+Install a 345/138 kV transformer at East Frankfort and reconductor East Frankfort - Mokena Tap 138...
+	
+345/138
+	
+ComEd
+	
+IL
+		
+15
+	
+ComEd: 100.00
+	
+6.1.2008
+	
+6.1.2006
+	
+5.26.2006
+	
+5.9.2005
+
+
+b0105
+Install new 138 kV line 11107 from Electric Junction to Warrenville
+	
+138
+	
+ComEd
+	
+IL
+		
+1.04
+	
+ComEd: 100.00
+	
+6.1.2008
+	
+6.1.2006
+	
+5.27.2006
+	
+5.9.2005
+
+
+b0108
+Replace Deans 230 kV breaker #7-8
+	
+230
+	
+PSEG
+	
+NJ
+		
+0.48
+	
+PSEG: 100.00
+	
+4.30.2006
+	
+5.5.2006
+	
+5.5.2006
+	
+5.9.2005
+
+
+b0109
+Install SPS at Wylie Ridge
+	
+	
+APS
+	
+WV
+		
+0
+	
+APS: 100.00
+	
+9.1.2004
+	
+3.31.2005
+	
+3.31.2005
+	
+5.9.2005
+
+
+b0110
+Purchase spare 500/230 kV transformer for Doubs
+	
+500/230
+	
+APS
+	
+MD
+		
+0
+	
+APS: 100.00
+	
+6.1.2005
+	
+10.30.2006
+	
+10.22.2005
+	
+5.9.2005
+
+
+b0113
+Roberts Station / Bixby, LSII 138kV/Bixby, Install new 345/138 kV transformer at Roberts Station;...
+	
+345/138
+	
+AEP
+	
+OH
+		
+14.2
+	
+AEP: 100.00
+	
+6.1.2009
+	
+12.1.2007
+	
+11.8.2007
+	
+5.9.2005
+
+
+b0114
+Install new 345/138 kV transformer at existing Don Marquis Station and reconfigure 138 kV system in...
+	
+345/138
+	
+AEP
+	
+OH
+		
+35.23
+	
+AEP: 100.00
+	
+6.1.2009
+	
+12.31.2010
+	
+11.14.2010
+	
+5.9.2005
+
+
+b0115
+Install 5% series reactor at Hyatt Station and install 29 MVAR capacitor at Trent 138 kV Station
+	
+138
+	
+AEP
+	
+OH
+		
+0.9
+	
+AEP: 100.00
+	
+6.1.2009
+	
+6.30.2005
+	
+7.12.2005
+	
+5.9.2005
+
+
+b0116
+Replace breakers K, K2, and M at Cook 345 kV Station
+	
+345
+	
+AEP
+	
+MI
+		
+4.1
+	
+AEP: 100.00
+	
+6.1.2005
+	
+6.30.2005
+	
+6.24.2005
+	
+5.9.2005
+
+
+b0117
+Replace breakers E, E1, E2, F, F1 and F2 at Dumont 345 kV Station
+	
+345
+	
+AEP
+	
+IN
+		
+3.3
+	
+AEP: 100.00
+	
+6.1.2005
+	
+6.10.2005
+	
+5.20.2005
+	
+5.9.2005
+
+
+b0118
+Replacement of AA and AA1 breakers at Tidd 345 KV substation
+	
+345
+	
+AEP
+	
+OH
+		
+1.3
+	
+AEP: 100.00
+	
+6.1.2005
+	
+	
+11.11.2004
+	
+5.9.2005
+
+
+b0119
+Replace breakers FF1 and FF2 at Tidd 345 kV Station
+	
+345
+	
+Buckeye Power
+	
+OH
+		
+1.3
+		
+6.1.2005
+	
+6.2.2006
+	
+6.18.2006
+	
+5.9.2005
+
+
+b0121
+Add 150 MVAR capacitor at Aldene 230 kV
+	
+230
+	
+PSEG
+	
+NJ
+		
+1.25
+	
+PSEG: 100.00
+	
+6.1.2005
+	
+6.8.2005
+	
+7.7.2005
+	
+5.9.2005
+
+
+b0122
+Bypass the Essex 138 kV series reactors
+	
+138
+	
+PSEG
+	
+NJ
+		
+0.5
+	
+PSEG: 100.00
+	
+6.1.2005
+	
+6.1.2005
+	
+5.14.2005
+	
+5.9.2005
+
+
+b0123
+Add 180 MVAR of distributed capacitors in JCP&L. 65 MVAR are being added in northern JCP&L and 115...
+	
+	
+JCPL
+	
+NJ
+		
+2.7
+	
+JCPL: 100.00
+	
+6.1.2005
+	
+12.31.2005
+	
+8.1.2005
+	
+5.9.2005
+Showing results 1 - 100 of 15556 [Next]
+100
+250
+500
+Quick Links
+Careers
+Communications
+PJM Glossary
+Issue Tracking
+Learning Center
+Manuals
+Operating Agreement
+Request a Speaker
+Open Access Transmission Tariff
+RSS Feeds
+Upcoming Changes
+Visiting PJM
+Training
+Data Shortcuts
+Data Viewer
+System Map
+Interregional Data Map
+Data Miner 2
+Data Directory
+Emergency Procedures
+Contact
+Member Relations
+(610) 666-8980
+(866) 400-8980
+Email
+Contact Directory
+Member Community
+Media Relations
+(866) 756-6397
+Newsroom
+Media Relations Email
+
+PJM Compliance Line
+(866) 776 6942
+Online Reporting Tool
+Mailing Address
+2750 Monroe Boulevard
+Audubon, PA 19403
+
+Follow us on:       
+PJM © 1999-2026 All rights reserved. Legal and Privacy Site Map
+Feedback

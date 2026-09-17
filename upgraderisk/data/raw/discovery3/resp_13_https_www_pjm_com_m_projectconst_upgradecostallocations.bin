@@ -1,0 +1,22 @@
+
+
+
+        <div class="modal-content modal-content-costAllocationPercent">
+            <span class="close" onclick="CloseCostAllocationDetails()">&times;</span>
+            <div class="modal-header">
+                <h2>
+                    <span id="costAllocUpgrId">b3123</span>
+                    Cost Allocation Details
+                </h2>
+            </div>
+
+        <div class="modal-body">
+            <div class="modal-details-desc">The Cost Allocation split percentages are as follows:</div>
+                        <h3>Non-Load Ratio Share</h3>
+
+    <div class="costAllocationColumnList">
+            <div class="costAllocationPercentItem"><span><b>ATSI:</b></span><span>100.00</span></div>
+    </div>
+
+        </div>
+        </div>
