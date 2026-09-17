@@ -1,0 +1,205 @@
+label,timestamp,original,status,bytes,n_tables,rows_per_table,active_tab,xml,columns,file,sha256
+construct_status,20100105205228,http://pjm.com/planning/rtep-upgrades-status/construct-status.aspx?p=1,ok,322148,0,,,,,construct_status_20100105205228.json.gz,26c466d2d35f9e6d
+construct_status,20130909093145,http://www.pjm.com/planning/rtep-upgrades-status/construct-status.aspx?p=1,ok,349566,0,,,,,construct_status_20130909093145.json.gz,069df4c609e81169
+construct_status,20140712151944,http://pjm.com/planning/rtep-upgrades-status/construct-status.aspx?p=1,ok,364067,0,,,,,construct_status_20140712151944.json.gz,5a0c9335ddaa649a
+construct_status,20150908233314,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,620530,1,807,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20150908233314.json.gz,1afafb2db593c5da
+construct_status,20150910214335,http://www.pjm.com/planning/rtep-upgrades-status/construct-status.aspx,ok,621952,1,807,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20150910214335.json.gz,63ec4f2be350605c
+construct_status,20151026063831,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,655974,1,861,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20151026063831.json.gz,5afa3e3a36c12dea
+construct_status,20151127020616,http://www.pjm.com/planning/rtep-upgrades-status/construct-status.aspx,ok,664033,1,869,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20151127020616.json.gz,21b283167475e6f8
+construct_status,20160325142005,http://pjm.com/planning/rtep-upgrades-status/construct-status.aspx,ok,663532,1,795,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20160325142005.json.gz,de807f1cbb30a0f3
+construct_status,20160415205524,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,647472,1,775,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20160415205524.json.gz,e9aecbf764f957ea
+construct_status,20160416142828,http://www.pjm.com/planning/rtep-upgrades-status/construct-status.aspx,ok,648894,1,775,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20160416142828.json.gz,0bb433bb7cab5b34
+construct_status,20160514221640,http://www.pjm.com/planning/rtep-upgrades-status/construct-status.aspx,ok,608692,1,728,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20160514221640.json.gz,ecba58e4c01ebb90
+construct_status,20160516221007,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,607270,1,728,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20160516221007.json.gz,cebf92d3cc1dcff3
+construct_status,20160617025617,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,598039,1,715,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20160617025617.json.gz,9a6e34bf03a6908f
+construct_status,20160718204347,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,563932,1,670,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20160718204347.json.gz,9d54ad4915aee9d0
+construct_status,20160810160924,http://www.pjm.com/planning/rtep-upgrades-status/construct-status.aspx,ok,572697,1,680,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20160810160924.json.gz,4c38d762db9522ca
+construct_status,20160823061003,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,528752,1,615,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20160823061003.json.gz,b26eb47d2c0b62bf
+construct_status,20160923163817,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,545455,1,630,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20160923163817.json.gz,00deaa72d768162a
+construct_status,20160925080929,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,545469,1,630,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20160925080929.json.gz,e85d777814a5aa25
+construct_status,20161222201623,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,560532,1,635,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20161222201623.json.gz,a0cdce913433e168
+construct_status,20170310145454,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,544248,1,617,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20170310145454.json.gz,37f8898fd5fe69d8
+construct_status,20170324093723,http://pjm.com/planning/rtep-upgrades-status/construct-status.aspx,ok,556800,1,634,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20170324093723.json.gz,6d4c5c915df3150c
+construct_status,20170422040627,http://www.pjm.com/planning/rtep-upgrades-status/construct-status.aspx,ok,552567,1,629,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20170422040627.json.gz,87a6cbc324dcb17e
+construct_status,20170521015316,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,534154,1,605,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20170521015316.json.gz,12b20f1e05921498
+construct_status,20170524045447,http://pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,540053,1,611,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20170524045447.json.gz,d66ff8b24cec08ac
+construct_status,20170604034232,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,531405,1,601,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20170604034232.json.gz,fa235d3b8abe093e
+construct_status,20170612125109,http://pjm.com/planning/rtep-upgrades-status/construct-status.aspx,ok,528777,1,596,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20170612125109.json.gz,2e31740c8a3dc80d
+construct_status,20170706095841,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,541911,1,611,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20170706095841.json.gz,919c45afcb342662
+construct_status,20170806063446,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,536140,0,,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20170806063446.json.gz,d2832cf9c6586877
+construct_status,20170929090512,http://pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,567336,0,,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20170929090512.json.gz,32332439e3e5ea58
+construct_status,20171108174740,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,582033,0,,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20171108174740.json.gz,da74ce8da3dde06f
+construct_status,20180125060140,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,575948,0,,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20180125060140.json.gz,6eae6485d0c34b72
+construct_status,20180126123350,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,575247,0,,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20180126123350.json.gz,069578d3592d5bfe
+construct_status,20180218095333,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,576477,0,,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20180218095333.json.gz,a133fb9cdeb0ff78
+construct_status,20180609103324,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,542416,0,,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20180609103324.json.gz,62e2e6a2c4faa969
+construct_status,20180710121544,http://pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,562627,0,,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20180710121544.json.gz,da5f1e8aff98da58
+construct_status,20180712014547,http://www.pjm.com:80/planning/rtep-upgrades-status/construct-status.aspx,ok,562638,0,,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20180712014547.json.gz,6f49f75a15950d22
+construct_status,20190819020720,https://www.pjm.com/planning/rtep-upgrades-status/construct-status.aspx,ok,516715,0,,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20190819020720.json.gz,e284671a304103b3
+construct_status,20190825133101,https://pjm.com/planning/rtep-upgrades-status/construct-status.aspx,ok,518625,0,,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20190825133101.json.gz,2d3a792cc853c6f1
+construct_status,20191023212012,https://www.pjm.com/planning/rtep-upgrades-status/construct-status.aspx,ok,513627,0,,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20191023212012.json.gz,83f0260bf1c94f5b
+construct_status,20191213210345,https://www.pjm.com/planning/rtep-upgrades-status/construct-status.aspx,ok,529018,0,,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20191213210345.json.gz,df1e3e075bd33ad4
+construct_status,20191215212735,https://pjm.com/planning/rtep-upgrades-status/construct-status.aspx,ok,529018,0,,,"
+
+",Upgrade ID|PJM Required<br/>Date|To Projected<br/>Date|Description|Trans Owner|Driver|Status|St|Cpte<br/>%|Cost<br/>Estimate</br>(million),construct_status_20191215212735.json.gz,50ce40c5a03ae666
+cost_allocation_view,20130911025813,http://www.pjm.com/planning/rtep-upgrades-status/cost-allocation-view.aspx?p=1,ok,343399,0,,,,,cost_allocation_view_20130911025813.json.gz,c793590a890171db
+cost_allocation_view,20140712174648,http://pjm.com/planning/rtep-upgrades-status/cost-allocation-view.aspx?p=1,ok,356908,0,,,,,cost_allocation_view_20140712174648.json.gz,1325c4d5f022be9d
+cost_allocation_view,20150909120120,http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,1649767,0,,,"
+
+",Upgrade ID|Description|TO|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20150909120120.json.gz,bc4b89e624789892
+cost_allocation_view,20150910215721,http://pjm.com/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,1688532,1,2793,,"
+
+",Upgrade ID|Description|TO|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20150910215721.json.gz,58491f2cb5ac6d35
+cost_allocation_view,20151127090459,http://www.pjm.com/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,1688731,1,2793,,"
+
+",Upgrade ID|Description|TO|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20151127090459.json.gz,52af66ce4aacca21
+cost_allocation_view,20151212115910,http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,1752719,1,2891,,"
+
+",Upgrade ID|Description|TO|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20151212115910.json.gz,db28aab7af5a8a66
+cost_allocation_view,20160228181406,http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,1774959,1,2929,,"
+
+",Upgrade ID|Description|TO|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20160228181406.json.gz,7683991dc4a32651
+cost_allocation_view,20160325142139,http://pjm.com/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,1775441,1,2929,,"
+
+",Upgrade ID|Description|TO|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20160325142139.json.gz,32aa77a70dedad60
+cost_allocation_view,20160417024146,http://www.pjm.com/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,1775434,1,2929,,"
+
+",Upgrade ID|Description|TO|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20160417024146.json.gz,c4ea9d892776bd5f
+cost_allocation_view,20160630044951,http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,1761775,1,2929,,"
+
+",Upgrade ID|Description|TO|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20160630044951.json.gz,9dd050ae119db6e8
+cost_allocation_view,20160729212742,http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,1761946,1,2929,,"
+
+",Upgrade ID|Description|TO|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20160729212742.json.gz,4c95c92d45c3269e
+cost_allocation_view,20160904212135,http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,1762112,1,2929,,"
+
+",Upgrade ID|Description|TO|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20160904212135.json.gz,8dfc0fe5c6c38a92
+cost_allocation_view,20161016221550,http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,1767347,1,2929,,"
+
+",Upgrade ID|Description|TO|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20161016221550.json.gz,c1061a5a66cd9adf
+cost_allocation_view,20161222201628,http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,1774978,1,2929,,"
+
+",Upgrade ID|Description|TO|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20161222201628.json.gz,0689a3b78119e783
+cost_allocation_view,20170324133232,http://pjm.com/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,2118089,0,,,"
+
+",Upgrade ID|Description|TO|Status|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20170324133232.json.gz,2bf4daf9569655e1
+cost_allocation_view,20170501150451,http://www.pjm.com/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,2116537,0,,,"
+
+",Upgrade ID|Description|TO|Status|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20170501150451.json.gz,cf1a6c7e22d31f57
+cost_allocation_view,20170612130737,http://pjm.com/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,2114370,0,,,"
+
+",Upgrade ID|Description|TO|Status|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20170612130737.json.gz,2dddab426edb0950
+cost_allocation_view,20170910040529,http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,2502289,0,,,"
+
+",Upgrade ID|Description|TO|Status|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20170910040529.json.gz,f593494cf8f24c62
+cost_allocation_view,20171013022606,http://pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,2502396,0,,,"
+
+",Upgrade ID|Description|TO|Status|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20171013022606.json.gz,dec39103f81e4885
+cost_allocation_view,20171110204013,http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,2549719,0,,,"
+
+",Upgrade ID|Description|TO|Status|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20171110204013.json.gz,92823eb503ff7f51
+cost_allocation_view,20171213050908,http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,2549476,0,,,"
+
+",Upgrade ID|Description|TO|Status|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20171213050908.json.gz,2115eaaf56577f37
+cost_allocation_view,20180125055952,http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,2549362,0,,,"
+
+",Upgrade ID|Description|TO|Status|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20180125055952.json.gz,7b063c9df1806f57
+cost_allocation_view,20180126123459,http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,2549362,0,,,"
+
+",Upgrade ID|Description|TO|Status|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20180126123459.json.gz,cfb2261519b9b9c3
+cost_allocation_view,20180329214135,http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,2580545,0,,,"
+
+",Upgrade ID|Description|TO|Status|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20180329214135.json.gz,7926e070d2a575c5
+cost_allocation_view,20180530060314,http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,2574169,0,,,"
+
+",Upgrade ID|Description|TO|Status|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20180530060314.json.gz,0f4c698141b1fc84
+cost_allocation_view,20180710121758,http://pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,2573222,0,,,"
+
+",Upgrade ID|Description|TO|Status|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20180710121758.json.gz,580e2e2d4d3ca186
+cost_allocation_view,20180726095020,http://www.pjm.com:80/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,2573286,0,,,"
+
+",Upgrade ID|Description|TO|Status|Cost<br/>Estimate<br/>(millions)|<span class='srtAllocation' onclick='showDropDownSortMenu(this)'>Cost Allocation (%)</span><br/><span class='srtAllocationSubHeader'></span>|PJM<br/>Required<br/>Date,cost_allocation_view_20180726095020.json.gz,8244cbc74f8468af
+cost_allocation_view,20190819022833,https://www.pjm.com/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,1048576,0,,,,,cost_allocation_view_20190819022833.json.gz,8c4607f04daeffde
+cost_allocation_view,20190825133229,https://pjm.com/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,1048576,0,,,,,cost_allocation_view_20190825133229.json.gz,62bb63765d2f5dac
+cost_allocation_view,20191017052317,https://pjm.com/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,1048576,0,,,,,cost_allocation_view_20191017052317.json.gz,c479379e2e627a06
+cost_allocation_view,20191023213705,https://www.pjm.com/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,1048576,0,,,,,cost_allocation_view_20191023213705.json.gz,b2d63651cc8628d2
+cost_allocation_view,20191207095809,https://www.pjm.com/planning/rtep-upgrades-status/cost-allocation-view.aspx,ok,1048576,0,,,,,cost_allocation_view_20191207095809.json.gz,4259bf01c984fa37
+rtep_upgrades_status,20130910161356,http://www.pjm.com/planning/rtep-upgrades-status.aspx?p=1,ok,344158,0,,,,,rtep_upgrades_status_20130910161356.json.gz,367e02f6e62cd92f
+rtep_upgrades_status,20140712062807,http://pjm.com/planning/rtep-upgrades-status.aspx?p=1,ok,357563,0,,,,,rtep_upgrades_status_20140712062807.json.gz,75e3a010ddeba314
+queues_status,20100105204631,http://pjm.com/planning/rtep-upgrades-status/queues-status.aspx?p=1,ok,319760,0,,,,,queues_status_20100105204631.json.gz,4cbf524846f6d2f3
+queues_status,20130910015504,http://www.pjm.com/planning/rtep-upgrades-status/queues-status.aspx?p=1,ok,346538,0,,,,,queues_status_20130910015504.json.gz,3b1902713c7aaa41
+queues_status,20140711054021,http://pjm.com/planning/rtep-upgrades-status/queues-status.aspx?p=1,ok,360340,0,,,,,queues_status_20140711054021.json.gz,c94d7e72b788d3db
