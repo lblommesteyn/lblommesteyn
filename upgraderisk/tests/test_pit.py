@@ -26,7 +26,7 @@ def toy():
         ("b4", "2023-02-15", 30.0, "2024-06-01", "Engineering", None),
     ]
     d = pd.DataFrame(rows, columns=["upgrade_id", "snapshot_date", "est_cost_musd", "expected_isd", "status", "actual_isd"])
-    d["source"] = "toy"; d["to"] = "TO1"; d["facility"] = "F"; d["voltage_kv"] = 230; d["upgrade_type"] = "baseline"; d["scope"] = ""
+    d["source"] = "toy_construct_status"; d["to"] = "TO1"; d["facility"] = "F"; d["voltage_kv"] = 230; d["upgrade_type"] = "baseline"; d["scope"] = ""
     return pit.prepare(d)
 
 
@@ -34,7 +34,9 @@ def test_as_of_is_point_in_time():
     d = toy()
     v = pit.as_of(d, "2020-08-01").set_index("upgrade_id")
     assert v.loc["b1", "est_cost_musd"] == 11.0 and v.loc["b1", "snapshot_date"] == pd.Timestamp("2020-07-15")
-    assert "b4" in v.index and v.loc["b4", "est_cost_musd"] == 20.0
+    assert "b4" not in v.index                      # last seen 2020-01-15: no recent status snapshot -> not active at t
+    v2 = pit.as_of(d, "2020-08-01", max_age_days=10000).set_index("upgrade_id")
+    assert "b4" in v2.index and v2.loc["b4", "est_cost_musd"] == 20.0
 
 
 def test_outcomes():

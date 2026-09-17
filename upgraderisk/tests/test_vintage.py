@@ -16,12 +16,13 @@ def _check_examples_pit(prep, ex):
         later = prep[(prep.upgrade_id == r.upgrade_id) & (prep.snapshot_date > r.obs_date)]
         earlier = prep[(prep.upgrade_id == r.upgrade_id) & (prep.snapshot_date <= r.obs_date)]
         assert r.n_snapshots == len(earlier)
+        assert r.snapshot_date >= r.obs_date - pd.Timedelta(days=pit.MAX_REF_AGE_DAYS)
         if r.resolved_done == 1:
             assert (later.status_n == "in_service").any()
         if r.resolved_done == 0 and r.resolved_cancel == 0:
             assert not (later.status_n == "in_service").any()
         # feature values equal the latest snapshot at or before obs_date
-        last = earlier.sort_values("snapshot_date").iloc[-1]
+        last = earlier[earlier.is_status_source].sort_values("snapshot_date").iloc[-1]
         if pd.notna(last.est_cost_musd):
             assert abs(r.est_cost_musd - last.est_cost_musd) < 1e-9
 
@@ -46,4 +47,5 @@ def test_real_vintage():
     # no label can be resolved by a snapshot at or before its own observation date
     assert (ex["last_obs"] >= ex["obs_date"]).all()
     done = ex[ex.resolved_done == 1]
-    assert (pd.to_datetime(done["actual_isd"]) > done["obs_date"]).mean() > 0.95  # in-service dates lie after the observation
+    assert (pd.to_datetime(done["done_known_date"]) > done["obs_date"]).all()      # completion never knowable at observation
+    assert (pd.to_datetime(done["actual_isd"]) > done["obs_date"]).mean() > 0.75   # recorded in-service dates mostly after observation

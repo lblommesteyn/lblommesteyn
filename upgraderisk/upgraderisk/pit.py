@@ -10,6 +10,10 @@ import pandas as pd
 from .config import DELAY_MONTHS, OVERRUN_FRAC
 
 TERMINAL_DONE = {"in service", "in-service", "complete", "completed", "energized"}
+# snapshot families that carry a construction status and a projected in-service date; the cost-allocation view
+# lists every baseline upgrade (finished ones included) with a bare not-cancelled flag and is never a reference
+STATUS_SOURCES = ("construct_status", "xml_toup_planned", "live_export")
+MAX_REF_AGE_DAYS = 45
 TERMINAL_CANCEL = {"cancelled", "canceled", "withdrawn", "removed", "terminated", "retired"}
 
 
@@ -37,13 +41,16 @@ def prepare(long: pd.DataFrame) -> pd.DataFrame:
     d["status_n"] = d["status"].map(norm_status)
     if "cancelled" in d:
         d.loc[d["cancelled"].fillna(False).astype(bool), "status_n"] = "cancelled"
+    d["is_status_source"] = d["source"].str.contains("|".join(STATUS_SOURCES))
+    d.loc[~d["is_status_source"] & (d["status_n"] != "cancelled"), "status_n"] = "listed"
     return d.sort_values(["upgrade_id", "snapshot_date"]).reset_index(drop=True)
 
 
-def as_of(long: pd.DataFrame, t) -> pd.DataFrame:
-    """Latest snapshot per upgrade with snapshot_date <= t (strict point-in-time)."""
+def as_of(long: pd.DataFrame, t, max_age_days: int = MAX_REF_AGE_DAYS) -> pd.DataFrame:
+    """Reference row per upgrade at t: the latest status-bearing snapshot with t - max_age_days <= snapshot_date <= t.
+    An upgrade that no longer appears in a recent status snapshot has no reference (it left the active list)."""
     t = pd.Timestamp(t)
-    v = long[long["snapshot_date"] <= t]
+    v = long[(long["snapshot_date"] <= t) & (long["snapshot_date"] >= t - pd.Timedelta(days=max_age_days)) & long["is_status_source"]]
     return v.groupby("upgrade_id", sort=False).tail(1).reset_index(drop=True)
 
 
@@ -51,17 +58,20 @@ def history_features(long: pd.DataFrame, t) -> pd.DataFrame:
     """Per-upgrade features from all snapshots <= t: age in the table, number of estimate revisions,
     cumulative slip and cost growth since first publication, months to the currently expected ISD."""
     t = pd.Timestamp(t)
-    v = long[long["snapshot_date"] <= t]
+    ref = as_of(long, t).set_index("upgrade_id")
+    v = long[(long["snapshot_date"] <= t) & long["upgrade_id"].isin(ref.index)]
     g = v.groupby("upgrade_id", sort=False)
-    first = g.head(1).set_index("upgrade_id")
-    last = g.tail(1).set_index("upgrade_id")
+    first = g.head(1).set_index("upgrade_id").reindex(ref.index)
+    vs = v[v["is_status_source"]].groupby("upgrade_id", sort=False)
+    first_status = vs.head(1).set_index("upgrade_id").reindex(ref.index)
+    last = ref
     out = pd.DataFrame(index=last.index)
     out["obs_date"] = t
     out["n_snapshots"] = g.size()
     out["age_months"] = [(t - d).days / 30.4375 for d in first["snapshot_date"]]
-    out["first_expected_isd"] = first["expected_isd"]
+    out["first_expected_isd"] = first_status["expected_isd"]
     out["expected_isd"] = last["expected_isd"]
-    out["slip_so_far_months"] = [(_months(a, b) if pd.notna(a) and pd.notna(b) else np.nan) for a, b in zip(first["expected_isd"], last["expected_isd"])]
+    out["slip_so_far_months"] = [(_months(a, b) if pd.notna(a) and pd.notna(b) else np.nan) for a, b in zip(first_status["expected_isd"], last["expected_isd"])]
     out["first_cost_musd"] = first["est_cost_musd"]
     out["est_cost_musd"] = last["est_cost_musd"]
     out["cost_growth_so_far"] = (last["est_cost_musd"] / first["est_cost_musd"] - 1.0).replace([np.inf, -np.inf], np.nan)
@@ -102,6 +112,7 @@ def outcomes(long: pd.DataFrame, t, horizon_end=None) -> pd.DataFrame:
     ref = as_of(long, t)
     ref = ref[ref["status_n"] == "active"]
     later = long[long["snapshot_date"] > t]
+    later = later[later["status_n"] != "listed"]   # a bare listing carries no status information
     if horizon_end is not None:
         later = later[later["snapshot_date"] <= pd.Timestamp(horizon_end)]
     groups = {k: g for k, g in later.groupby("upgrade_id", sort=False)}
