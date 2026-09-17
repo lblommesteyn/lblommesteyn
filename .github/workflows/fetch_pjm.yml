@@ -1,6 +1,11 @@
 name: Fetch public PJM inputs for the frozen real-data run
 
 on:
+  # push-triggered so it runs from this branch without needing to live on the default branch;
+  # it only fires when the trigger file (or this workflow) changes.
+  push:
+    branches: ["claude/upbeat-ramanujan-osd3q6"]
+    paths: [".github/workflows/fetch_pjm.yml", "gridconstraint/data/raw_real/pjm/TRIGGER"]
   workflow_dispatch:
     inputs:
       max_studies:
@@ -12,6 +17,11 @@ on:
       end_year:
         description: "latest submitted year"
         default: "2021"
+
+env:
+  MAX_STUDIES: ${{ github.event.inputs.max_studies || '300' }}
+  START_YEAR: ${{ github.event.inputs.start_year || '2016' }}
+  END_YEAR: ${{ github.event.inputs.end_year || '2021' }}
 
 permissions:
   contents: write
@@ -29,8 +39,7 @@ jobs:
       - run: pip install requests pandas openpyxl
       - name: Fetch queue export and impact studies
         run: |
-          python gridconstraint/scripts/fetch_pjm_actions.py --max-studies "${{ github.event.inputs.max_studies }}" \
-            --start-year "${{ github.event.inputs.start_year }}" --end-year "${{ github.event.inputs.end_year }}"
+          python gridconstraint/scripts/fetch_pjm_actions.py --max-studies "$MAX_STUDIES" --start-year "$START_YEAR" --end-year "$END_YEAR"
       - name: Commit fetched inputs
         run: |
           git config user.name "github-actions[bot]"
