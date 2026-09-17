@@ -169,6 +169,10 @@ for label, r in plan:
         continue
     tables = extract_tables(html)
     meta = page_meta(html)
+    if not tables:  # keep the raw page so the format can be inspected offline
+        RAWD = ROOT / "legacy_raw"; RAWD.mkdir(exist_ok=True)
+        with gzip.open(RAWD / f"{label}_{ts}.html.gz", "wt") as f:
+            f.write(html)
     fn = LEG / f"{label}_{ts}.json.gz"
     payload = dict(label=label, timestamp=ts, original=original, meta=meta, tables=tables)
     raw = json.dumps(payload).encode()
