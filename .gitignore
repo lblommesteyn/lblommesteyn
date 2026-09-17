@@ -1,0 +1,4 @@
+
+# upgraderisk large/transient outputs
+upgraderisk/data/processed/model_bundle.pkl
+upgraderisk/outputs/tables/*.log
