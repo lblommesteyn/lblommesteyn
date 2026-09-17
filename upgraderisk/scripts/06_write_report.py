@@ -12,8 +12,8 @@ man = pd.read_csv(RAW / "pjm_snapshots" / "manifest.csv")
 ex = pd.read_parquet(PROCESSED / "examples.parquet")
 main_md = (TABLES / "benchmark_main.md").read_text()
 cases_md = (CASES / "case_studies.md").read_text() if (CASES / "case_studies.md").exists() else ""
-R = B["results"]; g = R["gbm"]; base = R["base_rate"]
-best_base = max((k for k in R if k not in ("gbm", "dt_survival")), key=lambda k: R[k]["all"]["delay"].get("auroc", 0))
+R = B["results"]; g = R["blend"]; gb = R["gbm"]; sv = R["dt_survival"]; base = R["base_rate"]
+best_base = max((k for k in R if k not in ("gbm", "dt_survival", "blend")), key=lambda k: R[k]["all"]["delay"].get("auroc", 0))
 bb = R[best_base]["all"]
 
 
@@ -28,9 +28,9 @@ leg = man[(man.status == "ok") & (man.n_tables > 0)].groupby("label").agg(n=("ti
 xml = sorted((RAW / "pjm_snapshots" / "legacy_xml").glob("*.xml.gz"))
 
 
-def bd(key, metric="delay"):
+def bd(key, metric="delay", src=None):
     rows = []
-    for gname, r in g["breakdowns"][key].items():
+    for gname, r in (src or g)["breakdowns"][key].items():
         rows.append(dict(group=gname, n=r["n"], rate=r[metric].get("rate"), auroc=r[metric].get("auroc"), brier=r[metric].get("brier"), mae_p50=r["months_late"].get("mae_p50")))
     d = pd.DataFrame(rows).sort_values("n", ascending=False)
     return d.round(3).to_markdown(index=False)
@@ -133,22 +133,27 @@ the honest protocol only.
 
 {main_md}
 
-Headline: **slip > 12 months AUROC {f3(g['all']['delay'].get('auroc'))} / Brier {f3(g['all']['delay'].get('brier'))}** (base rate Brier {f3(base['all']['delay'].get('brier'))}, best
-baseline `{best_base}` AUROC {f3(bb['delay'].get('auroc'))}); **cost +25 % AUROC {f3(g['all']['overrun'].get('auroc'))} / Brier {f3(g['all']['overrun'].get('brier'))}** (base rate
-{f3(base['all']['overrun'].get('brier'))}, best baseline {f3(bb['overrun'].get('auroc'))}); completion-month MAE {g['all'].get('cod_mae_months_model', float('nan')):.1f} months for the model P50 vs
-{g['all'].get('cod_mae_months_iso', float('nan')):.1f} for PJM's published date; P50 coverage {g['all']['months_late'].get('cov_p50', float('nan')):.2f}, P90 coverage {g['all']['months_late'].get('cov_p90', float('nan')):.2f}.
-Cancellation AUROC: {f3((g['all'].get('cancel') or {}).get('auroc'))}.
+Headline (blend = survival model + calibrated classifier): **slip > 12 months AUROC {f3(g['all']['delay'].get('auroc'))} / Brier {f3(g['all']['delay'].get('brier'))}**
+(base rate Brier {f3(base['all']['delay'].get('brier'))}; best simple baseline `{best_base}` AUROC {f3(bb['delay'].get('auroc'))}; survival model alone {f3(sv['all']['delay'].get('auroc'))},
+classifier alone {f3(gb['all']['delay'].get('auroc'))}). **Cost +25 % AUROC {f3(gb['all']['overrun'].get('auroc'))} / Brier {f3(gb['all']['overrun'].get('brier'))}** (base rate
+{f3(base['all']['overrun'].get('brier'))}, best baseline {f3(bb['overrun'].get('auroc'))}). Completion-month MAE of the survival P50: {sv['all'].get('cod_mae_months_model', float('nan')):.1f} months vs
+{sv['all'].get('cod_mae_months_iso', float('nan')):.1f} for PJM's published date; P50 coverage {sv['all']['months_late'].get('cov_p50', float('nan')):.2f}, P90 coverage {sv['all']['months_late'].get('cov_p90', float('nan')):.2f}.
+Cancellation AUROC (classifier): {f3((gb['all'].get('cancel') or {}).get('auroc'))}.
+
+Why the classifier is weak here: a slip label only becomes knowable when the 12-month window has closed, so at any
+origin the labelled pool is older, shorter-horizon cohorts with a 4–7 % slip rate, while the test months run 17–26 %.
+The survival model uses every earlier observation with censoring and is the more honest formulation for this label.
 
 **Upgrades unseen before the cutoff**: slip AUROC {f3(g['new_upgrades']['delay'].get('auroc'))}, cost AUROC {f3(g['new_upgrades']['overrun'].get('auroc'))}
 (n = {g['new_upgrades']['delay'].get('n')}). Most of the skill comes from an upgrade's own public history (how long it has been
 listed, how often its date moved, its owner's track record); for a brand-new upgrade the model is only modestly better
 than the baselines.
 
-### By test month (GBM slip AUROC / Brier; survival model in brackets)
+### By test month (slip label)
 
-{pd.DataFrame([dict(origin=o, n=r['delay'].get('n'), rate=r['delay'].get('rate'), auroc=r['delay'].get('auroc'), brier=r['delay'].get('brier'), surv_auroc=R['dt_survival']['by_origin'][o]['delay'].get('auroc'), base_brier=R['base_rate']['by_origin'][o]['delay'].get('brier')) for o, r in g['by_origin'].items()]).round(3).to_markdown(index=False)}
+{pd.DataFrame([dict(origin=o, n=r['delay'].get('n'), rate=r['delay'].get('rate'), blend_auroc=r['delay'].get('auroc'), blend_brier=r['delay'].get('brier'), surv_auroc=sv['by_origin'][o]['delay'].get('auroc'), gbm_auroc=gb['by_origin'][o]['delay'].get('auroc'), rate_to_auroc=R['rate_to']['by_origin'][o]['delay'].get('auroc'), base_brier=base['by_origin'][o]['delay'].get('brier')) for o, r in g['by_origin'].items()]).round(3).to_markdown(index=False)}
 
-### Breakdowns (GBM, slip label)
+### Breakdowns (blend, slip label; classifier, cost label)
 
 By transmission owner:
 
@@ -170,11 +175,11 @@ By status at observation:
 
 {bd('status')}
 
-Cost label by owner:
+Cost label by owner (classifier):
 
-{bd('to', 'overrun')}
+{bd('to', 'overrun', gb)}
 
-### Feature importance (gain, slip model)
+### Feature importance (gain, slip classifier)
 
 {pd.Series(B['feature_importance']['delay_12m']).sort_values(ascending=False).head(15).round(0).to_markdown()}
 

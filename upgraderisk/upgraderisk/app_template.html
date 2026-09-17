@@ -138,7 +138,7 @@ const bandDelay = p => cls(p);
 function strip(){
   const g = META.gbm, t = [];
   t.push(['Holdout rows', META.n_rows.toLocaleString(), META.n_upgrades.toLocaleString() + ' upgrades observed ' + META.test_dates[0] + ' … ' + META.test_dates[META.test_dates.length-1]]);
-  t.push(['Slip > 12 mo, AUROC', g.auroc.toFixed(3) + ' <small>vs ' + META.best_baseline.auroc.toFixed(2) + ' best baseline</small>', 'Brier ' + g.brier.toFixed(3) + ' vs ' + META.base.brier.toFixed(3) + ' base rate; ECE ' + g.ece.toFixed(3)]);
+  t.push(['Slip > 12 mo, AUROC (blend)', g.auroc.toFixed(3) + ' <small>vs ' + META.best_baseline.auroc.toFixed(2) + ' best baseline</small>', 'Brier ' + g.brier.toFixed(3) + ' vs ' + META.base.brier.toFixed(3) + ' base rate; ECE ' + g.ece.toFixed(3)]);
   t.push(['Cost +25 %, AUROC', g.over_auroc.toFixed(3) + ' <small>vs ' + META.best_baseline.over_auroc.toFixed(2) + '</small>', 'Brier ' + g.over_brier.toFixed(3) + ' vs ' + META.base.over_brier.toFixed(3) + ' base rate']);
   t.push(['Completion date error', g.cod_mae.toFixed(1) + ' mo <small>vs ' + g.iso_mae.toFixed(1) + " PJM's own date</small>", 'mean absolute error of the P50 month; P90 covers ' + Math.round(g.p90*100) + '% of outcomes']);
   t.push(['Upgrades unseen before cutoff', META.new.auroc.toFixed(2) + ' <small>slip AUROC</small>', META.new.n.toLocaleString() + ' rows; cost +25 % AUROC ' + META.new.over_auroc.toFixed(2) + ' — most of the skill is upgrade-specific history']);
@@ -191,15 +191,15 @@ function detail(r){
     <div class="two">
       <div class="box"><h3>What PJM's table said</h3><div class="kv"><b>In service</b><span class="v">${r.exp ?? '—'}</span><b>Cost estimate</b><span class="v">${fmt$(r.cost)}</span><b>Required by</b><span class="v">${r.req ?? '—'}</span><b>Horizon</b><span class="v">${r.h == null ? '—' : r.h.toFixed(0) + ' mo'}</span></div></div>
       <div class="box"><h3>What the model would have said</h3>
-        <div class="kv"><b>P(slip &gt; 12 mo)</b><span class="v"><span class="pill ${cls(r.pd_)}">${fmtP(r.pd_)}</span> <span style="color:var(--mute)">survival model ${fmtP(r.ps)}</span></span>
-        <b>Completion</b><span class="v">P50 ${r.cod[1] ?? '—'} · P90 ${r.cod[2] ?? '—'}</span>
+        <div class="kv"><b>P(slip &gt; 12 mo)</b><span class="v"><span class="pill ${cls(r.pd_)}">${fmtP(r.pd_)}</span> <span style="color:var(--mute)">survival ${fmtP(r.ps)} · classifier ${fmtP(r.pg)}</span></span>
+        <b>Completion (survival)</b><span class="v">P50 ${r.cod[1] ?? '—'} · P90 ${r.cod[2] ?? '—'}</span>
         <b>P(cost +25 %)</b><span class="v"><span class="pill ${cls(r.po)}">${fmtP(r.po)}</span></span>
         <b>Cost range</b><span class="v">${r.cost == null ? '—' : fmt$(r.cost*(1+r.over[1])) + ' · P10–P90 ' + fmt$(r.cost*(1+r.over[0])) + '–' + fmt$(r.cost*(1+r.over[2]))}</span>
         ${r.pc_ != null ? '<b>P(cancelled)</b><span class="v"><span class="pill ' + cls(r.pc_) + '">' + fmtP(r.pc_) + '</span></span>' : ''}</div></div>
     </div>
     <div class="timeline">${timeline(r)}</div>
     <div class="two">
-      <div class="box"><h3>Risk drivers (slip, log-odds)</h3><div class="drivers">${drv}</div></div>
+      <div class="box"><h3>Risk drivers (classifier, slip, log-odds)</h3><div class="drivers">${drv}</div></div>
       <div class="box"><h3>Similar upgrades whose outcome was known by ${r.obs}</h3>${ana}<div style="color:var(--mute);font-size:11px;margin-top:6px">dates and costs as recorded today</div></div>
     </div>
     <div class="reveal"><button class="primary" id="rv">Reveal what happened</button><div id="oc" hidden></div></div>

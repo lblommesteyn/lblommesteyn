@@ -30,35 +30,38 @@ class GBMRisk:
         return X
 
     def _params(self, objective, alpha=None):
-        p = dict(objective=objective, n_estimators=self.n_est, learning_rate=0.03, num_leaves=15, min_child_samples=25, subsample=0.8, subsample_freq=1,
-                 colsample_bytree=0.8, reg_lambda=5.0, random_state=self.seed, verbose=-1, max_cat_to_onehot=8, cat_smooth=20)
+        p = dict(objective=objective, n_estimators=self.n_est, learning_rate=0.03, num_leaves=15, min_child_samples=40, subsample=0.8, subsample_freq=1,
+                 colsample_bytree=0.8, reg_lambda=10.0, random_state=self.seed, verbose=-1, max_cat_to_onehot=8, cat_smooth=30, min_data_per_group=50)
         if alpha is not None:
             p["alpha"] = alpha
         return p
 
     def fit(self, tr):
+        from sklearn.linear_model import LogisticRegression
+        from sklearn.model_selection import GroupKFold
         tr = tr.sort_values("obs_date")
         self.cat_levels_ = {c: sorted(set(tr[c].astype(str).unique().tolist()) | {"unknown"}) for c in self.cat}
-        cut = int(len(tr) * (1 - self.calib_frac))
-        fit_part, cal_part = tr.iloc[:cut], tr.iloc[cut:]
-        self.clf_, self.iso_ = {}, {}
+        self.clf_, self.cal_ = {}, {}
         for lab in ("delay_12m", "cost_overrun_25", "cancelled"):
             if lab not in tr or tr[lab].notna().sum() < 100 or tr[lab].dropna().nunique() < 2:
                 continue
-            m = fit_part[lab].notna(); mc = cal_part[lab].notna()
-            clf = lgb.LGBMClassifier(**self._params("binary")).fit(self._X(fit_part[m]), fit_part.loc[m, lab].astype(int))
-            self.clf_[lab] = clf
-            if mc.sum() >= 50 and cal_part.loc[mc, lab].nunique() == 2:
-                raw = clf.predict_proba(self._X(cal_part[mc]))[:, 1]
-                self.iso_[lab] = IsotonicRegression(out_of_bounds="clip", y_min=0.001, y_max=0.999).fit(raw, cal_part.loc[mc, lab].astype(int))
-            # refit on the full window for the final probabilities (calibration map kept)
-            mm = tr[lab].notna()
-            self.clf_[lab] = lgb.LGBMClassifier(**self._params("binary")).fit(self._X(tr[mm]), tr.loc[mm, lab].astype(int))
+            mm = tr[lab].notna(); X = self._X(tr[mm]); y = tr.loc[mm, lab].astype(int).values; groups = tr.loc[mm, "upgrade_id"].values
+            # out-of-fold raw scores (folds grouped by upgrade) -> Platt map; robust with few positives
+            if y.sum() >= 30 and (1 - y).sum() >= 30 and len(np.unique(groups)) >= 10:
+                oof = np.zeros(len(y))
+                for tr_i, te_i in GroupKFold(n_splits=5).split(X, y, groups):
+                    c = lgb.LGBMClassifier(**self._params("binary")).fit(X.iloc[tr_i], y[tr_i])
+                    oof[te_i] = c.predict_proba(X.iloc[te_i])[:, 1]
+                z = np.log(np.clip(oof, 1e-5, 1 - 1e-5) / (1 - np.clip(oof, 1e-5, 1 - 1e-5)))[:, None]
+                self.cal_[lab] = LogisticRegression(C=1.0).fit(z, y)
+            self.clf_[lab] = lgb.LGBMClassifier(**self._params("binary")).fit(X, y)
         self.q_ = {}
         for lab, tgt in (("months_late", "months_late"), ("pct_overrun", "pct_overrun")):
-            m = tr[tgt].notna()
-            y = tr.loc[m, tgt].clip(-24, 120) if tgt == "months_late" else tr.loc[m, tgt].clip(-1, 5)
-            self.q_[lab] = [lgb.LGBMRegressor(**self._params("quantile", alpha=q)).fit(self._X(tr[m]), y) for q in QS]
+            mq = tr[tgt].notna()
+            if mq.sum() < 50:
+                self.q_[lab] = None; continue
+            yq = tr.loc[mq, tgt].clip(-24, 120) if tgt == "months_late" else tr.loc[mq, tgt].clip(-1, 5)
+            self.q_[lab] = [lgb.LGBMRegressor(**self._params("quantile", alpha=q)).fit(self._X(tr[mq]), yq) for q in QS]
         return self
 
     def predict(self, te):
@@ -68,10 +71,16 @@ class GBMRisk:
             if lab not in self.clf_:
                 out[key] = np.full(len(te), np.nan); continue
             raw = self.clf_[lab].predict_proba(X)[:, 1]
-            out[key] = np.clip(self.iso_[lab].predict(raw) if lab in self.iso_ else raw, 1e-4, 1 - 1e-4)
+            if lab in self.cal_:
+                z = np.log(np.clip(raw, 1e-5, 1 - 1e-5) / (1 - np.clip(raw, 1e-5, 1 - 1e-5)))[:, None]
+                cal = self.cal_[lab].predict_proba(z)[:, 1]
+            else:
+                cal = raw
+            out[key] = np.clip(cal, 1e-4, 1 - 1e-4)
             out[key + "_raw"] = raw
-        ql = np.column_stack([m.predict(X) for m in self.q_["months_late"]]); ql.sort(axis=1)
-        qo = np.column_stack([m.predict(X) for m in self.q_["pct_overrun"]]); qo.sort(axis=1)
+        n = len(te)
+        ql = np.column_stack([m.predict(X) for m in self.q_["months_late"]]) if self.q_.get("months_late") else np.zeros((n, 3)); ql.sort(axis=1)
+        qo = np.column_stack([m.predict(X) for m in self.q_["pct_overrun"]]) if self.q_.get("pct_overrun") else np.zeros((n, 3)); qo.sort(axis=1)
         out["q_late"], out["q_over"] = ql, qo
         return out
 

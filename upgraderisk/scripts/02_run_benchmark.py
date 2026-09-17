@@ -23,8 +23,24 @@ def model_zoo(num, cat, n_bags):
     zoo = [baselines.AlwaysOnTime(), baselines.BaseRate(), baselines.ProjectAgeHeuristic(), baselines.GroupRate("to"), baselines.GroupRate("voltage_class"),
            baselines.GroupRate("equipment"), baselines.SmallLogistic(["voltage_kv", "log_cost", "months_to_expected_isd"], "logit_voltage_cost_duration"),
            baselines.SmallLogistic([c for c in num if not c.startswith(("rate_", "n_", "global_"))], "logit_numeric"),
-           BaggedGBM(num, cat, n_bags), models.DiscreteTimeSurvival(num, cat, seed=SEED)]
+           BaggedGBM(num, cat, n_bags), models.DiscreteTimeSurvival(num, cat, seed=SEED), Blend(num, cat, n_bags)]
     return zoo
+
+
+class Blend:
+    """Average of the survival model's and the calibrated classifier's slip probabilities; survival quantiles for
+    completion; classifier for cost and cancellation."""
+    name = "blend"
+
+    def __init__(self, num, cat, n_bags):
+        self.g = BaggedGBM(num, cat, n_bags); self.s = models.DiscreteTimeSurvival(num, cat, seed=SEED)
+
+    def fit(self, tr):
+        self.g.fit(tr); self.s.fit(tr); return self
+
+    def predict(self, te):
+        pg, ps = self.g.predict(te), self.s.predict(te)
+        return dict(p_delay=0.5 * (pg["p_delay"] + ps["p_delay"]), p_over=pg["p_over"], p_cancel=pg.get("p_cancel", np.full(len(te), np.nan)), q_late=ps["q_late"], q_over=pg["q_over"])
 
 
 class BaggedGBM:
@@ -121,10 +137,10 @@ def main(processed: Path, out: Path, cutoff: str, n_bags: int):
         nw = test["new_upgrade"].values
         results[name] = dict(all=evaluate(test, p), new_upgrades=evaluate(test[nw], {k: np.asarray(v)[nw] for k, v in p.items()}),
                              by_origin={str(o.date()): evaluate(test[test.origin == o], {k: np.asarray(v)[(test.origin == o).values] for k, v in p.items()}) for o in origins})
-        if name == "gbm":
+        if name in ("gbm", "blend", "dt_survival"):
             results[name]["breakdowns"] = breakdowns(test, p, ["to", "voltage_class", "type", "equipment", "cost_bucket", "horizon_bucket", "status"])
             for lab, key in (("delay_12m", "p_delay"), ("cost_overrun_25", "p_over")):
-                metrics.reliability(test[lab], p[key]).to_csv(out / f"reliability_gbm_{lab}.csv", index=False)
+                metrics.reliability(test[lab], p[key]).to_csv(out / f"reliability_{name}_{lab}.csv", index=False)
         d, o_ = results[name]["all"]["delay"], results[name]["all"]["overrun"]
         print(f"{name:28s} delay AUROC {d.get('auroc', float('nan')):.3f} Brier {d.get('brier', float('nan')):.3f} | overrun AUROC {o_.get('auroc', float('nan')):.3f} Brier {o_.get('brier', float('nan')):.3f} | "
               f"COD MAE model {results[name]['all'].get('cod_mae_months_model', float('nan')):.1f} vs ISO {results[name]['all'].get('cod_mae_months_iso', float('nan')):.1f} months", flush=True)

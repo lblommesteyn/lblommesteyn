@@ -61,15 +61,15 @@ def main(cutoff: str, max_rows: int, out: Path):
                          eq=str(r["equipment"]), task=str(r["task"]), st=str(r["status"]), scope=str(r["scope"])[:160], cost=jd(cost), exp=jd(exp), req=jd(r["required_date"]),
                          age=jd(r["age_months"]), slip=jd(r["slip_so_far_months"]), nrev=int(r["n_isd_revisions"]), cg=jd(r["cost_growth_so_far"]), pc=jd(r["pct_complete"]),
                          h=jd(r["months_to_expected_isd"]),
-                         pd_=round(float(r["gbm_p_delay"]), 3), po=round(float(r["gbm_p_over"]), 3), pc_=(None if pd.isna(r["gbm_p_cancel"]) else round(float(r["gbm_p_cancel"]), 3)),
-                         ps=round(float(r["dt_survival_p_delay"]), 3), late=[round(float(r[f"gbm_late_p{q}"]), 1) for q in (10, 50, 90)], over=[round(float(r[f"gbm_over_p{q}"]), 3) for q in (10, 50, 90)],
-                         cod=[add_m(r[f"gbm_late_p{q}"]) for q in (10, 50, 90)], drv=drivers, ana=ana,
+                         pd_=round(float(r["blend_p_delay"]), 3), po=round(float(r["gbm_p_over"]), 3), pc_=(None if pd.isna(r["gbm_p_cancel"]) else round(float(r["gbm_p_cancel"]), 3)),
+                         ps=round(float(r["dt_survival_p_delay"]), 3), pg=round(float(r["gbm_p_delay"]), 3), late=[round(float(r[f"dt_survival_late_p{q}"]), 1) for q in (10, 50, 90)], over=[round(float(r[f"gbm_over_p{q}"]), 3) for q in (10, 50, 90)],
+                         cod=[add_m(r[f"dt_survival_late_p{q}"]) for q in (10, 50, 90)], drv=drivers, ana=ana,
                          out=dict(done=int(r["resolved_done"]), canc=int(r["resolved_cancel"]), act=jd(r["actual_isd"]), ml=jd(r["months_late"]), dl=jd(r["delay_12m"]),
                                   ov=jd(r["cost_overrun_25"]), po=jd(r["pct_overrun"]), fc=jd(r["final_cost_musd"]), last=jd(r["last_obs"]))))
     te = pt
     bench = json.load(open(TABLES / "benchmark.json"))
-    g = bench["results"]["gbm"]["all"]; base = bench["results"]["base_rate"]["all"]; best_base = max((k for k in bench["results"] if k not in ("gbm", "dt_survival")), key=lambda k: bench["results"][k]["all"]["delay"].get("auroc", 0))
-    rel = {lab: pd.read_csv(TABLES / f"reliability_gbm_{lab}.csv").to_dict(orient="records") for lab in ("delay_12m", "cost_overrun_25")}
+    g = bench["results"]["blend"]["all"]; base = bench["results"]["base_rate"]["all"]; best_base = max((k for k in bench["results"] if k not in ("gbm", "dt_survival", "blend")), key=lambda k: bench["results"][k]["all"]["delay"].get("auroc", 0))
+    rel = {lab: pd.read_csv(TABLES / f"reliability_{'blend' if lab == 'delay_12m' else 'gbm'}_{lab}.csv").to_dict(orient="records") for lab in ("delay_12m", "cost_overrun_25")}
     summary = json.load(open(PROCESSED / "dataset_summary.json"))
     meta = dict(cutoff=cutoff, n_rows=len(rows), n_upgrades=int(te["upgrade_id"].nunique()), test_dates=sorted(pd.to_datetime(te["obs_date"]).dt.date.astype(str).unique().tolist()),
                 delay_rate=round(float(te["delay_12m"].mean()), 3), over_rate=round(float(te["cost_overrun_25"].mean()), 3),
@@ -79,7 +79,7 @@ def main(cutoff: str, max_rows: int, out: Path):
                           p50=bench["results"]["dt_survival"]["all"]["months_late"].get("cov_p50"), p90=bench["results"]["dt_survival"]["all"]["months_late"].get("cov_p90")),
                 base=dict(brier=base["delay"].get("brier"), over_brier=base["overrun"].get("brier")),
                 best_baseline=dict(name=best_base, auroc=bench["results"][best_base]["all"]["delay"].get("auroc"), over_auroc=bench["results"][best_base]["all"]["overrun"].get("auroc")),
-                new=dict(auroc=bench["results"]["gbm"]["new_upgrades"]["delay"].get("auroc"), over_auroc=bench["results"]["gbm"]["new_upgrades"]["overrun"].get("auroc"), n=bench["n_test_new"]),
+                new=dict(auroc=bench["results"]["blend"]["new_upgrades"]["delay"].get("auroc"), over_auroc=bench["results"]["gbm"]["new_upgrades"]["overrun"].get("auroc"), n=bench["n_test_new"]),
                 n_train=bench["n_train"], n_train_last=bench.get("n_train_last"), train_upgrades=bench["train_upgrades"], protocol=bench.get("protocol"), reliability=rel, snapshots=len(summary["snapshot_dates"]["legacy_construct_status"]),
                 first_snapshot=summary["snapshot_dates"]["legacy_construct_status"][0], last_snapshot=summary["snapshot_dates"]["legacy_construct_status"][-1],
                 resolved=summary["unique_upgrades_resolved"], upgrades_total=summary["n_upgrades"])
