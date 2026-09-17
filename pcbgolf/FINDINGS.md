@@ -204,6 +204,29 @@ more honest 60-65% the board is nearer 3,000-3,200 mm^2 and the score lands
 around **36,000-38,000**. Treat ~32,000 as the optimistic end and ~38,000 as the
 one to plan against.
 
+### The ground-via budget is what really sets the via term
+
+Measured pad counts (`tools/netlist.py`): **1053 connected pads = 237 GND +
+151 power + 665 signal**. With signals on top and a solid ground plane on the
+bottom, the ground pads are what force vias:
+
+| ground strategy | vias | via points |
+|---|---|---|
+| one via per GND pad (best signal integrity) | 237 | 11,850 |
+| one via per component's GND (shared, adjacent pads) | 138 | 6,900 |
+| shared + top-side pour islands, aggressive | ~60-90 | 3,000-4,500 |
+
+The 237 GND pads sit on only **138 components**, so via sharing is the single
+biggest via-reduction move available. Scores for the 52 x 46 board with 300
+jumpers (area 2616 mm^2, Z = 7):
+
+| ground vias | volume | via pts | layers | score |
+|---|---|---|---|---|
+| 60 | 18,312 | 3,000 | 10,000 | **31,312** |
+| 90 | 18,312 | 4,500 | 10,000 | 32,812 |
+| 120 | 18,312 | 6,000 | 10,000 | 34,312 |
+| 237 | 18,312 | 11,850 | 10,000 | 40,162 |
+
 ### The genuine contest
 
 The one architecture that could beat it is **2 layers, double-sided, 1296 mm^2**,
