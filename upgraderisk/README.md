@@ -30,6 +30,8 @@ python scripts/predict_cli.py b2837 --as-of 2018-01-25
 python scripts/predict_cli.py --as-of 2019-12-15 --custom '{"to":"AEP","voltage_kv":138,"est_cost_musd":12,"expected_isd":"2021-06-01","equipment":"Transmission Line","task":"Rebuild","status":"Engineering & Procurement"}'
 ```
 
+Published page (holdout browser): https://claude.ai/artifact/S6TrxGcBmkz11WUbTUPxgJ
+
 ## Layout
 
 * `upgraderisk/pjm_snapshots.py` — parsers for the legacy grids, XML files and live export into the canonical long table.

@@ -217,8 +217,9 @@ Cost label by owner (classifier):
 
 * CLI: `python scripts/predict_cli.py <upgrade id> --as-of YYYY-MM-DD` or `--custom '{{...}}'` — prints PJM's date and
   cost, model P50/P90 completion, P(slip), cost range, P(cost +25 %), P(cancelled), risk drivers and resolved analogs.
-* Page: `outputs/ui/index.html` (built by `scripts/05_build_ui.py`) — every holdout example, searchable, with the same
-  fields and a "reveal what happened" control.
+* Page: `outputs/ui/index.html` (built by `scripts/05_build_ui.py`; published at
+  https://claude.ai/artifact/S6TrxGcBmkz11WUbTUPxgJ) — every holdout example, searchable, with the same fields and a
+  "reveal what happened" control.
 
 ## 7. Limits and what would change the picture
 
