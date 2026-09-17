@@ -1,0 +1,35 @@
+name: Fetch PJM transmission-upgrade snapshots (legacy Wayback + live export)
+
+on:
+  push:
+    branches: ["claude/upbeat-ramanujan-osd3q6"]
+    paths: [".github/workflows/fetch_pjm_upgrade_snapshots.yml", "upgraderisk/data/raw/pjm_snapshots/TRIGGER"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 110
+    env:
+      MAX_MINUTES: "80"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install requests viewstate playwright
+      - run: python -m playwright install --with-deps chromium
+      - run: python upgraderisk/scripts/fetch_pjm_legacy_snapshots.py
+      - name: Commit snapshots
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f upgraderisk/data/raw/pjm_snapshots
+          git commit -m "PJM upgrade snapshots: legacy Wayback captures decoded + live export (GitHub Actions)" || echo "nothing to commit"
+          for i in 1 2 3; do git push && break || (git pull --rebase && sleep 5); done
