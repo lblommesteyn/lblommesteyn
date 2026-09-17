@@ -20,11 +20,7 @@ def model_zoo(num, cat, n_bags):
            baselines.GroupRate("equipment"), baselines.SmallLogistic(["voltage_kv", "log_cost", "months_to_expected_isd"], "logit_voltage_cost_duration"),
            baselines.SmallLogistic([c for c in num if not c.startswith(("rate_", "n_", "global_"))], "logit_numeric")]
     zoo.append(BaggedGBM(num, cat, n_bags))
-    try:
-        import lifelines  # noqa
-        zoo.append(models.CoxSurvival(num))
-    except ImportError:
-        pass
+    zoo.append(models.DiscreteTimeSurvival(num, cat, seed=SEED))
     return zoo
 
 

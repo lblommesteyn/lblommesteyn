@@ -119,3 +119,64 @@ class BaseRateHolder:
 
     def q_over(self, n):
         return np.tile(self.qo, (n, 1))
+
+
+class DiscreteTimeSurvival:
+    """Discrete-time (monthly) hazard model with LightGBM, no external survival dependency.
+    Each example is expanded into person-months from the observation date until in-service (event) or the last
+    observation (censored, cancellations included); the classifier learns h(k | x). Survival S(k) = prod(1-h).
+    Reports P(not in service by the ISO's expected date + 12 months) and the P10/P50/P90 months-late implied by S."""
+    name = "dt_survival"
+
+    def __init__(self, num_cols, cat_cols, seed=0, max_months=84, step=1):
+        self.num, self.cat, self.seed, self.K, self.step = list(num_cols), list(cat_cols), seed, max_months, step
+
+    def _X(self, d, k):
+        X = d[self.num + self.cat].copy()
+        for c in self.cat:
+            X[c] = pd.Categorical(X[c].astype(str), categories=self.cat_levels_[c])
+        X["k_month"] = np.asarray(k, dtype=float)
+        return X
+
+    def fit(self, tr):
+        self.cat_levels_ = {c: sorted(set(tr[c].astype(str).unique().tolist()) | {"unknown"}) for c in self.cat}
+        t = tr["time_to_done_m"].clip(lower=0.5, upper=self.K).values; e = tr["event_done"].values.astype(int)
+        rows, ks, ys = [], [], []
+        rng = np.random.default_rng(self.seed)
+        for i in range(len(tr)):
+            n = int(np.ceil(t[i] / self.step))
+            kk = np.arange(1, n + 1) * self.step
+            # subsample long censored histories to keep the expansion tractable
+            if n > 24:
+                keep = np.concatenate([np.arange(24), rng.choice(np.arange(24, n), size=min(n - 24, 12), replace=False)])
+                keep.sort(); kk = kk[keep]
+            y = np.zeros(len(kk), dtype=int)
+            if e[i] == 1:
+                y[-1] = 1 if kk[-1] >= t[i] else 0
+            rows.append(np.full(len(kk), i)); ks.append(kk); ys.append(y)
+        idx = np.concatenate(rows); k = np.concatenate(ks); y = np.concatenate(ys)
+        X = self._X(tr.iloc[idx], k)
+        self.clf_ = lgb.LGBMClassifier(objective="binary", n_estimators=300, learning_rate=0.05, num_leaves=15, min_child_samples=50, subsample=0.8, subsample_freq=1,
+                                       colsample_bytree=0.8, reg_lambda=5.0, random_state=self.seed, verbose=-1).fit(X, y)
+        self.over_ = BaseRateHolder(tr)
+        return self
+
+    def survival(self, te):
+        n = len(te); ks = np.arange(1, self.K + 1, self.step)
+        H = np.zeros((n, len(ks)))
+        for j, k in enumerate(ks):
+            H[:, j] = self.clf_.predict_proba(self._X(te, np.full(n, k)))[:, 1]
+        S = np.cumprod(1 - H, axis=1)
+        return ks, S
+
+    def predict(self, te):
+        ks, S = self.survival(te)
+        horizon = (te["months_to_expected_isd"].fillna(0).clip(lower=0) + 12).values
+        p_delay = np.array([np.interp(h, ks, S[i]) for i, h in enumerate(horizon)])
+        def q_time(i, q):  # time by which P(done) >= q
+            done = 1 - S[i]
+            return float(np.interp(q, done, ks)) if done[-1] >= q else float(ks[-1])
+        q = np.array([[q_time(i, 0.1), q_time(i, 0.5), q_time(i, 0.9)] for i in range(len(te))])
+        q_late = q - te["months_to_expected_isd"].fillna(0).values[:, None]
+        return dict(p_delay=np.clip(p_delay, 1e-4, 1 - 1e-4), p_over=self.over_.p_over(len(te)), q_late=q_late, q_over=self.over_.q_over(len(te)),
+                    median_ttd=q[:, 1])

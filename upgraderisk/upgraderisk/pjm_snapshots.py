@@ -137,6 +137,38 @@ def live_export_rows(path: Path, snapshot_date) -> pd.DataFrame:
     return out
 
 
+def legacy_xml_rows(fn: Path) -> pd.DataFrame:
+    """The XML data files the 2010-2017 pages loaded client-side (TOUP_planned_{baseline,network,TO}.xml,
+    TOUP_post_baseline.xml). File name carries the Wayback timestamp."""
+    import xml.etree.ElementTree as ET
+    m = re.search(r"_(\d{14})\.xml", fn.name)
+    ts = pd.Timestamp(m.group(1)[:8])
+    with gzip.open(fn, "rb") as f:
+        raw = f.read()
+    try:
+        root = ET.fromstring(raw)
+    except ET.ParseError:
+        root = ET.fromstring(raw.decode("utf-8", "replace").encode("utf-8", "xmlcharrefreplace"))
+    out = []
+    for e in root:
+        g = lambda k: (e.findtext(k) or "").strip()
+        uid = g("UpgradeID")
+        if not uid:
+            continue
+        st = norm_status(g("StatusCode"))
+        proj = g("ProjectedInServiceDate") or g("RevisedInServiceDate")  # never the original ISA date
+        out.append(dict(upgrade_id=uid, snapshot_date=ts, source=f"wayback:xml_{fn.name.split('_20')[0]}:{m.group(1)}", to=g("TransmissionOwner"),
+                        facility=g("Location"), voltage_kv=parse_kv(g("Voltage")), upgrade_type=upgrade_type(uid), scope=g("Description"),
+                        est_cost_musd=parse_cost(g("CostEstimate")), expected_isd=parse_date(proj), status=st,
+                        actual_isd=parse_date(g("ActualInServiceDate")), cancelled=st.lower() in ("cancelled", "withdrawn"),
+                        required_date=pd.NaT, pct_complete=parse_pct(g("PercentComplete")), state=g("State"), task=g("Task"),
+                        equipment=g("Equipment"), rating=g("ApplicableRating"), last_updated=parse_date(g("LastUpdated")),
+                        study_year=g("StudyYear"), driver=g("Driver"), initial_teac=parse_date(g("Initial_TEAC_Date")),
+                        last_teac=parse_date(g("Latest_TEAC_Date")), region=g("Region"), isa_isd=parse_date(g("ISAInServiceDate")),
+                        revised_isd=parse_date(g("RevisedInServiceDate"))))
+    return pd.DataFrame(out)
+
+
 def load_legacy_file(fn: Path) -> pd.DataFrame:
     with gzip.open(fn, "rt") as f:
         payload = json.load(f)
@@ -157,6 +189,12 @@ def build_long(snap_dir: Path = SNAP_DIR) -> pd.DataFrame:
     parts = []
     for fn in sorted((snap_dir / "legacy").glob("*.json.gz")):
         d = load_legacy_file(fn)
+        if len(d):
+            parts.append(d)
+    for fn in sorted((snap_dir / "legacy_xml").glob("*.xml.gz")) if (snap_dir / "legacy_xml").exists() else []:
+        if "planned_is" in fn.name:
+            continue  # generator queue in-service list, not upgrades
+        d = legacy_xml_rows(fn)
         if len(d):
             parts.append(d)
     for fn in sorted((snap_dir / "live").glob("export_*.xlsx")):

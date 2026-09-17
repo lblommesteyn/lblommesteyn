@@ -66,10 +66,14 @@ def history_features(long: pd.DataFrame, t) -> pd.DataFrame:
     out["est_cost_musd"] = last["est_cost_musd"]
     out["cost_growth_so_far"] = (last["est_cost_musd"] / first["est_cost_musd"] - 1.0).replace([np.inf, -np.inf], np.nan)
     out["months_to_expected_isd"] = [(_months(t, d) if pd.notna(d) else np.nan) for d in last["expected_isd"]]
-    n_isd_changes = g["expected_isd"].apply(lambda s: int((s.dropna().diff().dropna() != pd.Timedelta(0)).sum()))
-    n_cost_changes = g["est_cost_musd"].apply(lambda s: int((s.dropna().diff().dropna().abs() > 1e-9).sum()))
-    out["n_isd_revisions"] = n_isd_changes
-    out["n_cost_revisions"] = n_cost_changes
+    vv = v.sort_values(["upgrade_id", "snapshot_date"])
+    same = vv["upgrade_id"].eq(vv["upgrade_id"].shift())
+    isd = vv["expected_isd"]; prev_isd = vv.groupby("upgrade_id")["expected_isd"].shift()
+    chg_isd = same & isd.notna() & prev_isd.notna() & (isd != prev_isd)
+    cost = vv["est_cost_musd"]; prev_cost = vv.groupby("upgrade_id")["est_cost_musd"].shift()
+    chg_cost = same & cost.notna() & prev_cost.notna() & ((cost - prev_cost).abs() > 1e-9)
+    out["n_isd_revisions"] = chg_isd.groupby(vv["upgrade_id"]).sum().reindex(out.index).fillna(0).astype(int)
+    out["n_cost_revisions"] = chg_cost.groupby(vv["upgrade_id"]).sum().reindex(out.index).fillna(0).astype(int)
     out["status_n"] = last["status_n"]
     for c in ("to", "facility", "voltage_kv", "upgrade_type", "scope", "source", "status", "pct_complete", "required_date", "task",
               "equipment", "driver", "initial_teac", "last_teac", "state", "region", "last_updated", "study_year", "rating"):
@@ -100,9 +104,11 @@ def outcomes(long: pd.DataFrame, t, horizon_end=None) -> pd.DataFrame:
     later = long[long["snapshot_date"] > t]
     if horizon_end is not None:
         later = later[later["snapshot_date"] <= pd.Timestamp(horizon_end)]
+    groups = {k: g for k, g in later.groupby("upgrade_id", sort=False)}
+    empty = later.iloc[0:0]
     rows = []
     for r in ref.itertuples(index=False):
-        h = later[later["upgrade_id"] == r.upgrade_id]
+        h = groups.get(r.upgrade_id, empty)
         last_obs = h["snapshot_date"].max() if len(h) else t
         done = h[h["status_n"] == "in_service"]
         canc = h[h["status_n"] == "cancelled"]
@@ -133,10 +139,16 @@ def outcomes(long: pd.DataFrame, t, horizon_end=None) -> pd.DataFrame:
         final_cost = (first_done["est_cost_musd"] if first_done is not None else
                       (first_canc["est_cost_musd"] if first_canc is not None else (h["est_cost_musd"].dropna().iloc[-1] if h["est_cost_musd"].notna().any() else np.nan)))
         # delay label (+ the date at which it became knowable)
-        delay = np.nan; months_late = np.nan; delay_known = pd.NaT
+        delay = np.nan; months_late = np.nan; delay_known = pd.NaT; predetermined = False
         if pd.notna(exp_t):
             deadline = exp_t + pd.Timedelta(days=DELAY_MONTHS * 30.4375)
-            if actual is not None:
+            if deadline <= t:
+                # the 12-month window had already closed when the snapshot was published: the outcome is not a
+                # forecast. Keep months_late for reference, no delay label.
+                predetermined = True
+                if actual is not None:
+                    months_late = _months(exp_t, actual)
+            elif actual is not None:
                 months_late = _months(exp_t, actual); delay = float(months_late > DELAY_MONTHS)
                 # decidable once the 12-month window has closed (or the project is seen finished after it)
                 delay_known = max(done_known, deadline)
@@ -164,7 +176,7 @@ def outcomes(long: pd.DataFrame, t, horizon_end=None) -> pd.DataFrame:
                          actual_isd=actual, final_cost_musd=final_cost, delay_12m=delay, months_late=months_late,
                          cost_overrun_25=over, pct_overrun=pct if (first_done is not None or first_canc is not None) else np.nan,
                          pct_growth_latest=pct, last_obs=last_obs, delay_known_date=delay_known, overrun_known_date=over_known,
-                         cancel_known_date=cancel_known, done_known_date=done_known, actual_isd_is_bound=actual_is_bound,
+                         cancel_known_date=cancel_known, done_known_date=done_known, actual_isd_is_bound=actual_is_bound, delay_predetermined=predetermined,
                          time_to_done_m=_months(t, actual) if actual is not None else _months(t, last_obs),
                          event_done=int(first_done is not None)))
     return pd.DataFrame(rows)
