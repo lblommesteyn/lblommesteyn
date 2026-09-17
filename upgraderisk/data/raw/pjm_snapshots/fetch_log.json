@@ -1,0 +1,748 @@
+[
+ {
+  "label": "construct_status",
+  "captures": 241,
+  "ok": 84,
+  "distinct_days": 41,
+  "t": 12
+ },
+ {
+  "label": "cost_allocation_view",
+  "captures": 52,
+  "ok": 33,
+  "distinct_days": 32,
+  "t": 16
+ },
+ {
+  "label": "rtep_upgrades_status",
+  "captures": 77,
+  "ok": 2,
+  "distinct_days": 2,
+  "t": 29
+ },
+ {
+  "label": "queues_status",
+  "captures": 49,
+  "ok": 3,
+  "distinct_days": 3,
+  "t": 42
+ },
+ {
+  "saved": "construct_status_20100105205228.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": null,
+  "t": 45
+ },
+ {
+  "saved": "construct_status_20130909093145.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": null,
+  "t": 51
+ },
+ {
+  "saved": "construct_status_20140712151944.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": null,
+  "t": 56
+ },
+ {
+  "saved": "construct_status_20150908233314.json.gz",
+  "tables": [
+   807
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 61
+ },
+ {
+  "saved": "construct_status_20150910214335.json.gz",
+  "tables": [
+   807
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 66
+ },
+ {
+  "saved": "construct_status_20151026063831.json.gz",
+  "tables": [
+   861
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 71
+ },
+ {
+  "saved": "construct_status_20151127020616.json.gz",
+  "tables": [
+   869
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 76
+ },
+ {
+  "saved": "construct_status_20160325142005.json.gz",
+  "tables": [
+   795
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 82
+ },
+ {
+  "saved": "construct_status_20160415205524.json.gz",
+  "tables": [
+   775
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 87
+ },
+ {
+  "saved": "construct_status_20160416142828.json.gz",
+  "tables": [
+   775
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 94
+ },
+ {
+  "saved": "construct_status_20160514221640.json.gz",
+  "tables": [
+   728
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 100
+ },
+ {
+  "saved": "construct_status_20160516221007.json.gz",
+  "tables": [
+   728
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 106
+ },
+ {
+  "saved": "construct_status_20160617025617.json.gz",
+  "tables": [
+   715
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 111
+ },
+ {
+  "saved": "construct_status_20160718204347.json.gz",
+  "tables": [
+   670
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 116
+ },
+ {
+  "saved": "construct_status_20160810160924.json.gz",
+  "tables": [
+   680
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 121
+ },
+ {
+  "saved": "construct_status_20160823061003.json.gz",
+  "tables": [
+   615
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 127
+ },
+ {
+  "saved": "construct_status_20160923163817.json.gz",
+  "tables": [
+   630
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 132
+ },
+ {
+  "saved": "construct_status_20160925080929.json.gz",
+  "tables": [
+   630
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 137
+ },
+ {
+  "saved": "construct_status_20161222201623.json.gz",
+  "tables": [
+   635
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 142
+ },
+ {
+  "saved": "construct_status_20170310145454.json.gz",
+  "tables": [
+   617
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 148
+ },
+ {
+  "saved": "construct_status_20170324093723.json.gz",
+  "tables": [
+   634
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 153
+ },
+ {
+  "saved": "construct_status_20170422040627.json.gz",
+  "tables": [
+   629
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 159
+ },
+ {
+  "saved": "construct_status_20170521015316.json.gz",
+  "tables": [
+   605
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 164
+ },
+ {
+  "saved": "construct_status_20170524045447.json.gz",
+  "tables": [
+   611
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 169
+ },
+ {
+  "saved": "construct_status_20170604034232.json.gz",
+  "tables": [
+   601
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 174
+ },
+ {
+  "saved": "construct_status_20170612125109.json.gz",
+  "tables": [
+   596
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 178
+ },
+ {
+  "saved": "construct_status_20170706095841.json.gz",
+  "tables": [
+   611
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 183
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 188
+ },
+ {
+  "saved": "construct_status_20170806063446.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 188
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 194
+ },
+ {
+  "saved": "construct_status_20170929090512.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 194
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 199
+ },
+ {
+  "saved": "construct_status_20171108174740.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 199
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 205
+ },
+ {
+  "saved": "construct_status_20180125060140.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 205
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 210
+ },
+ {
+  "saved": "construct_status_20180126123350.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 210
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 217
+ },
+ {
+  "saved": "construct_status_20180218095333.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 217
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 222
+ },
+ {
+  "saved": "construct_status_20180609103324.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 222
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 227
+ },
+ {
+  "saved": "construct_status_20180710121544.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 227
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 233
+ },
+ {
+  "saved": "construct_status_20180712014547.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 233
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 239
+ },
+ {
+  "saved": "construct_status_20190819020720.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 239
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 244
+ },
+ {
+  "saved": "construct_status_20190825133101.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 244
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 250
+ },
+ {
+  "saved": "construct_status_20191023212012.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 250
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 256
+ },
+ {
+  "saved": "construct_status_20191213210345.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 256
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 261
+ },
+ {
+  "saved": "construct_status_20191215212735.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 261
+ },
+ {
+  "saved": "cost_allocation_view_20130911025813.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": null,
+  "t": 267
+ },
+ {
+  "saved": "cost_allocation_view_20140712174648.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": null,
+  "t": 274
+ },
+ {
+  "saved": "cost_allocation_view_20150909120120.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 280
+ },
+ {
+  "saved": "cost_allocation_view_20150910215721.json.gz",
+  "tables": [
+   2793
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 285
+ },
+ {
+  "saved": "cost_allocation_view_20151127090459.json.gz",
+  "tables": [
+   2793
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 292
+ },
+ {
+  "saved": "cost_allocation_view_20151212115910.json.gz",
+  "tables": [
+   2891
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 299
+ },
+ {
+  "saved": "cost_allocation_view_20160228181406.json.gz",
+  "tables": [
+   2929
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 305
+ },
+ {
+  "saved": "cost_allocation_view_20160325142139.json.gz",
+  "tables": [
+   2929
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 311
+ },
+ {
+  "saved": "cost_allocation_view_20160417024146.json.gz",
+  "tables": [
+   2929
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 317
+ },
+ {
+  "saved": "cost_allocation_view_20160630044951.json.gz",
+  "tables": [
+   2929
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 322
+ },
+ {
+  "saved": "cost_allocation_view_20160729212742.json.gz",
+  "tables": [
+   2929
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 328
+ },
+ {
+  "saved": "cost_allocation_view_20160904212135.json.gz",
+  "tables": [
+   2929
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 334
+ },
+ {
+  "saved": "cost_allocation_view_20161016221550.json.gz",
+  "tables": [
+   2929
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 340
+ },
+ {
+  "saved": "cost_allocation_view_20161222201628.json.gz",
+  "tables": [
+   2929
+  ],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 346
+ },
+ {
+  "saved": "cost_allocation_view_20170324133232.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 353
+ },
+ {
+  "saved": "cost_allocation_view_20170501150451.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 361
+ },
+ {
+  "saved": "cost_allocation_view_20170612130737.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 366
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 372
+ },
+ {
+  "saved": "cost_allocation_view_20170910040529.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 372
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 379
+ },
+ {
+  "saved": "cost_allocation_view_20171013022606.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 379
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 386
+ },
+ {
+  "saved": "cost_allocation_view_20171110204013.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 386
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 392
+ },
+ {
+  "saved": "cost_allocation_view_20171213050908.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 392
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 399
+ },
+ {
+  "saved": "cost_allocation_view_20180125055952.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 399
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 405
+ },
+ {
+  "saved": "cost_allocation_view_20180126123459.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 405
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 414
+ },
+ {
+  "saved": "cost_allocation_view_20180329214135.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 414
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 420
+ },
+ {
+  "saved": "cost_allocation_view_20180530060314.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 420
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 428
+ },
+ {
+  "saved": "cost_allocation_view_20180710121758.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 428
+ },
+ {
+  "viewstate_error": "Cannot decode invalid viewstate, bad preamble",
+  "t": 434
+ },
+ {
+  "saved": "cost_allocation_view_20180726095020.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": "\r\n\r\n",
+  "t": 434
+ },
+ {
+  "saved": "cost_allocation_view_20190819022833.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": null,
+  "t": 439
+ },
+ {
+  "saved": "cost_allocation_view_20190825133229.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": null,
+  "t": 445
+ },
+ {
+  "saved": "cost_allocation_view_20191017052317.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": null,
+  "t": 451
+ },
+ {
+  "saved": "cost_allocation_view_20191023213705.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": null,
+  "t": 457
+ },
+ {
+  "saved": "cost_allocation_view_20191207095809.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": null,
+  "t": 462
+ },
+ {
+  "saved": "rtep_upgrades_status_20130910161356.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": null,
+  "t": 470
+ },
+ {
+  "saved": "rtep_upgrades_status_20140712062807.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": null,
+  "t": 476
+ },
+ {
+  "saved": "queues_status_20100105204631.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": null,
+  "t": 484
+ },
+ {
+  "saved": "queues_status_20130910015504.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": null,
+  "t": 490
+ },
+ {
+  "saved": "queues_status_20140711054021.json.gz",
+  "tables": [],
+  "tab": null,
+  "xml": null,
+  "t": 496
+ },
+ {
+  "live_export": "export_2026-09-17.xlsx",
+  "size": 2623720,
+  "showing": "Showing results 1 - 100 of 15556 [Next]",
+  "t": 525
+ }
+]
