@@ -157,6 +157,77 @@ small the electronics get.
 * **Using plated through-hole pins as free layer transitions.** Real but tiny:
   only the connectors have TH pins.
 
+## 8. The biggest untapped lever: jumper the crossings, don't via them
+
+A via costs a flat 50 points. A 0201 zero-ohm jumper costs only the board area
+it occupies: 1.15 x 0.65 = 0.75 mm^2, which at Z = 7 mm is **5.2 points**.
+
+> **A 0-ohm 0201 jumper is 9.6x cheaper than a via for resolving a crossing.**
+
+Jumpers are not vias, so they do not enter the score's via term at all. They
+only work for same-layer crossings (they cannot change layer), which points at a
+specific architecture:
+
+**2 copper layers, single-sided assembly, bottom layer a near-solid ground
+plane, all signals on top, planar crossings resolved with 0201 jumpers.**
+
+That design pays 10,000 for layers, almost nothing for vias (only ground
+stitching), and is *electrically better* than the alternatives: USB 2.0
+high-speed pairs and CAN get a proper unbroken reference plane, which a
+double-sided 2-layer board does not give you.
+
+| architecture | area | volume | via pts | layer pts | score |
+|---|---|---|---|---|---|
+| 4L, double-sided, 350 vias | 1296 | 9,072 | 17,500 | 20,000 | 46,572 |
+| 4L, double-sided, 250 vias | 1296 | 9,072 | 12,500 | 20,000 | 41,572 |
+| 2L, double-sided, 350 vias | 1296 | 9,072 | 17,500 | 10,000 | 36,572 |
+| **2L, 1-sided asm, solid GND, 80 vias** | 2392 | 16,744 | 4,000 | 10,000 | **30,744** |
+
+Single-sided assembly nearly doubles the area — the placer's tightest legal
+single-sided board is **52 x 46 mm = 2392 mm^2** against 36 x 36 = 1296 mm^2
+double-sided (`placement_1side.svg`) — and that costs ~7,700 points of volume.
+But it buys back 10,000 in layers and ~13,500 in vias. The area penalty is worth
+paying.
+
+Adding jumpers is cheap: 300 of them add 224 mm^2, which is 1,570 points.
+
+| jumpers | area | volume | score @ 80 vias | score @ 150 vias |
+|---|---|---|---|---|
+| 0 | 2392 | 16,744 | 30,744 | 34,244 |
+| 150 | 2504 | 17,529 | 31,529 | 35,029 |
+| 300 | 2616 | 18,314 | **32,314** | 35,814 |
+| 450 | 2728 | 19,099 | 33,099 | 36,599 |
+
+Caveat on density: the placer hits 81% geometric packing on that single-sided
+board, which is tighter than one-layer signal routing will really allow. At a
+more honest 60-65% the board is nearer 3,000-3,200 mm^2 and the score lands
+around **36,000-38,000**. Treat ~32,000 as the optimistic end and ~38,000 as the
+one to plan against.
+
+### The genuine contest
+
+The one architecture that could beat it is **2 layers, double-sided, 1296 mm^2**,
+which only needs to stay under **264 vias** to score below 32,314 (at 200 vias it
+scores 29,072). Its volume advantage is large. The open question is whether a
+double-sided 2-layer board can be routed that sparsely *and* still give the
+480 Mbps USB pairs a usable return path — the solid-ground single-sided design
+wins on signal integrity by a wide margin. That is the trade to settle with a
+real routing attempt, not arithmetic.
+
+Two things to confirm with comma before betting on this:
+
+1. That a few hundred 0-ohm jumpers is considered legitimate design rather than
+   gaming the metric. It is normal practice on 1- and 2-layer boards, and the
+   rules only require JLCPCB-manufacturable, assemblable and working — but it is
+   the kind of thing worth asking about rather than discovering at review time.
+2. That re-orienting the OBD-C receptacles from vertical to horizontal/mid-mount
+   counts as "mechanically compatible" (the USB-C plug interface is identical;
+   only the board-attach orientation changes).
+
+A one-copper-layer board would score 5,000 lower still and cannot contain any
+vias at all, but with no reference plane for 480 Mbps USB it would fail the
+"must work and be usable" rule. Not recommended.
+
 ## 7. Where the score actually goes
 
 With the optimised 36x36 mm, Z=7 mm board:

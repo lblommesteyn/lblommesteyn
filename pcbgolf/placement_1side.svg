@@ -1,0 +1,324 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1296" height="610" viewBox="0 0 1296 610">
+<rect width="100%" height="100%" fill="#faf9f7"/>
+<text x="16" y="16" font-family="monospace" font-size="13" fill="#222">SINGLE-SIDED 2L (solid GND bottom) — 52 x 46 mm, Z=7.0mm, volume 16744 mm3</text>
+<rect x="16" y="30" width="624" height="552" fill="#1e8449" fill-opacity="0.10" stroke="#1e8449" stroke-width="1.5"/>
+<text x="16" y="27" font-family="monospace" font-size="11" fill="#555">TOP (F.Cu)</text>
+<rect x="310.0" y="424.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="148.0" y="332.4" width="112.8" height="117.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="204.4" y="394.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">U4</text>
+<rect x="310.0" y="412.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="310.0" y="400.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="310.0" y="388.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="130.0" y="382.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="310.0" y="376.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="388.0" y="502.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="460.0" y="568.2" width="7.8" height="13.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="310.0" y="364.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="130.0" y="358.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="310.0" y="352.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="388.0" y="478.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="130.0" y="334.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="508.0" y="79.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="307.0" y="280.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="589.0" y="270.6" width="34.2" height="50.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="606.1" y="298.8" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">Q4</text>
+<rect x="265.0" y="410.4" width="40.8" height="57.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="285.4" y="442.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">U16</text>
+<rect x="286.0" y="241.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="511.0" y="229.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="229.0" y="208.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="484.0" y="199.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="610.0" y="222.6" width="19.2" height="44.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="544.0" y="49.2" width="37.2" height="40.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="562.6" y="72.6" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">LED11</text>
+<rect x="460.0" y="211.2" width="48.0" height="25.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="484.0" y="227.1" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">U8</text>
+<rect x="103.0" y="190.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="460.0" y="550.2" width="7.8" height="13.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="310.0" y="184.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="265.0" y="350.4" width="40.8" height="57.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="285.4" y="382.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">U14</text>
+<rect x="199.0" y="109.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="289.0" y="127.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="532.0" y="222.6" width="34.2" height="50.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="549.1" y="250.8" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">Q5</text>
+<rect x="125.0" y="476.6" width="128.4" height="82.3" fill="#8e44ad" fill-opacity="0.55" stroke="#8e44ad" stroke-width="0.6"/>
+<text x="189.2" y="520.8" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">J3</text>
+<rect x="388.0" y="189.6" width="19.2" height="44.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="130.0" y="219.6" width="34.2" height="50.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="147.1" y="247.8" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">Q8</text>
+<rect x="103.0" y="166.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="310.0" y="160.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="181.0" y="196.8" width="44.4" height="19.2" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="203.2" y="209.4" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">LED4</text>
+<rect x="289.0" y="139.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="400.0" y="121.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="526.0" y="173.4" width="26.4" height="15.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="539.2" y="184.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">C51</text>
+<rect x="376.0" y="133.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="394.0" y="133.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="346.0" y="140.4" width="26.4" height="15.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="359.2" y="151.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">C20</text>
+<rect x="331.0" y="276.6" width="194.4" height="194.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="428.2" y="376.8" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">U3</text>
+<rect x="406.0" y="475.2" width="53.4" height="34.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="432.7" y="495.6" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">L8</text>
+<rect x="346.0" y="130.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="454.0" y="130.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="310.0" y="172.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="514.0" y="127.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="532.0" y="127.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="157.0" y="121.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="175.0" y="121.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="280.0" y="85.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="388.0" y="73.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="454.0" y="140.4" width="26.4" height="15.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="467.2" y="151.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">C53</text>
+<rect x="211.0" y="121.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="169.0" y="131.4" width="26.4" height="15.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="182.2" y="142.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">C1</text>
+<rect x="502.0" y="444.0" width="108.0" height="168.0" fill="#8e44ad" fill-opacity="0.55" stroke="#8e44ad" stroke-width="0.6"/>
+<text x="556.0" y="531.0" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">J1</text>
+<rect x="145.0" y="97.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="271.0" y="103.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="265.0" y="121.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="235.0" y="452.4" width="26.4" height="15.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="248.2" y="463.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">C50</text>
+<rect x="604.0" y="70.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="382.0" y="121.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="127.0" y="91.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="418.0" y="121.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="436.0" y="121.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="349.0" y="49.8" width="34.8" height="31.2" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="366.4" y="68.4" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">U10</text>
+<rect x="265.0" y="292.8" width="55.2" height="55.2" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="292.6" y="323.4" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">BH2</text>
+<rect x="346.0" y="118.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="454.0" y="118.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="472.0" y="118.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="199.0" y="131.4" width="26.4" height="15.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="212.2" y="142.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">C3</text>
+<rect x="163.0" y="47.4" width="40.8" height="57.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="183.4" y="79.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">U15</text>
+<rect x="490.0" y="118.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="418.0" y="132.0" width="33.0" height="24.0" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="434.5" y="147.0" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">L4</text>
+<rect x="550.0" y="118.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="616.0" y="94.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="586.0" y="118.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="604.0" y="118.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="622.0" y="118.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="286.0" y="195.6" width="48.0" height="38.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="310.0" y="217.8" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">Y2</text>
+<rect x="127.0" y="115.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="610.0" y="174.6" width="19.2" height="44.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="526.0" y="137.4" width="34.8" height="27.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="543.4" y="154.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">LED1</text>
+<rect x="325.0" y="57.6" width="19.2" height="44.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="8.2" y="37.8" width="122.4" height="106.8" fill="#8e44ad" fill-opacity="0.55" stroke="#8e44ad" stroke-width="0.6"/>
+<text x="69.4" y="94.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">J4</text>
+<rect x="169.0" y="219.6" width="34.2" height="50.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="186.1" y="247.8" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">Q7</text>
+<rect x="562.0" y="168.6" width="19.2" height="44.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="283.0" y="115.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="529.0" y="277.8" width="55.2" height="55.2" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="556.6" y="308.4" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">BH1</text>
+<rect x="508.0" y="115.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="526.0" y="115.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="145.0" y="109.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="163.0" y="109.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="181.0" y="109.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="460.0" y="514.2" width="7.8" height="13.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="103.0" y="178.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="130.0" y="274.8" width="55.2" height="55.2" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="157.6" y="305.4" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">BH4</text>
+<rect x="25.6" y="289.2" width="91.2" height="110.4" fill="#8e44ad" fill-opacity="0.55" stroke="#8e44ad" stroke-width="0.6"/>
+<text x="71.2" y="347.4" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">J6</text>
+<rect x="217.0" y="109.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="235.0" y="109.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="253.0" y="109.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="301.0" y="109.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="337.0" y="208.2" width="48.0" height="25.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="361.0" y="224.1" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">U5</text>
+<rect x="319.0" y="109.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="364.0" y="109.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="382.0" y="109.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="400.0" y="109.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="529.0" y="337.2" width="84.0" height="37.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="571.0" y="359.1" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">D1</text>
+<rect x="208.0" y="219.6" width="34.2" height="50.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="225.1" y="247.8" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">Q9</text>
+<rect x="250.0" y="316.2" width="7.8" height="13.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="418.0" y="109.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="169.0" y="172.2" width="7.8" height="13.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="586.0" y="168.6" width="19.2" height="44.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="337.0" y="106.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="454.0" y="106.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="16.0" y="157.2" width="37.2" height="40.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="34.6" y="180.6" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">LED13</text>
+<rect x="460.0" y="162.6" width="19.2" height="44.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="472.0" y="106.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="565.0" y="130.2" width="31.2" height="34.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="580.6" y="150.6" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">U11</text>
+<rect x="490.0" y="106.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="544.0" y="106.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="562.0" y="106.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="580.0" y="106.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="598.0" y="106.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="616.0" y="106.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="127.0" y="103.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="247.0" y="121.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="244.0" y="97.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="58.0" y="160.8" width="40.8" height="37.2" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="78.4" y="182.4" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">LED15</text>
+<rect x="181.0" y="151.2" width="37.2" height="40.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="199.6" y="174.6" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">LED10</text>
+<rect x="526.0" y="103.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="229.0" y="131.4" width="26.4" height="15.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="242.2" y="142.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">C19</text>
+<rect x="229.0" y="121.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="388.0" y="490.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="-13.4" y="424.2" width="187.2" height="128.4" fill="#8e44ad" fill-opacity="0.55" stroke="#8e44ad" stroke-width="0.6"/>
+<text x="80.2" y="491.4" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">J2</text>
+<rect x="208.0" y="97.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="601.0" y="130.2" width="31.2" height="34.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="616.6" y="150.6" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">U12</text>
+<rect x="268.0" y="151.2" width="37.2" height="40.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="286.6" y="174.6" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">LED17</text>
+<rect x="226.0" y="97.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="508.0" y="103.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="289.0" y="97.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="307.0" y="97.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="190.0" y="274.8" width="55.2" height="55.2" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="217.6" y="305.4" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">BH3</text>
+<rect x="355.0" y="97.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="373.0" y="97.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="571.0" y="216.6" width="34.2" height="50.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="588.1" y="244.8" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">Q2</text>
+<rect x="628.0" y="289.2" width="7.8" height="13.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="409.0" y="97.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="484.0" y="148.2" width="37.2" height="40.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="502.6" y="171.6" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">LED14</text>
+<rect x="427.0" y="97.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="310.0" y="448.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="628.0" y="307.2" width="7.8" height="13.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="130.0" y="370.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="490.0" y="94.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="544.0" y="94.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="259.0" y="131.4" width="26.4" height="15.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="272.2" y="142.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">C13</text>
+<rect x="421.0" y="241.8" width="52.8" height="31.2" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="447.4" y="260.4" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">L2</text>
+<rect x="562.0" y="94.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="418.0" y="159.4" width="35.4" height="23.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="435.7" y="174.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">L3</text>
+<rect x="580.0" y="94.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="598.0" y="94.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="484.0" y="128.4" width="26.4" height="15.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="497.2" y="139.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">C12</text>
+<rect x="478.0" y="239.6" width="51.1" height="33.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="503.6" y="259.3" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">Q1</text>
+<rect x="250.0" y="298.2" width="7.8" height="13.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="568.0" y="118.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="262.0" y="91.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="250.0" y="253.2" width="53.4" height="34.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="276.7" y="273.6" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">L7</text>
+<rect x="508.0" y="91.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="526.0" y="91.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="145.0" y="85.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="208.0" y="85.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="226.0" y="85.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="511.0" y="193.2" width="48.0" height="25.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="535.0" y="209.1" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">U6</text>
+<rect x="244.0" y="85.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="193.0" y="121.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="298.0" y="85.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="349.0" y="85.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="391.0" y="97.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="367.0" y="85.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="385.0" y="85.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="403.0" y="85.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="130.0" y="346.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="310.0" y="121.2" width="31.2" height="34.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="325.6" y="141.6" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">U9</text>
+<rect x="331.0" y="514.8" width="124.8" height="67.2" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="393.4" y="551.4" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">SW1</text>
+<rect x="628.0" y="271.2" width="7.8" height="13.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="421.0" y="85.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="490.0" y="82.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="586.0" y="82.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="604.0" y="82.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="622.0" y="82.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="539.2" y="370.2" width="91.2" height="110.4" fill="#8e44ad" fill-opacity="0.55" stroke="#8e44ad" stroke-width="0.6"/>
+<text x="584.8" y="428.4" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">J8</text>
+<rect x="127.0" y="79.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="262.0" y="79.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="589.0" y="325.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="526.0" y="79.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="307.0" y="238.2" width="53.4" height="34.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="333.7" y="258.6" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">L5</text>
+<rect x="127.0" y="145.2" width="37.2" height="40.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="145.6" y="168.6" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">LED16</text>
+<rect x="145.0" y="73.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="247.0" y="198.6" width="34.2" height="50.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="264.1" y="226.8" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">Q3</text>
+<rect x="127.0" y="125.4" width="26.4" height="15.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="140.2" y="136.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">C52</text>
+<rect x="208.0" y="73.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="508.0" y="59.4" width="26.4" height="15.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="521.2" y="70.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">C8</text>
+<rect x="331.0" y="478.8" width="52.8" height="31.2" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="357.4" y="497.4" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">L1</text>
+<rect x="226.0" y="73.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="244.0" y="73.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="280.0" y="73.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="298.0" y="73.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="310.0" y="460.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="460.0" y="532.2" width="7.8" height="13.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="376.0" y="145.2" width="37.2" height="40.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="394.6" y="168.6" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">LED12</text>
+<rect x="376.0" y="190.2" width="7.8" height="13.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="406.0" y="73.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="337.0" y="160.8" width="34.8" height="43.2" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="354.4" y="185.4" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">U2</text>
+<rect x="229.0" y="151.8" width="34.8" height="43.2" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="246.4" y="176.4" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">U1</text>
+<rect x="424.0" y="73.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="225.4" y="481.2" width="110.4" height="91.2" fill="#8e44ad" fill-opacity="0.55" stroke="#8e44ad" stroke-width="0.6"/>
+<text x="280.6" y="529.8" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">J5</text>
+<rect x="490.0" y="70.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="445.0" y="44.4" width="40.8" height="57.6" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="465.4" y="76.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">U13</text>
+<rect x="586.0" y="70.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="436.0" y="109.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="25.6" y="193.2" width="91.2" height="110.4" fill="#8e44ad" fill-opacity="0.55" stroke="#8e44ad" stroke-width="0.6"/>
+<text x="71.2" y="251.4" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">J7</text>
+<rect x="364.0" y="121.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="421.0" y="186.6" width="34.2" height="50.4" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="438.1" y="214.8" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">Q6</text>
+<rect x="130.0" y="190.2" width="48.0" height="25.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="154.0" y="206.1" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">U7</text>
+<rect x="622.0" y="70.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="310.0" y="436.2" width="13.8" height="7.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="616.0" y="324.0" width="19.2" height="51.0" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<rect x="364.0" y="238.2" width="53.4" height="34.8" fill="#c94f3d" fill-opacity="0.55" stroke="#c94f3d" stroke-width="0.6"/>
+<text x="390.7" y="258.6" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">L6</text>
+<rect x="656" y="30" width="624" height="552" fill="#1e8449" fill-opacity="0.10" stroke="#1e8449" stroke-width="1.5"/>
+<text x="656" y="27" font-family="monospace" font-size="11" fill="#555">BOTTOM (B.Cu)</text>
+<rect x="755.0" y="568.2" width="7.8" height="13.8" fill="#2f6fb3" fill-opacity="0.55" stroke="#2f6fb3" stroke-width="0.6"/>
+<rect x="767.0" y="574.2" width="13.8" height="7.8" fill="#2f6fb3" fill-opacity="0.55" stroke="#2f6fb3" stroke-width="0.6"/>
+<rect x="785.0" y="574.2" width="13.8" height="7.8" fill="#2f6fb3" fill-opacity="0.55" stroke="#2f6fb3" stroke-width="0.6"/>
+<rect x="821.0" y="574.2" width="13.8" height="7.8" fill="#2f6fb3" fill-opacity="0.55" stroke="#2f6fb3" stroke-width="0.6"/>
+<rect x="839.0" y="574.2" width="13.8" height="7.8" fill="#2f6fb3" fill-opacity="0.55" stroke="#2f6fb3" stroke-width="0.6"/>
+<rect x="857.0" y="574.2" width="13.8" height="7.8" fill="#2f6fb3" fill-opacity="0.55" stroke="#2f6fb3" stroke-width="0.6"/>
+<rect x="875.0" y="574.2" width="13.8" height="7.8" fill="#2f6fb3" fill-opacity="0.55" stroke="#2f6fb3" stroke-width="0.6"/>
+<rect x="893.0" y="568.2" width="7.8" height="13.8" fill="#2f6fb3" fill-opacity="0.55" stroke="#2f6fb3" stroke-width="0.6"/>
+<rect x="905.0" y="568.2" width="7.8" height="13.8" fill="#2f6fb3" fill-opacity="0.55" stroke="#2f6fb3" stroke-width="0.6"/>
+<rect x="707.0" y="566.4" width="26.4" height="15.6" fill="#2f6fb3" fill-opacity="0.55" stroke="#2f6fb3" stroke-width="0.6"/>
+<text x="720.2" y="577.2" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">C15</text>
+<rect x="803.0" y="574.2" width="13.8" height="7.8" fill="#2f6fb3" fill-opacity="0.55" stroke="#2f6fb3" stroke-width="0.6"/>
+<rect x="737.0" y="555.6" width="15.6" height="26.4" fill="#2f6fb3" fill-opacity="0.55" stroke="#2f6fb3" stroke-width="0.6"/>
+<rect x="656.0" y="543.6" width="48.0" height="38.4" fill="#2f6fb3" fill-opacity="0.55" stroke="#2f6fb3" stroke-width="0.6"/>
+<text x="680.0" y="565.8" text-anchor="middle" font-family="monospace" font-size="8" fill="#111">Y1</text>
+<rect x="917.0" y="574.2" width="13.8" height="7.8" fill="#2f6fb3" fill-opacity="0.55" stroke="#2f6fb3" stroke-width="0.6"/>
+</svg>
