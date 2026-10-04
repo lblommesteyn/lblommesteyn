@@ -92,10 +92,69 @@ def orient_footprint(fp, rho, back):
     if back:
         fp.find('layer')[1] = Q('B.Cu')
 
-def build(placement, netlist, layers=2, src=SRC, title='pcbgolf'):
+GEN_LIB = os.path.join(os.path.dirname(D), 'pcbgolf-gen.pretty')
+
+# source footprint -> generated replacement (in pcbgolf-gen.pretty)
+DEFAULT_SUBS = {
+    '0402-R': '0201-R',
+    '0402-C': '0201-C',
+    '0805-C': '0603-C',
+    'SOIC-8_3.9x4.9mm_P1.27mm': 'SC70-5',
+    # LQFP-144 -> LQFP-100 needs the pad nets reassigned, not copied by name
+    'LQFP-144_20x20mm_P0.5mm': 'LQFP-100_14x14',
+}
+
+# footprint -> json file holding {pin number: net} for a repinned package
+REPIN = {'LQFP-100_14x14': 'remap_lqfp100.json'}
+
+_KEEP = ('property', 'path', 'sheetname', 'sheetfile', 'uuid', 'attr',
+         'descr', 'tags', 'duplicate_pad_numbers_are_jumpers')
+
+_REPIN_CACHE = {}
+
+def _repin(lib_name):
+    if lib_name not in REPIN: return None
+    if lib_name not in _REPIN_CACHE:
+        import json as _j
+        path = os.path.join(D, REPIN[lib_name])
+        _REPIN_CACHE[lib_name] = _j.load(open(path))['pin_to_net']
+    return _REPIN_CACHE[lib_name]
+
+
+def substitute(orig, gen_name):
+    """Swap a footprint's body for a generated one, keeping its identity
+    (reference, value, MPN, sheet path) and dropping pads the new package
+    does not have."""
+    path = os.path.join(GEN_LIB, gen_name + '.kicad_mod')
+    new = load(path)
+    out = Node(); out.append('footprint'); out.append(Q(f'pcbgolf-gen:{gen_name}'))
+    for c in orig[2:]:
+        if isinstance(c, Node) and c.tag in _KEEP:
+            out.append(c)
+    for c in new[2:]:
+        if isinstance(c, Node) and c.tag in ('fp_line','fp_rect','fp_poly','fp_circle',
+                                             'fp_arc','pad','attr','model'):
+            out.append(c)
+    if out.find('layer') is None:
+        out.insert(2, n('layer', Q('F.Cu')))
+    if out.find('at') is None:
+        out.insert(3, n('at', 0, 0))
+    return out
+
+
+def build(placement, netlist, layers=2, src=SRC, title='pcbgolf', subs=None,
+          drop=(), thickness=1.6):
     pcb = load(src)
+    subs = DEFAULT_SUBS if subs is True else (subs or {})
     P = json.load(open(placement))
     NL = json.load(open(netlist))
+    drop = set(drop)
+    if drop:
+        # A part that is not fitted must also leave the net table, or its net
+        # survives with a single pad and reads as a broken connection.
+        NL = dict(NL, nets={nm: [pin for pin in pins if pin[0] not in drop]
+                            for nm, pins in NL['nets'].items()})
+        P = dict(P, parts=[q for q in P['parts'] if q['ref'] not in drop])
     nets = build_net_table(NL)
     pmap = pad_net_map(NL)
     W, H = P['W'], P['H']
@@ -143,6 +202,11 @@ def build(placement, netlist, layers=2, src=SRC, title='pcbgolf'):
         p = placed.get(ref)
         if p is None:
             dropped += 1; continue
+        if subs:
+            lib = str(c[1]).split(':')[-1]
+            gen = subs.get(lib)
+            if gen:
+                c = substitute(c, gen)
         back = bool(p['side'])
         rot = float(p.get('rot', 0)) % 360
         orient_footprint(c, rot, back)
@@ -163,6 +227,11 @@ def build(placement, netlist, layers=2, src=SRC, title='pcbgolf'):
             nm = pmap.get((ref, pname))
             old = pad.find('net')
             if old is not None: pad.remove(old)
+            lib_now = str(c[1]).split(':')[-1]
+            rp = _repin(lib_now)
+            if rp is not None:
+                nm = rp.get(pname)          # repinned package: net comes from
+                                            # the pin number, not the old name
             if nm and nm in nets:
                 pad.append(n('net', nets[nm], Q(nm))); netted += 1
             else:
@@ -201,8 +270,9 @@ def build(placement, netlist, layers=2, src=SRC, title='pcbgolf'):
     gen = pcb.find('general')
     if gen is not None:
         th = gen.find('thickness')
-        if th is not None: th[1] = 1.6
-    return pcb, dict(footprints=kept, dropped=dropped, nets=len(nets),
+        if th is not None: th[1] = thickness
+    return pcb, dict(footprints=kept, dropped=dropped, not_fitted=sorted(drop),
+                     thickness=thickness, nets=len(nets),
                      pads_netted=netted, pads_unnetted=unnetted,
                      W=round(W, 3), H=round(H, 3), area=round(W*H, 1),
                      layers=layers)
@@ -212,9 +282,17 @@ if __name__ == '__main__':
     ap.add_argument('--placement', default=os.path.join(D, 'place_1side.json'))
     ap.add_argument('--netlist', default=os.path.join(D, 'netlist.json'))
     ap.add_argument('--layers', type=int, default=2)
+    ap.add_argument('--subs', action='store_true',
+                    help='apply the DEFAULT_SUBS footprint substitutions')
+    ap.add_argument('--drop', default='',
+                    help='comma-separated refs to leave off the board entirely')
+    ap.add_argument('--thickness', type=float, default=1.6)
     ap.add_argument('-o', '--out', required=True)
     a = ap.parse_args()
-    pcb, info = build(a.placement, a.netlist, a.layers)
+    pcb, info = build(a.placement, a.netlist, a.layers,
+                      subs=True if a.subs else None,
+                      drop=[r.strip() for r in a.drop.split(',') if r.strip()],
+                      thickness=a.thickness)
     open(a.out, 'w').write(dumps(pcb) + '\n')
     print(f"wrote {a.out}")
     for k, v in info.items(): print(f"  {k}: {v}")

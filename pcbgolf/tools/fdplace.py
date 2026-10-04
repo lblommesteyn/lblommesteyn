@@ -96,7 +96,7 @@ class FD:
             t += np.ptp(self.x[refs]) + np.ptp(self.y[refs])
         return t
 
-def make_items(swaps, seed=0):
+def make_items(swaps, seed=0, tall=2.5):
     import geom2
     b = load_board()
     rng = random.Random(seed)
@@ -110,8 +110,14 @@ def make_items(swaps, seed=0):
         needs_edge, ew, dp = geom2.edge_orientation(name, w, h)
         items.append(dict(ref=f.ref, fp=name, src=fp, w=w, h=h, z=z,
                           ox=ox, oy=oy, edge_w=ew, depth=dp,
+                          thru=geom2.has_thru(fp) or geom2.has_thru(name),
+                          thru_rects=geom2.thru_rects(fp) or geom2.thru_rects(name),
                           edge=needs_edge,
                           top=needs_edge or name in ('EVQ-Q2','M2_BOLT'), side=0))
+    # Parts taller than the thinnest practical back-side stack are pinned to the
+    # top: a single tall part on the bottom adds its full height to the envelope.
+    for it in items:
+        if it['z'] > tall: it['top'] = True
     # balance the two sides by area, connectors/LEDs/button stay on top
     free = [it for it in items if not it['top']]
     free.sort(key=lambda it: -it['w']*it['h'])

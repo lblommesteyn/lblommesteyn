@@ -4,10 +4,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from sexpr import load
 
 PRETTY = '/home/user/commaai/pcbgolf/pcbgolf.pretty'
+GEN = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                   'pcbgolf-gen.pretty')
 
 def load_footprints():
     out = {}
-    for f in glob.glob(os.path.join(PRETTY, '*.kicad_mod')):
+    srcs = glob.glob(os.path.join(PRETTY, '*.kicad_mod')) + \
+           glob.glob(os.path.join(GEN, '*.kicad_mod'))
+    for f in srcs:
         fp = load(f)
         name = os.path.basename(f)[:-10]
         pads = []
@@ -23,8 +27,12 @@ def load_footprints():
                              w=sz[1], h=sz[2], type=ptype, shape=shape, layers=layers))
         lo = [1e9,1e9]; hi=[-1e9,-1e9]
         for pd in pads:
-            lo[0]=min(lo[0],pd['x']-pd['w']/2); lo[1]=min(lo[1],pd['y']-pd['h']/2)
-            hi[0]=max(hi[0],pd['x']+pd['w']/2); hi[1]=max(hi[1],pd['y']+pd['h']/2)
+            # pads carry their own rotation; ignoring it understates the envelope
+            w, h, a = pd['w'], pd['h'], math.radians(pd['rot'] or 0)
+            ew = abs(w*math.cos(a)) + abs(h*math.sin(a))
+            eh = abs(w*math.sin(a)) + abs(h*math.cos(a))
+            lo[0]=min(lo[0],pd['x']-ew/2); lo[1]=min(lo[1],pd['y']-eh/2)
+            hi[0]=max(hi[0],pd['x']+ew/2); hi[1]=max(hi[1],pd['y']+eh/2)
         # body outline: solder tabs often stick out past the plastic, and the
         # plastic often sticks out past the pads - the envelope is the union.
         blo=[1e9,1e9]; bhi=[-1e9,-1e9]; has_body=False

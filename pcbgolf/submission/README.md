@@ -1,84 +1,53 @@
-# PCBGolf — best design to date
+# PCBGolf submission — status
 
-**Luke Blommesteyn** · github.com/lblommesteyn · for [commaai/PCBGolf](https://github.com/commaai/PCBGolf)
+**Luke Blommesteyn** · github.com/lblommesteyn · [commaai/PCBGolf](https://github.com/commaai/PCBGolf)
 
 ```
-score = PCBA bounding-box volume (mm^3) + 50 x vias + 5,000 x copper layers
+score = bounding-box volume (mm^3) + 50 x vias + 5,000 x copper layers
 ```
+Leaderboard to beat: **84,578**.
 
-## ⚠️ Read this first
+## ⚠️ Not yet submittable
 
-**This is not a scoreable submission.** There is no `.kicad_pcb` and no STEP file
-here, because no board has been routed. What follows is a design specified down
-to BOM, placement and stackup, with a projected score.
+Both boards below are **short a few connections**. The challenge requires a
+board that works, so neither is a valid entry until those are closed by hand in
+KiCad. Everything else — placement, routing, netlist, STEP — is done.
 
-* **Measured:** board outline, component envelopes, heights, placement (legal and
-  overlap-free), netlist, part areas.
-* **Modelled, not measured:** the via count, which is the load-bearing assumption.
+| file | layers | vias | connections short | score | vs 84,578 |
+|---|---|---|---|---|---|
+| `pcbgolf-v250-4L.kicad_pcb` | 4 | 351 | **27** | **70,171** | **−17%** |
+| `pcbgolf-finished-4L.kicad_pcb` | 4 | 425 | **9** | 73,871 | −13% |
 
-## The design
+Both are 50.05 x 52.775 mm, Z = 12.35 mm, volume 32,621 mm^3.
 
-| | |
-|---|---|
-| board | **40 x 42 mm** (1680 mm^2) |
-| height | **7.0 mm** — floored by the DC barrel jack bore |
-| stackup | **2 copper layers**, components both sides |
-| volume | 11,760 mm^3 |
-| vias | ~300 (modelled) |
-| **projected score** | **36,760** |
-| vs leaderboard (84,578) | **−57%** |
+**Which to finish:** `v250` scores 3,700 better and needs 27 connections closed;
+`finished` needs only 9 but already spent 74 vias getting there. My maze router
+averaged ~3.5 vias per connection, which is poor — a human routing by hand
+should manage closer to 0.5, so **starting from `v250` and hand-routing its 27
+should land near 70,000–71,000**, better than either file here.
 
-## Why this shape
-
-At a 7 mm-tall board the exchange rates are:
-
-| you spend | costs | equals |
-|---|---|---|
-| 1 via | 50 pts | **7.1 mm^2 of board** |
-| 1 copper layer | 5,000 pts | **714 mm^2**, or 100 vias |
-
-So volume is the *smallest* of the three terms, and the design is driven by layer
-count and via count instead. Three consequences:
-
-1. **2 layers, not 4.** Worth 10,000 points, and only loses if 2-layer routing
-   needs more than 200 extra vias.
-2. **No BGA.** Escape vias cost more than the area they save — LQFP-100 beats
-   TFBGA100 by ~500-1,900 points and UFBGA169 by ~4,100.
-3. **Mid-mount the barrel jack.** It is the tallest part; putting its barrel on
-   the board plane sets Z = 7.0 mm and makes double-sided assembly free in volume.
-
-Full reasoning, including the ideas that did *not* survive (folded flex, BGA,
-single-layer) is in `FINDINGS.md`.
+The 27 are listed by `tools/ratsnest.py`; they are mostly GND and a few USB
+differential pairs.
 
 ## Files
 
 | file | contents |
 |---|---|
-| `FINDINGS.md` | the full writeup: what was measured, what was rejected, what is unproven |
-| `BOM.csv` | 50 line items, 245 parts, each original MPN mapped to its replacement with risk and rationale |
-| `placement.csv` | pick-and-place: ref, footprint, x, y, rotation, side, height |
-| `netlist.csv` | 196 multi-pin nets rebuilt from the schematics |
-| `SCORE.csv` | score breakdown for the recommended design and variants |
-| `placement.svg` | top and bottom side render |
-| `tools/` | everything needed to reproduce the above from the upstream repo |
+| `pcbgolf-v250-4L.kicad_pcb` | best score, 27 connections short |
+| `pcbgolf-finished-4L.kicad_pcb` | closest to complete, 9 short |
+| `pcba-v250.step` / `pcba-finished.step` | STEP assembly: board slab + a solid per component |
+| `SCORE.csv` | all seven measured boards, with a flag for whether the finish estimate is trustworthy |
+| `BOM.csv`, `placement.csv`, `netlist.csv` | bill of materials, pick-and-place, flattened netlist |
 
-## Reproducing
+## Caveats
 
-Needs `numpy` and `commaai/PCBGolf` checked out at `/home/user/commaai/pcbgolf`
-(paths at the top of `pcb.py`, `fplib.py`, `netlist.py`).
-
-```
-python3 tools/netlist.py    # rebuild netlist; prints 1053/1053 pin hit rate
-python3 tools/geom2.py      # component envelopes and edge rules
-python3 tools/run_grid.py   # placement sweep
-python3 tools/scorecard.py  # score table
-```
-
-## What is still needed for a real entry
-
-1. A KiCad exporter — the placer emits coordinates, not a `.kicad_pcb`.
-2. Footprints for the swapped parts: LQFP-100, SC-70-5, 0201, mid-mount USB-C,
-   low-profile barrel jack. None exist in `pcbgolf.pretty`.
-3. Routing. The ~300-via figure is the one number that could move the score by
-   ±15,000, and it is unproven.
-4. STEP export of the assembly.
+* The STEP files are generated by `tools/step_export.py` and are structurally
+  sound (242 solids, 6 faces each, all references resolve, dimensions and volume
+  match the scorer) but have **not been opened in a CAD kernel** — no CAD tool in
+  the build environment can read KiCad 10 files.
+* Components are represented as boxes at their measured footprint and height,
+  not as detailed models. The bounding box, which is what the score measures, is
+  exact.
+* This is the **stock BOM**. The passive/op-amp swaps are generated but not
+  routed, and the two big wins (LQFP-100 MCU, mid-mount connectors) are blocked
+  on datasheet access — they would take Z from 12.35 mm to ~7 mm.

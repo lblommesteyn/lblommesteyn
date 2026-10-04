@@ -68,11 +68,24 @@ def check(path):
     print(f"  footprints      : {len(fps)}  (front {front}, back {back})")
     print(f"  pads            : {pads_total}")
     print(f"  nets declared   : {len(nets)}")
+    # routing must also lie inside the outline; a wrong session scale sails
+    # straight past a pad-only check
+    trk_out = 0
+    for sg in pcb.find_all('segment'):
+        for k in ('start','end'):
+            q = sg.find(k)
+            if q[1] < x0-0.5 or q[1] > x1+0.5 or q[2] < y0-0.5 or q[2] > y1+0.5:
+                trk_out += 1
+    for v in pcb.find_all('via'):
+        at = v.find('at')
+        if at[1] < x0-0.5 or at[1] > x1+0.5 or at[2] < y0-0.5 or at[2] > y1+0.5:
+            trk_out += 1
     print(f"  pads outside    : {pad_out}")
+    print(f"  routing outside : {trk_out}")
     print(f"  bad net refs    : {bad_net}")
     print(f"  wrong-side layer: {stray}")
     for e in errs: print("  ERROR:", e)
-    ok = not errs and pad_out == 0 and bad_net == 0 and stray == 0
+    ok = not errs and pad_out == 0 and bad_net == 0 and stray == 0 and trk_out == 0
     print(f"  => {'PASS' if ok else 'PROBLEMS'}")
     return ok
 

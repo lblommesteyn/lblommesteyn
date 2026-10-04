@@ -64,11 +64,33 @@ def measured(fp_name):
     e = f.get('env') or f['bbox']
     return (e[2]-e[0], e[3]-e[1], (e[0]+e[2])/2, (e[1]+e[3])/2)
 
+def has_thru(fp_name):
+    """True if the footprint has plated or non-plated through holes, which
+    occupy BOTH board sides."""
+    f = _fps().get(fp_name)
+    if f is None: return False
+    return any(p['type'] in ('thru_hole', 'np_thru_hole') for p in f['pads'])
+
+
+def thru_rects(fp_name):
+    """Through-hole pad rectangles as (dx, dy, w, h) offsets from the envelope
+    centre.  Only these pierce the board, so only these block the far side."""
+    f = _fps().get(fp_name)
+    if f is None: return []
+    w, h, cx, cy = measured(fp_name)
+    out = []
+    for p in f['pads']:
+        if p['type'] not in ('thru_hole', 'np_thru_hole'): continue
+        out.append((p['x'] - cx, p['y'] - cy, p['w'], p['h']))
+    return out
+
+
 def box(fp_name, swap=None):
     """Placement box (w, h) including clearance, plus origin offset (ox, oy)."""
     if swap is not None:
         return swap['W']+CLR, swap['H']+CLR, 0.0, 0.0
-    if fp_name in SWAP_DIMS:
+    if fp_name in SWAP_DIMS and fp_name not in _fps():
+        # placeholder only for parts with no real footprint yet
         w, h = SWAP_DIMS[fp_name]
         return w+CLR, h+CLR, 0.0, 0.0
     w, h, ox, oy = measured(fp_name)

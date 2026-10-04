@@ -7,32 +7,32 @@ above the board surface in mm. Sources: KiCad footprints in pcbgolf.pretty
 
 # footprint -> (W, H, Z_above_board, note)
 GEOM = {
-    '0402-R':                  (1.95, 0.97, 0.45, 'measured courtyard'),
-    '0402-C':                  (1.95, 0.97, 0.55, 'measured courtyard'),
-    '0805-C':                  (3.00, 1.60, 1.25, 'pad bbox + clearance; STEP z=1.25'),
-    '0603-L':                  (2.95, 1.97, 0.95, 'measured courtyard'),
-    '0806':                    (2.75, 2.00, 1.20, 'pad bbox + clearance'),
-    'SOT23-3':                 (3.10, 3.40, 1.20, 'STEP z=1.20'),
-    'SOT23-5':                 (2.85, 4.20, 1.55, 'STEP z=1.55'),
-    'SOT23-6':                 (2.90, 3.60, 1.55, 'STEP z=1.55'),
-    'SOIC-8_3.9x4.9mm_P1.27mm':(7.40, 5.40, 1.75, 'measured courtyard; STEP z=1.75'),
-    'TDFN8_2X3MC_MCH':         (4.00, 2.15, 0.93, 'STEP z=0.93'),
-    'WQFN20':                  (3.40, 4.80, 0.80, 'STEP z=0.78'),
-    'QFN64-9X9':               (9.40, 9.80, 1.00, 'STEP z=0.95'),
-    'LQFP-144_20x20mm_P0.5mm': (23.30, 23.30, 1.60, 'measured courtyard; STEP z=1.50'),
-    'XTAL-3.2X2.5':            (4.00, 3.20, 0.75, 'STEP z=0.64'),
-    'L-1008':                  (4.40, 2.60, 1.20, 'STEP z=1.20'),
-    'CHIPLED':                 (1.60, 3.70, 1.10, 'STEP z=1.10'),
-    'CREE-RGB-CLMVC':          (2.90, 2.30, 1.90, 'PLCC-4 RGB'),
-    'SOD-123F':                (1.60, 4.25, 1.10, 'STEP z=1.10'),
-    'DO-214AA(SMB)':           (7.00, 3.15, 2.15, 'STEP z=2.15'),
-    'PP-1212-8':               (4.26, 2.78, 1.10, 'PowerPAK 1212-8'),
-    'CHOKE-3.2X2.5':           (4.45, 2.90, 2.50, 'ACT1210D 1210 CM choke'),
-    'EVQ-Q2':                  (10.40, 5.60, 3.15, 'STEP z=3.14'),
-    '0472192001':              (15.60, 10.70, 1.90, 'Molex microSD; pad bbox 15.2x10.3'),
-    'USB-C-FEMALE-VERT-GCT':   (8.93, 5.80, 8.80, 'VERTICAL USB-C; STEP z=+8.80/-1.30'),
-    'DX07S024XJ1R1100':        (10.70, 6.86, 3.20, 'JAE USB-C horizontal, host'),
-    'DCJACK_2MM_SMT':          (15.65, 9.40, 9.00, '2.0mm barrel jack, tallest part'),
+    '0402-R':                  (1.95, 0.97, 0.35, 'OCC STEP z=0.35'),
+    '0402-C':                  (1.95, 0.97, 0.5, 'OCC STEP z=0.50'),
+    '0805-C':                  (3.00, 1.60, 1.25, 'OCC STEP z=1.25'),
+    '0603-L':                  (2.95, 1.97, 0.8, 'OCC STEP z=0.80'),
+    '0806':                    (2.75, 2.00, 1.05, 'OCC STEP z=1.05'),
+    'SOT23-3':                 (3.10, 3.40, 1.2, 'OCC STEP z=1.20'),
+    'SOT23-5':                 (2.85, 4.20, 1.55, 'OCC STEP z=1.55'),
+    'SOT23-6':                 (2.90, 3.60, 1.55, 'OCC STEP z=1.55'),
+    'SOIC-8_3.9x4.9mm_P1.27mm':(7.40, 5.40, 1.75, 'OCC STEP z=1.75'),
+    'TDFN8_2X3MC_MCH':         (4.00, 2.15, 0.93, 'OCC STEP z=0.93'),
+    'WQFN20':                  (3.40, 4.80, 0.77, 'OCC STEP z=0.77'),
+    'QFN64-9X9':               (9.40, 9.80, 0.95, 'OCC STEP z=0.95'),
+    'LQFP-144_20x20mm_P0.5mm': (23.30, 23.30, 1.5, 'OCC STEP z=1.50'),
+    'XTAL-3.2X2.5':            (4.00, 3.20, 0.64, 'OCC STEP z=0.64'),
+    'L-1008':                  (4.40, 2.60, 1.2, 'OCC STEP z=1.20'),
+    'CHIPLED':                 (1.60, 3.70, 1.1, 'OCC STEP z=1.10'),
+    'CREE-RGB-CLMVC':          (2.90, 2.30, 1, 'OCC STEP z=1.00'),
+    'SOD-123F':                (1.60, 4.25, 1.1, 'OCC STEP z=1.10'),
+    'DO-214AA(SMB)':           (7.00, 3.15, 2.15, 'OCC STEP z=2.15'),
+    'PP-1212-8':               (4.26, 2.78, 1.12, 'OCC STEP z=1.12'),
+    'CHOKE-3.2X2.5':           (4.45, 2.90, 2.33, 'OCC STEP z=2.33'),
+    'EVQ-Q2':                  (10.40, 5.60, 3.1, 'OCC STEP z=3.10'),
+    '0472192001':              (15.60, 10.70, 2.01, 'OCC STEP z=2.01'),
+    'USB-C-FEMALE-VERT-GCT':   (8.93, 5.80, 8.8, 'VERTICAL USB-C; OCC STEP z=+8.80/-1.30'),
+    'DX07S024XJ1R1100':        (10.70, 6.86, 3.37, 'JAE USB-C horizontal, host; OCC STEP z=3.37'),
+    'DCJACK_2MM_SMT':          (15.65, 9.40, 11.01, '2.0mm barrel jack, tallest part; OCC STEP z=+11.01/-0.81'),
     '2X04':                    (9.90, 4.82, 8.50, '2.54mm 2x4 vertical header'),
     'M2_BOLT':                 (4.60, 4.60, 0.00, 'mounting hole'),
 }
@@ -101,6 +101,45 @@ SWAPS = {
              note='only 5 of 7 downstream ports used, but no 5-port single chip exists'),
     ],
 }
+
+# Heights for the generated/imported footprints (mm above the board).
+GEN_Z = {
+    '0201-R': 0.30, '0201-C': 0.35, '0603-C': 0.95,
+    'SC70-5': 1.10,                 # SC-70-5 body 1.10 max
+    'LQFP-100_14x14': 1.60,         # LQFP 1.40 body + standoff, as LQFP-144
+    'USB-C-MIDMOUNT': 3.26,         # Amphenol 12401548E4-2A right-angle USB-C
+    '2X04-RA': 5.10,                # 2.54mm right-angle header, two rows
+}
+# The substituted footprints have no 3D model, so their XY extent has to come
+# from the swap table; a zero-size placeholder would drop them out of the
+# assembly bounding box and the exported STEP.
+_SWAP_WH = {}
+for _lst in SWAPS.values():
+    for _s in _lst:
+        _SWAP_WH.setdefault(_s['to'], (_s['W'], _s['H'], _s['Z']))
+
+for _k, _v in GEN_Z.items():
+    _wh = _SWAP_WH.get(_k)
+    if _wh:
+        GEOM.setdefault(_k, (_wh[0], _wh[1], _v, 'generated footprint; swap-table courtyard'))
+    else:
+        GEOM.setdefault(_k, (0.0, 0.0, _v, 'generated/imported footprint'))
+
+# Through-hole lead tails stick out the far side of the board, and the PCBA
+# bounding box has to contain them.  Parts that ship a 3D model already show
+# their own leads (the vertical USB-C reaches 1.30 mm below its mounting face,
+# the barrel jack 0.81 mm -- both inside a 1.6 mm board).  These have no model,
+# so the tail length is taken from the standard part the land pattern implies:
+# a 2.54 mm male header has a 3.0 mm tail under a 2.5 mm insulator.
+LEAD_TAIL = {
+    '2X04':    3.00,   # 2.54mm 2x4 male header, 6.0 mate + 2.5 body + 3.0 tail
+    '2X04-RA': 3.00,   # same pin stock, right-angle body
+}
+
+_missing_wh = [k for k, v in GEOM.items() if v[2] > 0 and (v[0] <= 0 or v[1] <= 0)]
+if _missing_wh:                                  # pragma: no cover - guard
+    raise AssertionError('footprints with height but no XY extent: %s' % _missing_wh)
+
 
 def geom(fp):
     return GEOM.get(fp.split(':')[-1])

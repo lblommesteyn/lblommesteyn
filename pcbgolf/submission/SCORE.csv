@@ -1,6 +1,8 @@
-variant,board_mm,area_mm2,Z_mm,volume_mm3,vias,via_pts,layers,layer_pts,SCORE,vs_84578
-"RECOMMENDED 2L double-sided, 300 vias",40 x 42,1680,7.0,11760,300,15000,2,10000,36760,-47818
-"2L double-sided, 400 vias",40 x 42,1680,7.0,11760,400,20000,2,10000,41760,-42818
-"2L double-sided, 500 vias",40 x 42,1680,7.0,11760,500,25000,2,10000,46760,-37818
-"4L double-sided, 300 vias",40 x 42,1680,7.0,11760,300,15000,4,20000,46760,-37818
-fallback 2L single-sided solid GND,58 x 54,3356,7.0,23494,90,4500,2,10000,37994,-46584
+board,via_cost,rules,layers,outline,area,Z,volume,vias,segments,track_mm,routed,unrouted,score,vs_leader,margin,score_if_finished,margin_if_finished,estimate_valid
+pcbgolf-finished-4L.kicad_pcb,250,0.100 mm,4,50.05 x 52.775,2641.4,12.35,32621.2,425,10610,8275.0,739/748,9,73871,-10706,13%,74129,12%,yes
+pcbgolf-v800-4L.kicad_pcb,800,0.100 mm,4,50.05 x 52.775,2641.4,12.35,32621.2,188,3239,5028.1,593/748,155,62021,-22556,27%,64478,24%,NO
+pcbgolf-v400-4L.kicad_pcb,400,0.100 mm,4,50.05 x 52.775,2641.4,12.35,32621.2,317,4872,7450.2,698/748,50,68471,-16106,19%,69606,18%,NO
+pcbgolf-v250-4L.kicad_pcb,250,0.100 mm,4,50.05 x 52.775,2641.4,12.35,32621.2,351,5064,7570.7,725/748,23,70171,-14406,17%,70727,16%,yes
+pcbgolf-fine-4L.kicad_pcb,120,0.100 mm,4,50.05 x 52.775,2641.4,12.35,32621.2,410,5185,7588.0,732/748,16,73121,-11456,14%,73569,13%,yes
+pcbgolf-routed-4L.kicad_pcb,120,0.127 mm,4,50.05 x 52.775,2641.4,12.35,32621.2,361,4703,6809.3,700/748,48,70671,-13906,16%,71908,15%,NO
+pcbgolf-routed-2L.kicad_pcb,120,0.127 mm,2,50.05 x 52.775,2641.4,12.35,32621.2,181,3000,3754.9,555/748,193,51671,-32906,39%,54818,35%,NO
