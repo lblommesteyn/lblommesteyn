@@ -44,18 +44,30 @@ def items_of(pcb):
             pang = pat[3] if len(pat) > 3 else 0
             if not isinstance(pang, (int,float)): pang = 0
             w, h = sz[1], sz[2]
-            if abs((pang % 180) - 90) < 1: w, h = h, w
             lays = [str(v) for v in (pad.find('layers') or Node())[1:]]
             thru = (len(pad)>2 and str(pad[2])=='thru_hole') or any(l=='*.Cu' for l in lays)
             side = None if thru else ('B.Cu' if any(l.startswith('B.') for l in lays) else 'F.Cu')
+            shape = str(pad[3]) if len(pad) > 3 else 'rect'
+            # Pads are not all axis-aligned: the USB-C shield lands sit at 39
+            # degrees.  Keep the true corners, and derive the bounding box from
+            # them rather than swapping w/h for the 90-degree case only.
+            poly = [(gx + _rx, gy + _ry)
+                    for _rx, _ry in (rot(-w/2, -h/2, pang), rot(w/2, -h/2, pang),
+                                     rot(w/2, h/2, pang), rot(-w/2, h/2, pang))]
+            xs_ = [q_[0] for q_ in poly]; ys_ = [q_[1] for q_ in poly]
+            rr = pad.find('roundrect_rratio')
             pads.append(dict(net=int(nn[1]), ref=ref, pad=str(pad[1]), layer=side,
-                             rect=(gx-w/2, gy-h/2, gx+w/2, gy+h/2), x=gx, y=gy))
+                             rect=(min(xs_), min(ys_), max(xs_), max(ys_)),
+                             x=gx, y=gy, shape=shape, w=w, h=h, rot=pang,
+                             poly=poly, rratio=(rr[1] if rr else 0.0)))
     for s in pcb.find_all('segment'):
         nn = s.find('net')
         if nn is None: continue
         a, b = s.find('start'), s.find('end')
+        w = s.find('width')
         segs.append(dict(net=int(nn[1]), layer=s.val('layer'),
-                         p=(a[1], a[2]), q=(b[1], b[2])))
+                         p=(a[1], a[2]), q=(b[1], b[2]),
+                         width=(w[1] if w else 0.1)))
     for v in pcb.find_all('via'):
         nn = v.find('net')
         if nn is None: continue
@@ -91,6 +103,19 @@ def clusters(pcb=None, nets=None, pads=None, segs=None, vias=None):
 
 
 def _touch(ta, oa, tb, ob):
+    if ta == 'P' and tb == 'P':
+        # Two same-net pads whose copper overlaps are one region, so they are
+        # connected without any track between them.  The USB-C shield lugs are
+        # exactly this: S2T on the front, S2B on the back and S2TH, a plated
+        # through-hole, all at one point.  Without this they read as three
+        # separate islands and the net reports connections that are not
+        # actually missing.
+        if not (oa['layer'] is None or ob['layer'] is None
+                or oa['layer'] == ob['layer']):
+            return False
+        ra, rb = oa['rect'], ob['rect']
+        return (ra[0] - TOL <= rb[2] and rb[0] - TOL <= ra[2] and
+                ra[1] - TOL <= rb[3] and rb[1] - TOL <= ra[3])
     if ta == 'S' and tb == 'S':
         if oa['layer'] != ob['layer']: return False
         return any(abs(x1-x2) < TOL and abs(y1-y2) < TOL
@@ -136,40 +161,15 @@ def analyse(path, verbose=10):
         for i, p in enumerate(g['pads']): nodes.append(('P', i, p))
         for i, s in enumerate(g['segs']): nodes.append(('S', i, s))
         for i, v in enumerate(g['vias']): nodes.append(('V', i, v))
-        # a segment endpoint landing on a pad, via, or another endpoint joins them
+        # One definition of what touches what, in _touch: this used to be a
+        # second inline copy, and they drifted -- a fix to _touch silently did
+        # nothing here.
         for a in range(len(nodes)):
             ta, ia, oa = nodes[a]
             for b in range(a+1, len(nodes)):
                 tb, ib, ob = nodes[b]
-                hit = False
-                if ta == 'S' and tb == 'S':
-                    if oa['layer'] == ob['layer']:
-                        hit = any(abs(x1-x2) < TOL and abs(y1-y2) < TOL
-                                  for (x1,y1) in (oa['p'], oa['q'])
-                                  for (x2,y2) in (ob['p'], ob['q']))
-                elif ta == 'S' and tb == 'P':
-                    if ob['layer'] is None or ob['layer'] == oa['layer']:
-                        hit = seg_rect_hit(oa['p'], oa['q'], ob['rect'])
-                elif ta == 'P' and tb == 'S':
-                    if oa['layer'] is None or oa['layer'] == ob['layer']:
-                        hit = seg_rect_hit(ob['p'], ob['q'], oa['rect'])
-                elif ta == 'S' and tb == 'V':
-                    hit = any(abs(x1-ob['p'][0]) < ob['size']/2+TOL and
-                              abs(y1-ob['p'][1]) < ob['size']/2+TOL
-                              for (x1,y1) in (oa['p'], oa['q']))
-                elif ta == 'V' and tb == 'S':
-                    hit = any(abs(x1-oa['p'][0]) < oa['size']/2+TOL and
-                              abs(y1-oa['p'][1]) < oa['size']/2+TOL
-                              for (x1,y1) in (ob['p'], ob['q']))
-                elif ta == 'P' and tb == 'V':
-                    r = oa['rect']
-                    hit = (r[0]-TOL <= ob['p'][0] <= r[2]+TOL and
-                           r[1]-TOL <= ob['p'][1] <= r[3]+TOL)
-                elif ta == 'V' and tb == 'P':
-                    r = ob['rect']
-                    hit = (r[0]-TOL <= oa['p'][0] <= r[2]+TOL and
-                           r[1]-TOL <= oa['p'][1] <= r[3]+TOL)
-                if hit: d.union((ta,ia), (tb,ib))
+                if _touch(ta, oa, tb, ob):
+                    d.union((ta, ia), (tb, ib))
         roots = {d.find(('P', i)) for i in range(len(g['pads']))}
         if len(roots) > 1:
             missing.append((nets.get(net, f'net{net}'), len(roots)-1, len(g['pads'])))

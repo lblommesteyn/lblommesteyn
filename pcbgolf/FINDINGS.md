@@ -387,62 +387,239 @@ from 0.127 mm to 0.100 mm (both JLCPCB-manufacturable) took unrouted from 48 to
 16, but the router spent 49 more vias getting there - 2,450 points. Worth it:
 a board that does not connect is not a submission.
 
-## 9. Two things that did not work
+## 8b. The LQFP-100 swap, audited pin by pin
 
-**Handing the existing routing back to finish the remainder.** Freerouting's DSN
-parser accepts a `(wiring ...)` scope, so the obvious way to close the last 48
-connections is to return the 4703 segments and 361 vias already found and let the
-router spend everything on what is left. It fails badly: **734 unrouted and 7603
-violations**. Each KiCad segment becomes a separate two-point wire and the router
-treats every shared endpoint as a collision. Doing this properly needs collinear
-runs merged into single polyline wires first.
+The STM32H725ZGT6 (LQFP-144, 20x20 mm) becomes an STM32H725VGT6 (LQFP-100,
+14x14 mm): same die, same 1 MB flash, same 550 MHz core, 82 GPIO against the 50
+this design uses. It takes the board from 50.05 x 52.78 mm to 44.05 x 46.78 mm
+and 8,646 mm^3 out of the volume — the single largest win in the project, and
+also the riskiest claim in the submission, so here is the whole audit.
 
-**A very high via cost.** At via cost 5000 the router produced a beautiful-looking
-16 vias - by refusing the inner layers (they carried 6% of the copper) and leaving
-376 connections unmade. For this score function trace length is free and a via
-costs 50, so being via-averse is right in principle, but the cost has to stay low
-enough that the router still uses the layers it needs.
+The pinout came from the KiCad symbol library (`MCU_ST_STM32H7`), which carries
+a symbol per package, so the comparison is mechanical rather than from memory.
+What LQFP-100 has: ports A, B and C complete; port D without PD6/PD7; port E
+only PE2/PE4/PE5/PE7/PE8; **no port F and no port G**.
+
+`remap_lqfp100.py` keeps every signal already on a surviving pin and moves the
+rest. 45 signals stayed, **15 moved, 0 failed**:
+
+| was | now | signal | why |
+|---|---|---|---|
+| PD6, PD7 | PA2, PA3 | CH2_SBU1_RELAY, CAN2_EN | plain GPIO |
+| PE0, PE1, PE15, PE3 | PA7, PA8, PA9, PA10 | CH4_SBU2_IGN/RELAY, BTN, LED_G | plain GPIO |
+| PF7, PF8, PF9, PF10 | PB14, PB15, PC5, PA15 | N$29–N$32 | plain GPIO |
+| PF11 | PB0 | CH3_IMON | **ADC-capable pin required** |
+| PG10, PG9 | PD12, PD13 | CAN2_RX, CAN2_TX | **FDCAN alternate function required** |
+| PD12, PD13 | PC6, PC7 | CH3_SBU1_IGN, CH3_SBU2_RELAY | displaced by the above |
+
+Two of the moves are not interchangeable with GPIO and were placed
+deliberately: `CH3_IMON` is an analogue current-sense input and had to land on
+an ADC channel, and CAN2 had to land on pins with an FDCAN alternate function,
+which is why PD12/PD13 were taken and their GPIO occupants pushed to PC6/PC7.
+`PA13`, `PA14`, `PB2`, `PC13`, `PC14` and `PC15` are reserved (SWD, BOOT, LSE,
+RTC) and excluded from reassignment.
+
+### Two pins exist on LQFP-144 and not on LQFP-100
+
+Both were checked rather than assumed, because a missing supply pin would be a
+dead board:
+
+* **VDD50USB** (LQFP-144 pin 90, tied to +3V3 in the original) does not exist on
+  LQFP-100. The part keeps **VDD33USB**, which the board supplies at +3V3 on
+  pin 76. Tying VDD50USB to 3.3 V is how the original bypasses the internal USB
+  regulator and supplies VDD33USB externally; on LQFP-100 that pin is simply not
+  brought out. Same configuration, one fewer pin. **No change needed.**
+* **PDR_ON** (LQFP-144 pin 142) does not exist either, and this one has a
+  consequence. R11 pulls PDR_ON to +3V3 to enable the internal power-down
+  reset; with no pin to pull, R11 strapped nothing and left net N$120 with a
+  single pad, which reads as a broken connection. On LQFP-100 the power-down
+  reset is permanently enabled internally, so **R11 is not fitted** and the net
+  goes with it. `mkboard --drop R11` takes the part and its net out together,
+  and the board then has zero single-pad nets.
+
+Checked against the symbol library: VGHx (TFBGA-100) and ZGTx (LQFP-144) expose
+PDR_ON, VGTx (LQFP-100) does not — so this is a property of the package, not a
+library omission.
+
+Everything else survives the swap: 90 of 100 pads carry a net, GND and +3V3
+lose 7 and 6 pads respectively because the smaller package simply has fewer
+VSS/VDD pins, and no other net loses connectivity.
+
+What is **not** proven: nothing here is simulated, and the AF assignments were
+checked against the alternate-function requirements rather than against silicon.
+
+## 9. What did not work, and what I got wrong about why
+
+Two of the four entries that used to be in this section were misdiagnoses, and
+both pointed away from the same underlying bug. Keeping the whole sequence
+because the pattern is the useful part.
+
+**A very high via cost.** At via cost 5000 the router produced a
+beautiful-looking 16 vias — by refusing the inner layers (they carried 6% of the
+copper) and leaving 376 connections unmade. Trace length is free and a via costs
+50, so being via-averse is right in principle, but the cost has to stay low
+enough that the router still uses the layers it needs. This one stands.
+
+**Handing the existing routing back — misdiagnosed once.** Returning the
+segments and vias already found looked like it failed outright: 734 unrouted and
+thousands of violations. I blamed segment granularity, each KiCad segment
+becoming a separate two-point wire the router treats as colliding at shared
+endpoints, and wrote that up as needing collinear runs merged into polylines.
+
+Wrong. `pcb2dsn` emitted `(wiring ...)` before `(network ...)`, so every wire
+named a net the parser had not seen yet; Freerouting logged 203,087 `net not
+found` warnings and discarded the lot. Specctra orders the sections structure,
+placement, library, network, wiring. With `(wiring)` last the identical file
+loads with **0 warnings**. Two-point wires were never the problem, and the
+203,087 warnings were in the log the whole time.
+
+**Closing the leftovers with an A* maze router — misdiagnosed twice.** On a
+board I believed was saturated, `finish_router` closed 41 of 87 connections for
+235 vias, 5.7 each, taking the score from 64,958 to 76,708. Raising the via
+price eightfold moved it to 4.1 each. I concluded the approach was "structural,
+not a tuning problem" — that a patcher cannot rip up its own work the way a
+global router can, so no via price makes a blocked channel passable.
+
+That reasoning is sound and the conclusion was still wrong, because the premise
+was. Three separate defects were feeding it:
+
+* It hardcoded 0.1mm traces and 0.6mm vias regardless of the board's rules.
+* Its obstacle grid was built for trace clearance, but a via is several times
+  wider and spans every layer, so it planted 0.6mm vias in cells cleared only
+  for a 0.1mm trace — **83 genuine shorts**, overlapping by up to 0.33mm.
+* `mark_rect` located obstacles with a rounding function, which can leave a
+  boundary cell unmarked although its centre is inside the forbidden region, by
+  up to half a cell: 0.064mm against a 0.09mm clearance budget.
+
+With the rules threaded through, a second via-sized occupancy grid, and marking
+that rounds outwards, it adds **zero** clearance violations. It also closes far
+fewer connections, because the legal moves really are that constrained — so the
+"patcher cannot make room" conclusion was half right, and the half I could
+measure was wrong.
+
+**Routing the small board harder — the one that mattered.** Three rounds on
+44.05 x 46.78mm went 92 -> 87 -> 83 connections short, the last at JLCPCB's real
+limits. I concluded the outline was saturated: "at ~45% courtyard utilisation
+the board is not packing-limited, it is routing-limited, and no amount of router
+effort changes that. The fix has to be area."
+
+That was wrong, and the whole outline sweep in section 8 was built on it.
+`pcb2dsn` wrote coordinates in whole micrometres while declaring `(resolution um
+10)`, i.e. 1/10 um units, so **every board went to the router 10x smaller than
+life** — 48x50mm became 4.8x5.0mm — with clearance and track width shrunk to
+match. Geometrically similar, so it routed and the output looked right, but
+Freerouting's absolute tolerances and grid rounding then sat 10x coarser
+relative to the features.
+
+At the correct scale the same 44x46 board routes to **14 connections short**
+instead of 78. Growing the board had looked like it was buying completion; it
+was buying back some of what the scale bug was taking away.
+
+### The pattern
+
+Every one of these was a confident, specific, plausible conclusion supported by
+real measurements, and three of them were wrong in the same direction: I
+explained away a symptom with a mechanism I found convincing instead of
+following the evidence that was already in front of me. The 203,087 warnings
+were in the log. "More area causes more overlaps" is not a coherent sentence and
+should have sent me straight to the placement pipeline, where
+`build_board` was sizing parts by their swapped footprints and then building the
+board with the originals. And a clearance checker that disagreed with the
+autorouter by two orders of magnitude was far more likely to be wrong than the
+autorouter.
+
+`drc.py` is the clearest case: four successive geometries, each producing a
+confident violation count — **2241, 779, 132, 128** — against a true answer of
+**0**. Wrong trace width, then square vias, then axis-aligned pads when the
+USB-C shield lands sit at 39 degrees, then a roundrect inset computed by pulling
+corners toward the centroid instead of offsetting the sides. Only checking one
+pair by hand against the footprint definition ever distinguished them.
 
 ## 10. Score, honestly
 
-
 Leaderboard to beat: **84,578** (abijahkaj); second 116,226 (Dsalzman).
 
-| design | volume | layers | vias | score | vs 84,578 |
-|---|---|---|---|---|---|
-| optimised, 2 layer, 0 vias (floor) | 25,312 | 10,000 | 0 | 35,312 | -58% |
-| optimised, 2 layer, 300 vias | 25,312 | 10,000 | 15,000 | 50,312 | -41% |
-| stock, 2 layer, 300 vias | 30,328 | 10,000 | 15,000 | 55,328 | -35% |
-| stock, 4 layer, 300 vias | 30,328 | 20,000 | 15,000 | 65,328 | -23% |
-| stock, 4 layer, 600 vias | 30,328 | 20,000 | 30,000 | 80,328 | -5% |
+Every row is measured from a board file in `board/`: volume from the 3D assembly
+box, vias counted from the file, connectivity from `ratsnest.py`, clearance from
+`drc.py`. All of them are clearance-clean — **0 violations, 0 shorts**.
 
-The geometry is measured; **the via numbers are still assumptions**. The bottom
-row is the sobering one: a 4-layer board that needs 600 vias barely beats the
-leaderboard. Via count is not a detail, it is the result.
+| board | outline | volume | vias | short | score | margin |
+|---|---|---|---|---|---|---|
+| **LQFP-100, 4L** | 44.05 x 46.78 | 29,258 | 420 | **9** | **70,258** | **17%** |
+| LQFP-100, 4L | 44.05 x 46.78 | 29,258 | 414 | 14 | 69,958 | 17% |
+| LQFP-100, 4L | 45.25 x 47.78 | 30,698 | 391 | 11 | 70,248 | 17% |
+| LQFP-100, 4L | 46.05 x 48.78 | 31,895 | 362 | 20 | 69,994 | 17% |
+| LQFP-100, 4L | 48.05 x 50.78 | 34,644 | 399 | 3 | 74,594 | 12% |
+| LQFP-144, 4L | 50.05 x 52.78 | 37,904 | 351 | 23 | 75,454 | 11% |
+
+**None of them is finished.** 3 to 20 connections remain open, so every score
+above is for a board that does not yet work. Closing the rest costs roughly a
+via each, so the honest expectation is **71,000-ish, about 16% under the
+leaderboard**, with the last connections done by hand in KiCad.
+`submission/UNROUTED.csv` names them.
+
+### Area and vias trade off about 1:1 here
+
+The four LQFP-100 outlines land within 300 points of each other. The 44x46 board
+saves 2,636 mm^3 against 46x48 and spends 58 more vias getting there, which is
+2,900 points — so the outline barely matters at this design's operating point,
+and the sweep was chasing a flat optimum. Worth knowing before spending more
+effort on packing.
+
+### Where the score goes
+
+On the 44x46 board: volume 29,258 (42%), layers 20,000 (28%), vias 21,000 (30%).
+
+* **Height is at its floor.** Z = 11.00 (barrel jack) + 1.60 (board) + 1.60
+  (tallest back-side part) = 14.20. The jack is 78% of the stack and is fixed by
+  the mating-compatibility rule. Front-side height under 11mm is free, and
+  thinning the board does not help because the 2x4 header's 3.0mm lead tail
+  takes over below 1.2mm.
+* **Vias are now the biggest movable term** and the one lever never pulled:
+  Freerouting's optimizer stage only runs on a fully routed board, so it has
+  been skipped on every run here. Reaching zero unrouted is worth more than the
+  connections themselves.
+* **Two layers would save 10,000** and does not converge: 193 connections short
+  at best.
 
 ### What 84,578 is made of
 
-Solving the score equation: at 4 layers and 515 vias the volume must be
-38,828 mm^3 — 4,087 mm^2 at 9.5 mm tall, about 64 mm square or 68 x 60. So the
-leader is paying roughly 46% volume, 30% vias, 24% layers. They spend more on
-vias and layers combined than on their entire volume, and they are doing it on a
-board that **actually routes**, which this one does not yet.
+The jack sets a floor for everyone: 11.00mm plus a 1.60mm board is 12.60mm even
+with a bare back side. Solving `84,578 = volume + 5,000 L + 50 V`:
 
-## 9. Status
+| if they used | volume left | area at Z = 12.6 | roughly |
+|---|---|---|---|
+| 2 layers, 200 vias | 64,578 | 5,125 mm^2 | 72 mm square |
+| 2 layers, 400 vias | 54,578 | 4,331 mm^2 | 66 mm square |
+| 4 layers, 300 vias | 49,578 | 3,935 mm^2 | 63 mm square |
+| 4 layers, 500 vias | 39,578 | 3,141 mm^2 | 56 mm square |
 
-Done and verified:
+So 84,578 is consistent with a board 56-72mm square — larger than anything here.
+The leader is not winning on area; they are winning on having a board that
+routes completely, which is exactly the gap that remains.
+
+## 11. Status
+
+Verified:
 
 * netlist rebuilt from the schematics, 1053/1053 pins resolving onto wires
 * a lossless KiCad serialiser (34 files, 223,805 tokens, zero differences)
 * the back-side flip convention derived from pcbnew and asserted against it
-* legal, validated, collision-free boards for the stock and optimised BOMs
-* a full Specctra export/import loop and a scorer
+* the 3D placement convention derived from `kicad-cli` and asserted against it,
+  every part height measured from its own STEP model
+* placements legal by construction: 0 pad overlaps, 0 inter-part pairs under the
+  clearance rule, the only sub-clearance pads being J3's vendor land pattern,
+  which the upstream board also has
+* routed copper clearance-clean on every board, by exact swept-polygon geometry
+* the LQFP-100 remap audited pin by pin, 0 failures, and the one part it orphans
+  (R11) taken off the board
+* a STEP assembly written from the same placed geometry the score is measured
+  from, so the file and the number cannot disagree
 
 Not done:
 
-* **Routing.** This is the whole score. 2 layers does not converge; 4 layers is
-  running.
-* Placement quality is the blocker, and the spectral-target work above is the
-  start of fixing it, not the end.
-* STEP export.
-* The MCU and connector swaps, blocked on datasheet access.
+* **No board is fully routed.** The best is 9 connections short.
+* The via optimizer has never run, because it requires a complete board.
+* Placement quality is still the limit. Measured HPWL is 4281mm against a
+  977mm spectral target, and nothing here closes that gap.
+* Nothing is simulated and no board has been fabricated.

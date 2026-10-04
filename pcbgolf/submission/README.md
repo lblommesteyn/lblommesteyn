@@ -1,53 +1,93 @@
-# PCBGolf submission — status
-
-**Luke Blommesteyn** · github.com/lblommesteyn · [commaai/PCBGolf](https://github.com/commaai/PCBGolf)
+# PCBGolf submission — comma.ai PCBGolf challenge
 
 ```
-score = bounding-box volume (mm^3) + 50 x vias + 5,000 x copper layers
+score = PCBA bounding-box volume (mm^3) + 50 x vias + 5,000 x copper layers
 ```
-Leaderboard to beat: **84,578**.
 
-## ⚠️ Not yet submittable
+## The board
 
-Both boards below are **short a few connections**. The challenge requires a
-board that works, so neither is a valid entry until those are closed by hand in
-KiCad. Everything else — placement, routing, netlist, STEP — is done.
+`pcbgolf-t44x46-ok.kicad_pcb` — 44.05 x 46.775 mm, 4 copper layers, 414 vias.
 
-| file | layers | vias | connections short | score | vs 84,578 |
-|---|---|---|---|---|---|
-| `pcbgolf-v250-4L.kicad_pcb` | 4 | 351 | **27** | **70,171** | **−17%** |
-| `pcbgolf-finished-4L.kicad_pcb` | 4 | 425 | **9** | 73,871 | −13% |
+| term | value |
+|---|---|
+| volume | 29,258 mm^3 (44.05 x 46.775 x 14.20) |
+| vias | 414 x 50 = 20,700 |
+| layers | 4 x 5,000 = 20,000 |
+| **score** | **69,958** |
 
-Both are 50.05 x 52.775 mm, Z = 12.35 mm, volume 32,621 mm^3.
+17% under the 84,578 leaderboard. `pcbgolf-t44x46-r2.kicad_pcb` is the same
+board routed further: 420 vias and 9 connections short instead of 14, scoring
+70,258. Both are included; neither is finished.
 
-**Which to finish:** `v250` scores 3,700 better and needs 27 connections closed;
-`finished` needs only 9 but already spent 74 vias getting there. My maze router
-averaged ~3.5 vias per connection, which is poor — a human routing by hand
-should manage closer to 0.5, so **starting from `v250` and hand-routing its 27
-should land near 70,000–71,000**, better than either file here.
+`pcbgolf-t44x46.step` is the assembly. It is valid for both, because the two
+differ only in copper.
 
-The 27 are listed by `tools/ratsnest.py`; they are mostly GND and a few USB
-differential pairs.
+## What is verified
+
+* **Clearance clean.** 0 violations and 0 shorts at 0.09 mm, measured by
+  `drc.py` with exact swept-polygon geometry — traces, vias, and circle, oval,
+  rotated-rect and roundrect pads.
+* **Placement legal.** 0 pad overlaps, 0 inter-part pairs under the clearance
+  rule. The only sub-clearance pads are inside J3's vendor land pattern
+  (0.25 mm-pitch USB-C, tightest 0.086 mm), which the upstream board has too —
+  worse, in fact: it has 56 of them including Q1 pads overlapping by 1.1 mm.
+* **Manufacturable by JLCPCB.** 0.09 mm track and clearance, 0.45 mm vias on a
+  0.2 mm drill, 1.6 mm 4-layer stackup — all standard 4-layer capability.
+* **Volume measured from the 3D assembly**, not outline x height, from the
+  footprints' own STEP models. Nothing overhangs the copper outline. The STEP
+  file is written from the same placed geometry the score is measured from.
+
+## What is not finished
+
+**14 connections are still open** (of 741). `UNROUTED.csv` lists them by net.
+They are stranded pads and short gaps, not missing routes; closing them costs
+roughly one via each, so a finished board should land near 70,400.
+
+The autorouter converged with these open, and Freerouting's via optimizer only
+runs on a completely routed board — so it has never run here. Finishing the
+route is worth more than the connections themselves.
+
+Nothing is simulated, and no board has been fabricated.
+
+## Changes from the original design
+
+Four footprint substitutions, all same-function:
+
+| from | to | why |
+|---|---|---|
+| LQFP-144 STM32H725ZGT6 | LQFP-100 STM32H725VGT6 | same die, same 1 MB flash, 14x14 mm instead of 20x20; 82 GPIO against the 50 used |
+| 0402 R and C | 0201 | JLCPCB assembles 0201; all values available |
+| 0805 10uF | 0603 | widely stocked at 25 V |
+| SOIC-8 NCS20071 | SC70-5 NCS20071XV5T2G | same die, same part family, 5.5x smaller |
+
+The MCU change moves 15 signals, audited pin by pin — two needed a specific
+capability rather than any free pin: `CH3_IMON` is an analogue current sense and
+had to land on an ADC channel, and CAN2 had to land on FDCAN alternate-function
+pins. 0 failed.
+
+**R11 is not fitted.** It straps PDR_ON to +3V3 to enable the internal
+power-down reset. The STM32H725VGT6 has no PDR_ON pin — checked against the
+KiCad symbol library, where the TFBGA-100 and LQFP-144 parts expose it and the
+LQFP-100 does not — because the reset is permanently enabled internally. With
+R11 fitted its net would have a single pad and read as a broken connection.
+
+VDD50USB also disappears with the package and needs no action: tying it to
+3.3 V is how the original bypasses the internal USB regulator, and the LQFP-100
+keeps VDD33USB, which the board supplies on pin 76.
+
+All interfaces, connectors and functionality are unchanged: 12 V barrel jack,
+four OBD-C ports, USB-C host, USB hub, four CAN-FD transceivers, microSD,
+button, LEDs. Every mating connector is the original part.
 
 ## Files
 
 | file | contents |
 |---|---|
-| `pcbgolf-v250-4L.kicad_pcb` | best score, 27 connections short |
-| `pcbgolf-finished-4L.kicad_pcb` | closest to complete, 9 short |
-| `pcba-v250.step` / `pcba-finished.step` | STEP assembly: board slab + a solid per component |
-| `SCORE.csv` | all seven measured boards, with a flag for whether the finish estimate is trustworthy |
-| `BOM.csv`, `placement.csv`, `netlist.csv` | bill of materials, pick-and-place, flattened netlist |
-
-## Caveats
-
-* The STEP files are generated by `tools/step_export.py` and are structurally
-  sound (242 solids, 6 faces each, all references resolve, dimensions and volume
-  match the scorer) but have **not been opened in a CAD kernel** — no CAD tool in
-  the build environment can read KiCad 10 files.
-* Components are represented as boxes at their measured footprint and height,
-  not as detailed models. The bounding box, which is what the score measures, is
-  exact.
-* This is the **stock BOM**. The passive/op-amp swaps are generated but not
-  routed, and the two big wins (LQFP-100 MCU, mid-mount connectors) are blocked
-  on datasheet access — they would take Z from 12.35 mm to ~7 mm.
+| `pcbgolf-t44x46-ok.kicad_pcb` | the board, 414 vias, 14 connections short |
+| `pcbgolf-t44x46-r2.kicad_pcb` | routed further, 420 vias, 9 short |
+| `pcbgolf-t44x46.step` | 3D assembly, valid for both |
+| `SCORE.csv` | every measured board: volume, vias, connectivity, DRC |
+| `UNROUTED.csv` | the connections still open on the submitted board |
+| `BOM.csv` | 244 parts, derived from the board file |
+| `placement.csv` | reference, footprint, position, rotation, side |
+| `netlist.csv` | the netlist rebuilt from the five schematic sheets |

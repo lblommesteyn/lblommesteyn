@@ -106,6 +106,10 @@ def apply(pcb_path, ses_path, out_path, via_size=0.6, via_drill=0.3):
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('pcb'); ap.add_argument('ses'); ap.add_argument('-o','--out', required=True)
+    ap.add_argument('--via-size', type=float, default=0.6,
+                    help='via pad diameter (JLCPCB 4-layer minimum is 0.45)')
+    ap.add_argument('--via-drill', type=float, default=0.3,
+                    help='via drill diameter (JLCPCB minimum is 0.2)')
     a = ap.parse_args()
-    r = apply(a.pcb, a.ses, a.out)
+    r = apply(a.pcb, a.ses, a.out, a.via_size, a.via_drill)
     for k,v in r.items(): print(f"  {k}: {v}")

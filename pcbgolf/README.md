@@ -10,35 +10,37 @@ score = PCBA bounding-box volume (mm^3) + 50 x vias + 5,000 x copper layers
 Leaderboard to beat: **84,578** (abijahkaj), then 116,226 (Dsalzman).
 Deadline 12 October 2026.
 
-> ## Status: routed boards, measured scores
+> ## Status: routed, clearance-clean, not finished
 >
-> There are generated, validated `.kicad_pcb` files in [`board/`](board), a
-> STEP assembly built from the real component models, and scores measured from
-> them rather than modelled. Every figure below comes from a file in this
-> repository.
+> `board/` holds generated, validated `.kicad_pcb` files and a STEP assembly
+> built from the real component models. Every figure below is measured from a
+> file in this repository.
 >
-> Two things are not finished: the best routed board still has a couple of dozen
-> connections the autorouter left open, and the LQFP-100 pin remap has been
-> checked signal-by-signal but not simulated.
+> **No board is fully routed.** The best is 9 connections short of 741, so every
+> score here is for a board that does not yet work. Closing the rest costs
+> roughly a via each; `submission/UNROUTED.csv` names them.
 
 **[FINDINGS.md](FINDINGS.md) is the writeup** — what was measured, which ideas
-survived, and which died.
+survived, which died, and the four conclusions that turned out to be wrong.
 
 ## Headline results
 
-Measured from the boards in [`board/`](board). Volume is the 3D assembly
-bounding box from `bbox3d.py`, not outline x height; vias are counted from the
-file.
+Volume is the 3D assembly bounding box from `bbox3d.py`, not outline x height.
+Connectivity is `ratsnest.py`, clearance is `drc.py`. All are **0 violations,
+0 shorts**.
 
-| design | outline | Z | volume | vias | layers | score | vs 84,578 |
+| design | outline | Z | volume | vias | short | score | vs 84,578 |
 |---|---|---|---|---|---|---|---|
-| stock BOM, 4L, via cost 250 | 50.05 x 52.78 | 14.35 | 37,904 | 351 | 4 | 75,454 | −11% |
-| stock BOM, 4L, via cost 400 | 50.05 x 52.78 | 14.35 | 37,904 | 317 | 4 | 73,754 | −13% |
-| **LQFP-100 BOM, 4L** *(routing)* | 44.05 x 46.78 | 14.20 | 29,258 | — | 4 | — | — |
+| **LQFP-100, 4L** | 44.05 x 46.78 | 14.20 | 29,258 | 414 | 14 | **69,958** | **−17%** |
+| LQFP-100, 4L | 44.05 x 46.78 | 14.20 | 29,258 | 420 | 9 | 70,258 | −17% |
+| LQFP-100, 4L | 46.05 x 48.78 | 14.20 | 31,895 | 362 | 20 | 69,994 | −17% |
+| LQFP-100, 4L | 48.05 x 50.78 | 14.20 | 34,644 | 399 | 3 | 74,594 | −12% |
+| LQFP-144, 4L | 50.05 x 52.78 | 14.35 | 37,904 | 351 | 23 | 75,454 | −11% |
 
-The LQFP-100 board is the submission candidate: same die and flash in a 14x14 mm
-package instead of 20x20, which takes 8,646 mm^3 out of the volume. Its route is
-the number still outstanding.
+The LQFP-100 swap is the biggest single win: same die, same flash, a 14x14mm
+package instead of 20x20, worth 8,646 mm^3. It is audited pin by pin in
+FINDINGS §8b — 15 signals moved, 0 failed, and R11 comes off the board because
+the LQFP-100 has no PDR_ON pin for it to strap.
 
 ### Height is the floor, not the lever
 
@@ -46,20 +48,27 @@ the number still outstanding.
 Z = 11.00 (barrel jack) + 1.60 (board) + 1.60 (tallest back-side part) = 14.20
 ```
 
-The jack is 78% of the stack, and it is fixed: the mating plug has to stay
-compatible, so the part stays. Front-side height under 11 mm is therefore
-**free**, and the only height that costs anything is the back side's tallest
-part. Thinning the board does not help either — the 2x4 header's 3.0 mm lead
-tail takes over below 1.2 mm, so 0.8 mm FR4 buys 0.2 mm of Z (see FINDINGS).
+The jack is 78% of the stack and fixed: the mating plug has to stay compatible.
+So front-side height under 11mm is **free**, and only the back side's tallest
+part costs anything. Thinning the board does not help either — the 2x4 header's
+3.0mm lead tail takes over below 1.2mm, so 0.8mm FR4 buys 0.2mm of Z.
 
-Everything left is area and vias.
+### Area and vias trade off about 1:1
+
+The four LQFP-100 outlines land within 300 points of each other: 44x46 saves
+2,636 mm^3 against 46x48 and spends 58 more vias getting there. The outline
+barely matters at this operating point, so the remaining levers are via count
+and, above all, finishing the route — Freerouting's via optimizer only runs on a
+complete board and has never run here.
 
 The three biggest findings:
 
 
-1. **Volume is the smallest term.** At the real 14.2 mm stack one via costs the
-   same as 3.5 mm^2 of board, and one copper layer costs 352 mm^2. Optimising
-   purely for a small outline fights for the least valuable ~44% of the score.
+
+1. **Volume is the largest single term but the least movable.** At the real
+   14.2 mm stack one via costs the same as 3.5 mm^2 of board and one copper
+   layer costs 352 mm^2. Z is pinned by the jack and area trades 1:1 against
+   vias, so the outline is not where the score is won.
 2. **Fine-pitch BGA is net-negative** — escape vias cost more than the area they
    save. LQFP-100 beats TFBGA100 and UFBGA169.
 3. **A 0201 zero-ohm jumper costs 10.6 points; a via costs 50.** Resolving

@@ -82,6 +82,26 @@ def check(path):
             trk_out += 1
     print(f"  pads outside    : {pad_out}")
     print(f"  routing outside : {trk_out}")
+    # A unit-scale error in the session import puts all the copper inside the
+    # outline but crushed into a corner, which the outside-the-outline check
+    # happily passes.  Routing that does not reach most of the board is the
+    # tell: a 10x error leaves it covering ~10%.
+    span = ''
+    tx, ty = [], []
+    for sg in pcb.find_all('segment'):
+        for k in ('start', 'end'):
+            q = sg.find(k); tx.append(q[1]); ty.append(q[2])
+    for v in pcb.find_all('via'):
+        q = v.find('at'); tx.append(q[1]); ty.append(q[2])
+    cov_x = cov_y = None
+    if tx and x1 > x0 and y1 > y0:
+        cov_x = (max(tx) - min(tx)) / (x1 - x0)
+        cov_y = (max(ty) - min(ty)) / (y1 - y0)
+        span = f"{cov_x:.0%} x {cov_y:.0%}"
+        if min(cov_x, cov_y) < 0.5:
+            errs.append(f"routing spans only {span} of the outline - "
+                        f"check the session unit scale")
+        print(f"  routing spans   : {span}")
     print(f"  bad net refs    : {bad_net}")
     print(f"  wrong-side layer: {stray}")
     for e in errs: print("  ERROR:", e)

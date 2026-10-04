@@ -10,7 +10,14 @@ D = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, D)
 from sexpr import load, Node
 
-SC = 1000.0     # mm -> um (DSN unit)
+# (resolution um 10) declares one coordinate unit to be 1/10 um, so mm must be
+# scaled by 10000, not 1000.  With SC=1000 the board was handed to the router
+# 10x smaller than life -- 48x50mm became 4.8x5.0mm -- with the clearance and
+# track width shrunk to match.  Geometrically similar, so it routed and looked
+# fine, but the router's own absolute tolerances and grid rounding then sat 10x
+# coarser relative to the features, which is where sub-rule clearances came
+# from.
+SC = 10000.0    # mm -> 1/10 um, matching (resolution um 10)
 
 def q(v): return f"{v*SC:.1f}"
 
@@ -122,31 +129,6 @@ def export(pcb_path, out, track=0.15, clearance=0.15, via_dia=0.6, via_drill=0.3
         a(f'      (shape (circle {l} {q(via_dia)}))')
     a('      (attach off)\n    )')
     a('  )')
-    # Existing routing, handed back so the router can start from a good state
-    # and spend its effort on what is still unconnected.  Left rippable rather
-    # than protected, so it can make room for the stragglers.
-    segs = pcb.find_all('segment')
-    vias_ex = pcb.find_all('via')
-    if segs or vias_ex:
-        a('  (wiring')
-        for sg in segs:
-            nn = sg.find('net')
-            if nn is None: continue
-            nm = netnames.get(int(nn[1]))
-            if not nm: continue
-            st, en = sg.find('start'), sg.find('end')
-            wd = sg.find('width')
-            lay = sg.val('layer')
-            a(f'    (wire (path {lay} {q(wd[1] if wd else track)} '
-              f'{q(st[1])} {q(st[2])} {q(en[1])} {q(en[2])}) (net "{nm}") (type route))')
-        for v in vias_ex:
-            nn = v.find('net')
-            if nn is None: continue
-            nm = netnames.get(int(nn[1]))
-            if not nm: continue
-            at = v.find('at')
-            a(f'    (via "V" {q(at[1])} {q(at[2])} (net "{nm}") (type route))')
-        a('  )')
     a('  (network')
     nn = 0
     for name, pins in sorted(net_pins.items()):
@@ -158,6 +140,31 @@ def export(pcb_path, out, track=0.15, clearance=0.15, via_dia=0.6, via_drill=0.3
     a(f'    (class kicad_default "" (circuit (use_via "V"))'
       f' (rule (width {q(track)}) (clearance {q(clearance)})))')
     a('  )')
+    # Existing routing, handed back so the router can start from a good state
+    # and spend its effort on what is still unconnected.  Left rippable rather
+    # than protected, so it can make room for the stragglers.
+    segs = pcb.find_all('segment')
+    vias_ex = pcb.find_all('via')
+    if segs or vias_ex:
+        a('  (wiring')
+        for sg in segs:
+            sn = sg.find('net')
+            if sn is None: continue
+            nm = netnames.get(int(sn[1]))
+            if not nm: continue
+            st, en = sg.find('start'), sg.find('end')
+            wd = sg.find('width')
+            lay = sg.val('layer')
+            a(f'    (wire (path {lay} {q(wd[1] if wd else track)} '
+              f'{q(st[1])} {q(st[2])} {q(en[1])} {q(en[2])}) (net "{nm}") (type route))')
+        for v in vias_ex:
+            vn = v.find('net')
+            if vn is None: continue
+            nm = netnames.get(int(vn[1]))
+            if not nm: continue
+            at = v.find('at')
+            a(f'    (via "V" {q(at[1])} {q(at[2])} (net "{nm}") (type route))')
+        a('  )')
     a(')')
     open(out, 'w').write('\n'.join(o))
     return dict(components=len(comps), nets=nn,
@@ -170,6 +177,10 @@ if __name__ == '__main__':
     ap.add_argument('pcb'); ap.add_argument('-o','--out', required=True)
     ap.add_argument('--track', type=float, default=0.15)
     ap.add_argument('--clearance', type=float, default=0.15)
+    ap.add_argument('--via-dia', type=float, default=0.6,
+                    help='via pad diameter (JLCPCB 4-layer minimum is 0.45)')
+    ap.add_argument('--via-drill', type=float, default=0.3,
+                    help='via drill diameter (JLCPCB minimum is 0.2)')
     a = ap.parse_args()
-    r = export(a.pcb, a.out, a.track, a.clearance)
+    r = export(a.pcb, a.out, a.track, a.clearance, a.via_dia, a.via_drill)
     for k, v in r.items(): print(f"  {k}: {v}")

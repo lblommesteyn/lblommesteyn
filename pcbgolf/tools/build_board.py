@@ -33,6 +33,12 @@ def quiet(fn, *a, **k):
 
 def build(swaps, z, cands, layers, out_pcb, out_place, iters=200, seed=7, clearance=0.10, tall=2.5, analytical=True):
     items, areas = make_items(swaps, tall=tall)
+    # make_items sizes every part by its SWAPPED footprint, so the board has to
+    # be built with the same substitutions.  Without this the placer spaces
+    # parts for 0201/SC70-5/LQFP-100 and mkboard then drops 0402/SOIC-8/LQFP-144
+    # footprints into those slots, which collide by construction -- ~30-44
+    # overlaps at every outline, independent of how much room there is.
+    subs = {fp: c['to'] for fp, c in swaps.items()} if swaps else None
     nets = net_index(items)
     print(f"parts {len(items)}, nets {len(nets)}, Z={z}, layers={layers}")
     results = []
@@ -53,14 +59,16 @@ def build(swaps, z, cands, layers, out_pcb, out_place, iters=200, seed=7, cleara
                       thru=items[k]['thru']) for k in sorted(pos)]
         tmp_p = out_place + '.tmp'
         json.dump(dict(W=W, H=H, Z=z, area=W*H, vol=W*H*z, parts=parts), open(tmp_p,'w'))
-        pcb, info = mkboard.build(tmp_p, os.path.join(D,'netlist.json'), layers)
+        pcb, info = mkboard.build(tmp_p, os.path.join(D,'netlist.json'), layers,
+                                  subs=subs)
         raw = out_pcb + '.raw'
         open(raw,'w').write(dumps(pcb)+'\n')
         (moved, _) = quiet(legalize.legalize, raw, out_pcb, clearance)
         (res, _) = quiet(collide.check, out_pcb, clearance, 0)
         nov, ntight = res
         # the outline may need to grow after legalisation
-        pcb2, info2 = mkboard.build(tmp_p, os.path.join(D,'netlist.json'), layers)
+        pcb2, info2 = mkboard.build(tmp_p, os.path.join(D,'netlist.json'), layers,
+                                    subs=subs)
         print(f"  slot {W}x{H} -> {info['W']}x{info['H']} mm, area {info['area']:7.1f}, "
               f"moved {moved:>2}, overlaps {nov}, tight {ntight}")
         results.append((nov, info['area'], W, H, parts, info, out_pcb))
