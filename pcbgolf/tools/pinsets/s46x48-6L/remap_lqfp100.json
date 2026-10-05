@@ -1,0 +1,197 @@
+{
+ "pin_to_net": {
+  "69": "STM_D_N",
+  "70": "STM_D_P",
+  "42": "HUB_SCL",
+  "43": "HUB_SDA",
+  "48": "CAN3_RX",
+  "49": "CAN3_TX",
+  "91": "CAN1_RX",
+  "92": "CAN1_TX",
+  "95": "CAN0_RX",
+  "96": "CAN0_TX",
+  "79": "SD_D2",
+  "80": "SD_D3",
+  "81": "SD_CLK",
+  "64": "SD_D0",
+  "65": "SD_D1",
+  "56": "CAN2_RX",
+  "57": "CAN2_TX",
+  "84": "SD_CMD",
+  "13": "N$17",
+  "14": "N$33",
+  "4": "+3V3",
+  "5": "+3V3",
+  "9": "GND",
+  "10": "VLXSMPS",
+  "11": "+3V3",
+  "12": "VDDLDO",
+  "20": "+3V3",
+  "21": "GND",
+  "22": "GND",
+  "23": "VDDA",
+  "24": "VDDA",
+  "29": "GND",
+  "30": "+3V3",
+  "44": "VDDLDO",
+  "45": "GND",
+  "46": "VDDLDO",
+  "47": "+3V3",
+  "58": "GND",
+  "59": "+3V3",
+  "72": "VDDLDO",
+  "73": "GND",
+  "74": "VDDLDO",
+  "75": "+3V3",
+  "76": "+3V3",
+  "88": "+3V3",
+  "94": "BTN",
+  "97": "VDDLDO",
+  "98": "GND",
+  "99": "VDDLDO",
+  "100": "+3V3",
+  "32": "CH1_IMON",
+  "37": "CH2_IMON",
+  "16": "CH3_IMON",
+  "18": "CH4_IMON",
+  "34": "N$29",
+  "38": "N$30",
+  "33": "N$31",
+  "36": "N$32",
+  "35": "N$35",
+  "19": "N$36",
+  "17": "N$37",
+  "31": "N$38",
+  "82": "CH1_PWR_EN",
+  "54": "CH2_PWR_EN",
+  "86": "CH3_PWR_EN",
+  "83": "CH4_PWR_EN",
+  "87": "CH1_SBU1_IGN",
+  "93": "CH1_SBU1_RELAY",
+  "1": "CH1_SBU2_IGN",
+  "2": "CH1_SBU2_RELAY",
+  "27": "CH2_SBU1_IGN",
+  "26": "CH2_SBU1_RELAY",
+  "55": "CH2_SBU2_IGN",
+  "41": "CH2_SBU2_RELAY",
+  "63": "CH3_SBU1_IGN",
+  "3": "CH3_SBU1_RELAY",
+  "53": "CH3_SBU2_IGN",
+  "40": "CH3_SBU2_RELAY",
+  "62": "CH4_SBU1_IGN",
+  "25": "CH4_SBU1_RELAY",
+  "28": "CH4_SBU2_IGN",
+  "50": "CH4_SBU2_RELAY",
+  "52": "CAN0_EN",
+  "60": "CAN1_EN",
+  "51": "CAN2_EN",
+  "78": "CAN3_EN",
+  "89": "LED_R",
+  "85": "LED_G",
+  "90": "LED_B",
+  "61": "BTN"
+ },
+ "moved": [
+  [
+   "PD6",
+   "PA2",
+   "CH2_SBU1_RELAY",
+   "gpio"
+  ],
+  [
+   "PD7",
+   "PA3",
+   "CAN2_EN",
+   "gpio"
+  ],
+  [
+   "PE0",
+   "PA7",
+   "CH4_SBU2_IGN",
+   "gpio"
+  ],
+  [
+   "PE1",
+   "PA8",
+   "CH4_SBU2_RELAY",
+   "gpio"
+  ],
+  [
+   "PE15",
+   "PA9",
+   "BTN",
+   "gpio"
+  ],
+  [
+   "PE3",
+   "PA10",
+   "LED_G",
+   "gpio"
+  ],
+  [
+   "PF10",
+   "PA15",
+   "N$32",
+   "gpio"
+  ],
+  [
+   "PF11",
+   "PB0",
+   "CH3_IMON",
+   "adc"
+  ],
+  [
+   "PF7",
+   "PB14",
+   "N$29",
+   "gpio"
+  ],
+  [
+   "PF8",
+   "PB15",
+   "N$30",
+   "gpio"
+  ],
+  [
+   "PF9",
+   "PC5",
+   "N$31",
+   "gpio"
+  ],
+  [
+   "PD12",
+   "PC6",
+   "CH3_SBU1_IGN",
+   "displaced"
+  ],
+  [
+   "PG10",
+   "PD12",
+   "CAN2_RX",
+   "fdcan3_rx"
+  ],
+  [
+   "PD13",
+   "PC7",
+   "CH3_SBU2_RELAY",
+   "displaced"
+  ],
+  [
+   "PG9",
+   "PD13",
+   "CAN2_TX",
+   "fdcan3_tx"
+  ]
+ ],
+ "failed": [],
+ "power_absent": [
+  [
+   "PDR_ON",
+   "N$120"
+  ],
+  [
+   "VDD50USB",
+   "+3V3"
+  ]
+ ]
+}

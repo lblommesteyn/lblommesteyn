@@ -18,7 +18,7 @@ BOARD_DIR = os.path.join(os.path.dirname(D), 'board')
 
 
 def chain(board, tag, chunk=10, max_chunks=8, via_cost=250, resume_first=False,
-          stall=2, threads=3):
+          stall=2, threads=3, ripup_continue=False):
     state_f = os.path.join(route.SCRATCH, f'chain-{tag}.json')
     st = json.load(open(state_f)) if os.path.exists(state_f) else {'done': [], 'best': None}
     base = board
@@ -26,12 +26,19 @@ def chain(board, tag, chunk=10, max_chunks=8, via_cost=250, resume_first=False,
     flat = 0
     for i in range(len(st['done']), max_chunks):
         out = os.path.join(BOARD_DIR, f'pcbgolf-{tag}-c{i+1}.kicad_pcb')
-        res = route.run(cur, out, passes=chunk, via_cost=via_cost,
+        # Freerouting's rip-up cost is start x pass number, and a resumed run
+        # counts passes from 1 again, so it opens by cheaply ripping up the
+        # routing it was handed. Continuing the schedule starts it where the
+        # previous chunk stopped.
+        done_passes = sum(d.get('passes', chunk) for d in st['done'])
+        ripup = 100 * done_passes if (ripup_continue and done_passes) else None
+        res = route.run(cur, out, passes=chunk, via_cost=via_cost, ripup=ripup,
                         resume=(i > 0 or resume_first), base=base, tag=f'{tag}-c{i+1}',
                         threads=threads)
         if res is None:
             print(f'[{tag}] chunk {i+1}: no session'); break
         res['out'] = out
+        res['passes'] = chunk
         st['done'].append(res)
         prev = st['best']
         if prev is None or (res['short'], res['vias']) < (prev['short'], prev['vias']):
@@ -57,6 +64,7 @@ if __name__ == '__main__':
     ap.add_argument('--via-cost', type=int, default=250)
     ap.add_argument('--resume-first', action='store_true')
     ap.add_argument('--threads', type=int, default=3)
+    ap.add_argument('--ripup-continue', action='store_true')
     a = ap.parse_args()
     chain(a.board, a.tag, a.chunk, a.max_chunks, a.via_cost, a.resume_first,
-          threads=a.threads)
+          threads=a.threads, ripup_continue=a.ripup_continue)

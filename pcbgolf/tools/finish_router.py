@@ -8,7 +8,7 @@ import sys, os, math, heapq, argparse
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import numpy as np
 from sexpr import load, dumps, Node, Q
-from collide import rot
+from collide import rot, NPTH_COPPER
 import ratsnest
 
 GRID = 0.127
@@ -94,6 +94,14 @@ def route_board(path, out, max_conn=200, verbose=True, via_cost=1200,
     pcb, (bx0, by0, bx1, by1) = build(path)
     layers = [str(l[1]) for l in pcb.find('layers')[1:] if len(l)>2 and l[2]=='signal']
     nets, pads, segs, vias = ratsnest.items_of(pcb)
+    holes = []
+    for f in pcb.find_all('footprint'):
+        at = f.find('at'); fang = at[3] if len(at) > 3 else 0
+        for p in f.find_all('pad'):
+            if not (len(p) > 2 and str(p[2]) == 'np_thru_hole'): continue
+            pa = p.find('at'); dr = p.find('drill')
+            gx, gy = rot(pa[1], pa[2], fang)
+            holes.append((at[1] + gx, at[2] + gy, dr[1] / 2.0))
     total, missing = ratsnest.analyse(path, verbose=0)
     if total == 0:
         print("  already fully connected"); return 0
@@ -115,6 +123,10 @@ def route_board(path, out, max_conn=200, verbose=True, via_cost=1200,
                 if p['net'] == nnum: continue
                 l = None if p['layer'] is None else li.get(p['layer'])
                 g.mark_rect(l, *p['rect'], pad_clear, via_clear)
+            # mechanical holes: no net, every layer, NPTH_COPPER from the edge
+            for (hx, hy, hr) in holes:
+                r = hr + max(0.0, NPTH_COPPER - clear)
+                g.mark_rect(None, hx - r, hy - r, hx + r, hy + r, pad_clear, via_clear)
             for s in segs:
                 if s['net'] == nnum: continue
                 g.mark_seg(li.get(s['layer']), s['p'], s['q'], s['width'],

@@ -69,9 +69,25 @@ def apply(pcb_path, ses_path, out_path, via_size=0.6, via_drill=0.3):
     outline = (min(xs), min(ys), max(xs), max(ys))
     S = detect_scale(wires, vias, outline)
     nets = {str(x[2]): int(x[1]) for x in pcb.find_all('net')}
-    # drop any existing routing
-    keep = [c for c in pcb if not (isinstance(c, Node) and c.tag in ('segment','via'))]
+    # drop the existing routing, except locked copper (usbc_bridge.py,
+    # preroute.py): the router saw it as protected wiring and may or may not
+    # echo it back in the session, so it is kept from the board and any
+    # session copy of it is skipped
+    def is_locked(c):
+        return c.val('locked') == 'yes'
+    keep = [c for c in pcb if not (isinstance(c, Node) and c.tag in ('segment','via')
+                                   and not is_locked(c))]
     del pcb[1:]; pcb.extend(keep[1:])
+    have_seg, have_via = set(), set()
+    for c in pcb:
+        if not isinstance(c, Node): continue
+        if c.tag == 'segment':
+            a, b = c.find('start'), c.find('end')
+            k1 = (round(a[1], 2), round(a[2], 2), round(b[1], 2), round(b[2], 2), c.val('layer'))
+            k2 = (round(b[1], 2), round(b[2], 2), round(a[1], 2), round(a[2], 2), c.val('layer'))
+            have_seg.update((k1, k2))
+        elif c.tag == 'via':
+            a = c.find('at'); have_via.add((round(a[1], 2), round(a[2], 2)))
     uid = 1
     nseg = 0
     for (name, layer, pts, width) in wires:
@@ -80,6 +96,8 @@ def apply(pcb_path, ses_path, out_path, via_size=0.6, via_drill=0.3):
         for i in range(len(pts)-1):
             (x0,y0),(x1,y1) = pts[i], pts[i+1]
             if abs(x0-x1) < 1e-9 and abs(y0-y1) < 1e-9: continue
+            if (round(x0*S, 2), round(y0*S, 2), round(x1*S, 2), round(y1*S, 2), layer) in have_seg:
+                continue
             pcb.append(n('segment',
                          n('start', round(x0*S,4), round(y0*S,4)),
                          n('end',   round(x1*S,4), round(y1*S,4)),
@@ -93,6 +111,7 @@ def apply(pcb_path, ses_path, out_path, via_size=0.6, via_drill=0.3):
     for (name, x, y) in vias:
         ni = nets.get(name)
         if ni is None: continue
+        if (round(x*S, 2), round(y*S, 2)) in have_via: continue
         pcb.append(n('via',
                      n('at', round(x*S,4), round(y*S,4)),
                      n('size', via_size), n('drill', via_drill),

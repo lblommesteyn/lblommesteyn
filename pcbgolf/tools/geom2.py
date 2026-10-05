@@ -86,6 +86,14 @@ def has_thru(fp_name):
     return any(p['type'] in ('thru_hole', 'np_thru_hole') for p in f['pads'])
 
 
+# Vias a footprint always gets, as (x, y, size) in footprint coordinates: they
+# go through the board like a through-hole pad, so the far side under them must
+# stay clear. usbc_bridge.py puts two in every vertical USB-C's pad channel.
+FIXED_VIAS = {
+    'USB-C-FEMALE-VERT-GCT': [(0.75, 0.0, 0.45), (-0.75, 0.0, 0.45)],
+}
+
+
 def thru_rects(fp_name):
     """Through-hole pad rectangles as (dx, dy, w, h) offsets from the envelope
     centre.  Only these pierce the board, so only these block the far side."""
@@ -96,6 +104,8 @@ def thru_rects(fp_name):
     for p in f['pads']:
         if p['type'] not in ('thru_hole', 'np_thru_hole'): continue
         out.append((p['x'] - cx, p['y'] - cy, p['w'], p['h']))
+    for (x, y, s) in FIXED_VIAS.get(fp_name, []):
+        out.append((x - cx, y - cy, s, s))
     return out
 
 

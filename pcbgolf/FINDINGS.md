@@ -81,6 +81,10 @@ rules explicitly allow firmware changes.
 
 ## 3. Z is floored by the barrel jack — not by the USB-C ports
 
+*Superseded in part by §12: the jack is now a CUI PJ-063AH, measured at 9.0 mm,
+and Z is 12.0 mm. The mid-mount jack below was never adopted: no part with a
+model to measure it by was found.*
+
 Measured from the STEP models (`tools/step_bbox.py`) and footprints:
 
 | part | footprint | height above board |
@@ -407,10 +411,17 @@ rest. 45 signals stayed, **15 moved, 0 failed**:
 |---|---|---|---|
 | PD6, PD7 | PA2, PA3 | CH2_SBU1_RELAY, CAN2_EN | plain GPIO |
 | PE0, PE1, PE15, PE3 | PA7, PA8, PA9, PA10 | CH4_SBU2_IGN/RELAY, BTN, LED_G | plain GPIO |
-| PF7, PF8, PF9, PF10 | PB14, PB15, PC5, PA15 | N$29–N$32 | plain GPIO |
+| PF7, PF8, PF9, PF10 | PB14, PB15, PC5, PA15 | N$29–N$32 | **wrong: these are ADC inputs** (see §12) |
 | PF11 | PB0 | CH3_IMON | **ADC-capable pin required** |
 | PG10, PG9 | PD12, PD13 | CAN2_RX, CAN2_TX | **FDCAN alternate function required** |
 | PD12, PD13 | PC6, PC7 | CH3_SBU1_IGN, CH3_SBU2_RELAY | displaced by the above |
+
+**Correction.** This table called the PF7-PF10 moves "plain GPIO". They are
+not: N$29-N$32 are four of the eight SBU voltage-sense lines (through R13-R20),
+and PF7-PF10 are ADC3 inputs. Three of the four landed on PB14, PB15 and PA15,
+which have no ADC, so three SBU voltages could not be read. Every LQFP-100
+board up to and including the first submission had this. The pin-assignment
+optimiser (§13) puts all eight back on ADC pins and checks it.
 
 Two of the moves are not interchangeable with GPIO and were placed
 deliberately: `CH3_IMON` is an analogue current-sense input and had to land on
@@ -537,6 +548,9 @@ pair by hand against the footprint definition ever distinguished them.
 
 ## 10. Score, honestly
 
+*Superseded by §14: every board in this section predates the fixes in §12
+and is not valid.*
+
 Leaderboard to beat: **84,578** (abijahkaj); second 116,226 (Dsalzman).
 
 Every row is measured from a board file in `board/`: volume from the 3D assembly
@@ -600,6 +614,8 @@ routes completely, which is exactly the gap that remains.
 
 ## 11. Status
 
+*Superseded by §14.*
+
 Verified:
 
 * netlist rebuilt from the schematics, 1053/1053 pins resolving onto wires
@@ -623,3 +639,162 @@ Not done:
 * Placement quality is still the limit. Measured HPWL is 4281mm against a
   977mm spectral target, and nothing here closes that gap.
 * Nothing is simulated and no board has been fabricated.
+
+## 12. Defects found by checking the assembly, not the copper
+
+Every check up to here looked at copper and pads: clearance, connectivity,
+pad overlap. None asked whether the assembled board can be plugged in, or
+whether a drill goes through a trace. Three new checks did, and each found a
+defect present on every board so far, the submitted one included.
+
+### Every edge connector faced into the board
+
+`mating.py` finds each connector's plug opening from its own 3D model: it
+casts a grid of rays inward through each vertical face of the placed body and
+marks a ray as part of an opening when it runs at least 3 mm deeper than a ray
+on each of its four sides — a hole in a wall. (Counting deep rays alone is
+fooled by the jack's curved shell, whose rays graze past it; the walled-cavity
+test gives one face per connector and zero for the other three.) Depth maps of
+each model confirm it by eye: the jack's bore with its centre pin, the USB-C
+mouth with its tongue, the microSD card slot.
+
+On the submitted board the USB-C (J3), the DC jack (J1) and the microSD socket
+(J2) all opened **into** the board. The placer only knew each connector's box
+and chose 0 or 90 degrees by box shape, so which end faced out was chance, and
+it lost three times. Nothing could have been plugged in.
+
+`geom2.EDGE_SPEC` now records each connector's opening direction and the
+distance from its envelope centre to the body face, `test_mating.py` checks
+both against the models, and the placer turns each connector so it opens
+through its edge, then pushes it out until the **body face** (not the
+footprint envelope, which reaches 0.25-1.5 mm past it) is on the outline. That
+last part matters for USB-C: the plug's overmold reaches below the board's top
+face, so board in front of the receptacle stops the plug before it seats.
+
+### Copper ran through mechanical holes
+
+`pcb2dsn` skipped non-plated holes, so the router never saw them. On the
+submitted board 140 traces and 12 vias cross the peg holes of the jack and the
+USB-C receptacles, where the drill would cut them. `drc.py` did not check
+holes either, so it reported the board clean. Holes are now router obstacles
+sized for JLCPCB's 0.2 mm hole-to-copper rule, and `drc.py`, `collide.py` and
+`legalize.py` all treat them as keep-outs on every layer.
+
+### The placer had silently stopped placing
+
+`aplace` (quadratic placement) failed to legalise at every outline, and
+`build_board` fell back to the bottom-left packer without saying so: HPWL
+6,174 mm instead of ~4,100. The trigger was the through-hole jack and header
+reserving room on the far side that the fixed side split did not budget for.
+The packer now lets a part that is not pinned to the top take the other side
+when its own is full, and `aplace` searches all 64 assignments of the three
+edge connectors to board edges.
+
+Fixed on the way, each of which had been quietly wrong:
+
+* far-side reservations for through-hole pads were mirrored about the part
+  centre (a Y-down rotation applied in a Y-up frame), and took quarter turns as
+  degrees, so a rotated part's holes were reserved as if turned 1 degree;
+* the perimeter scan overwrote its own edge length with a hole area, so each
+  connector only ever tried the corner slot of each edge;
+* a substituted part took its through-hole flag and holes from the footprint
+  it replaced (the SMD header was treated as through-hole);
+* `mkboard` and `validate` sized every pad as a circle of its long side, which
+  grew the outline by up to 0.45 mm around pads that were 0.9 mm inside it —
+  and growing the outline set the connectors back from it again.
+
+`interfere.py` adds the last missing check: every pair of component bodies,
+placed from their own STEP models (or the scored fallback box), must not
+touch. It finds nothing on the current boards, but nothing had looked.
+
+### A lower jack, measured
+
+The CUI PJ-063AH takes the same plug as the PJ-002AH (2.0 mm centre pin,
+5.5 mm barrel) and is rated 24 V / 8 A. KiCad's model of it stands 9.0 mm
+above the board against 11.0 mm, with its pins 3.0 mm below the top face. It
+is through-hole, so the stack is 9.0 + T + max(1.6, 3.0 - T), which is 12.0 mm
+for any board from 0.8 to 1.4 mm. The board is 1.2 mm, where the through-hole
+2x4 header's 3.0 mm tail ties with the jack's pins, so the SMD header (which
+saves no height there and costs area) is dropped. The PJ-002AH brings its
+sleeve out twice (GND and GNDBREAK, both on GND); the PJ-063AH has one sleeve
+terminal, and `lvs.py` checks the two schematic pins are on one net before
+accepting the merge. The model is vendored in `pcbgolf-gen.3dshapes/`.
+
+At 44 x 46 mm that is 24,288 mm^3, against 29,258 for the submitted board.
+
+## 13. Pin and gate swapping, and the upstream op-amp fix
+
+**The op-amps.** Upstream fixed a wrong part number (commaai/pcbgolf 7b5f429):
+U9-U12 sit on +12 V, so the 5.5 V NCS20071 became the 36 V OPA197IDR, SOIC-8 —
+and the old schematic had SOT-553 pin numbers on that SOIC footprint. The
+netlist was rebuilt from the fixed schematic. OPA197 also ships as
+OPA197IDBVR (SOT-23-5, 1 OUT, 2 V-, 3 +IN, 4 -IN, 5 V+), which is what the board
+uses, through an explicit SOIC-to-SOT pin map that `lvs.py` checks. The
+submitted board predates the fix and fails LVS by 36 pins.
+
+**Pin assignment** (`pinopt.py`), borrowed from FPGA place-and-route: where
+firmware or a register makes a pin a free choice, choose it by where the
+signal goes.
+
+* MCU: every GPIO-class signal may take any free GPIO pin and every analog
+  input any free ADC pin, solved as a minimum-length bipartite matching (which
+  cannot contain a crossing pair). Analog inputs only on ADC pins — this is
+  what fixes the SBU sense lines (§8b). Power enables and relay drives stay
+  off PA15/PB3/PB4, which come out of reset pulled or driven as JTAG, so a
+  channel cannot switch before firmware runs. SWD, BOOT, LSE/RTC and every
+  fixed-function pin stay put.
+* USB hub: the USB2517's PORT_SWAP (0xFA) and PORT_MAP (0xFB-0xFE) registers,
+  verified against the Linux `usb251xb` driver, let any downstream port serve
+  any consumer with either D+/D- polarity, set over the SMBus the MCU already
+  drives. The host still sees the original numbering.
+* Orientation: any part away from the edge may turn 180 degrees about its
+  envelope centre, which cannot create an overlap.
+
+`FIRMWARE_PINMAP.md` lists every pin and register change for the current
+board. On q44x46 it cut pad-to-pad HPWL from 4,073 to 3,732 mm.
+
+## 14. A complete board, and what it took
+
+**Submitted: 46 x 48 x 12.0 mm, 6 layers, 369 vias, 0 short — 74,946**
+(26,496 + 18,450 + 30,000), 11% under 84,578. 0 DRC violations, LVS pass,
+connector openings on the outline, no colliding bodies.
+
+Four things got it there, none of them more router passes.
+
+**Routing uninterrupted.** `chain.py` routed in resumable chunks so a
+restart cost one chunk. But Freerouting's rip-up cost is start x pass
+number and its maze randomisation starts at pass 4, and a resumed run counts
+passes from 1 again: every chunk opened by cheaply tearing up what it was
+handed. Chunked, 46 x 48 stalled at 46 short and 48 x 50 at 49; the same
+boards routed in one run reached 3 short each. (Continuing the cost by
+raising the start value overshoots, because the cost is linear in the local
+pass number: by the end of a chunk it was 7x the uninterrupted schedule and
+the router stopped rearranging anything.)
+
+**Crystals beside their chips.** The packer places largest first, so a
+crystal landed wherever room was left: 10-13 mm of trace from its chip on
+every placement, and the hub crystal was the one connection the router could
+not close. Crystals now pack straight after the ICs, on the same side, aimed
+at the chip's oscillator pins: 2.6-5.2 mm.
+
+**Room under the USB-C bridges.** Inside each vertical USB-C receptacle the
+D+ and D- pairs cross between the pad rows, so one needs a via in a 0.78 mm
+channel: the connections the router most often left open. The placer now
+keeps the far side clear under that channel (`geom2.FIXED_VIAS`), and
+`usbc_bridge.py` draws the bridges by hand. (The submitted board was routed
+before `route.py` was fixed to keep locked copper, so the router drew its
+own bridges there — the free far side was what it needed.)
+
+**Clearance, not overlap, in legalisation.** `legalize.py` only separated
+pads that overlapped, and judged a top connector's bottom shell pads as
+top-side. A 0.079 mm gap passed placement and failed the 0.09 mm copper rule
+after routing.
+
+What did not help: rip-up around the last gaps followed by the A* finisher
+made every board worse (1 short became 5-14); Freerouting's via optimizer
+accepts the complete board and stops after one pass with no change, its
+2.5% improvement threshold unmet.
+
+Still open: the 44 x 46 4-layer board is 2 connections short at 396 vias,
+which would score about 64,000 finished.
+

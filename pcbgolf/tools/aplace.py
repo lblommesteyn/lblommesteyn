@@ -12,6 +12,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import numpy as np
 import gridpack as G
 
+CRYSTAL_WEIGHT = 8.0
+
 def clique_laplacian(items, netlist_path, max_pins=8):
     idx = {it['ref']: k for k, it in enumerate(items)}
     n = len(items)
@@ -21,6 +23,11 @@ def clique_laplacian(items, netlist_path, max_pins=8):
         refs = sorted({idx[r] for (r, p, nm, et) in pins if r in idx})
         if not (2 <= len(refs) <= max_pins): continue
         w = 1.0 / (len(refs) - 1)
+        # a crystal belongs beside its oscillator pins: long crystal traces
+        # pick up noise and load capacitance, and an evenly weighted net left
+        # the hub crystal 12mm from the hub
+        if any(r.startswith('Y') for (r, p, nm, et) in pins):
+            w *= CRYSTAL_WEIGHT
         for i in range(len(refs)):
             for j in range(i+1, len(refs)):
                 A[refs[i], refs[j]] += w; A[refs[j], refs[i]] += w
@@ -40,6 +47,36 @@ def solve_positions(L, anchor_xy, anchor_w, W, H):
         out[:, c] = np.clip(out[:, c], 0, lim)
     return out
 
+def crystal_attach(items, netlist_path):
+    """crystal item -> (chip item, {side: (dx, dy)}): the midpoint of the chip's
+    oscillator pins relative to its envelope centre, in the Y-up placement
+    frame, for the chip on the front (0) and on the back (1), where KiCad
+    mirrors the footprint's local Y."""
+    import geom2, mkboard
+    d = json.load(open(netlist_path))
+    idx = {it['ref']: k for k, it in enumerate(items)}
+    out = {}
+    for k, it in enumerate(items):
+        if not it['ref'].startswith('Y'): continue
+        pts, chip = [], None
+        for nm, pins in d['nets'].items():
+            if nm == 'GND' or not any(p[0] == it['ref'] for p in pins): continue
+            for (r, p, _, _) in pins:
+                if not r.startswith('U') or r not in idx: continue
+                fp = items[idx[r]]['fp']
+                rp = mkboard._repin(fp)
+                pad = next((q for q, n_ in rp.items() if n_ == nm), None) if rp else str(p)
+                f = geom2._fps().get(fp)
+                q = next((q for q in f['pads'] if q['name'] == pad), None) if f else None
+                if q is None: continue
+                _, _, ox, oy = geom2.measured(fp)
+                pts.append((q['x'] - ox, q['y'] - oy)); chip = idx[r]
+        if pts and chip is not None:
+            px = sum(p[0] for p in pts) / len(pts); py = sum(p[1] for p in pts) / len(pts)
+            out[k] = (chip, {0: (px, -py), 1: (px, py)})
+    return out
+
+
 def place(items, nets, netlist_path, W, H, rounds=8, seed=7, verbose=True,
           anchor_w0=0.5, edges=None):
     n = len(items)
@@ -47,6 +84,14 @@ def place(items, nets, netlist_path, W, H, rounds=8, seed=7, verbose=True,
     econ = [k for k, it in enumerate(items) if it['edge']]
     core = [k for k, it in enumerate(items) if not it['edge']]
     order = sorted(core, key=lambda k: -max(items[k]['w'], items[k]['h']))
+    # Packing is largest first, so a small part lands wherever space is left
+    # by the time its turn comes -- for a crystal that was 10-13mm from its
+    # chip whatever its net weight. Crystals go straight after the ICs, while
+    # the space beside the oscillator pins is still free.
+    xtal = [k for k in order if items[k]['ref'].startswith('Y')]
+    rest = [k for k in order if k not in xtal]
+    big = [k for k in rest if items[k]['ref'].startswith('U') and max(items[k]['w'], items[k]['h']) > 8]
+    order = big + xtal + [k for k in rest if k not in big]
     rot = {k: 0 for k in range(n)}
     side = {k: items[k]['side'] for k in range(n)}
     slot = {k: i for i, k in enumerate(econ)}
@@ -60,10 +105,13 @@ def place(items, nets, netlist_path, W, H, rounds=8, seed=7, verbose=True,
     anchor = spectral(items, netlist_path, W, H).astype(float)
     aw = np.full(n, float(anchor_w0))
     best = None
+    attach = crystal_attach(items, netlist_path)
+    for kx, (ki, _) in attach.items():
+        side[kx] = side[ki]                 # same side as its chip
     for r in range(rounds):
         cont = solve_positions(L, anchor, aw, W, H)
         targets = {k: (float(cont[k, 0]), float(cont[k, 1])) for k in range(n)}
-        pos = G.pack(items, W, H, order, rot, side, slot, eo, targets)
+        pos = G.pack(items, W, H, order, rot, side, slot, eo, targets, attach)
         if pos is None:
             if verbose: print(f"    round {r}: legalisation failed")
             break

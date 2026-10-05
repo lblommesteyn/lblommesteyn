@@ -17,11 +17,13 @@ def part_rects(pcb):
     """ref -> (own-side rects, through-hole rects, side)."""
     out = {}
     for p in pads_of(pcb):
-        e = out.setdefault(p['ref'], dict(own=[], thru=[], side=None, net=set()))
+        e = out.setdefault(p['ref'], dict(own=[], oside=[], thru=[], side=None, net=set()))
         r = (p['x']-p['w']/2, p['y']-p['h']/2, p['x']+p['w']/2, p['y']+p['h']/2)
         if p['side'] == '*': e['thru'].append(r)
         else:
-            e['own'].append(r); e['side'] = p['side']
+            # each pad keeps its own side: a top connector's bottom shell pads
+            # (J3.S2B) were compared as top-side and missed the part under them
+            e['own'].append(r); e['oside'].append(p['side']); e['side'] = p['side']
         if p['net']: e['net'].add(p['net'])
     for e in out.values():
         if e['side'] is None: e['side'] = 'F'
@@ -79,14 +81,15 @@ def legalize(path, out, clearance=0.10, max_shift=6.0, rounds=6, verbose=True):
                 if A['net'] and B['net'] and A['net'] == B['net'] and len(A['net']) == 1:
                     pass
                 shared = A['net'] & B['net']
-                for ra in A['own'] + A['thru']:
-                    for rb in B['own'] + B['thru']:
-                        sa = 'x' if (ra in A['thru']) else A['side']
-                        sb = 'x' if (rb in B['thru']) else B['side']
+                for ra, sa in list(zip(A['own'], A['oside'])) + [(r, 'x') for r in A['thru']]:
+                    for rb, sb in list(zip(B['own'], B['oside'])) + [(r, 'x') for r in B['thru']]:
                         if sa != sb and 'x' not in (sa, sb): continue
                         dx = min(ra[2],rb[2]) - max(ra[0],rb[0])
                         dy = min(ra[3],rb[3]) - max(ra[1],rb[1])
-                        if dx > 0 and dy > 0:
+                        # closer than the clearance counts, not just
+                        # overlapping: a 0.079mm pad gap passed here and failed
+                        # the 0.09mm copper rule after routing
+                        if dx > -clearance and dy > -clearance:
                             # same-net touching pads are fine
                             if shared and len(A['net']) == 1 and len(B['net']) == 1: continue
                             bad.add((a, b))
@@ -106,7 +109,8 @@ def legalize(path, out, clearance=0.10, max_shift=6.0, rounds=6, verbose=True):
             occ = Occ(bx0, by0, bx1, by1, clearance)
             for other, o in info.items():
                 if other == ref: continue
-                occ.add(o['own'], [0 if o['side']=='F' else 1])
+                for r, sd in zip(o['own'], o['oside']):
+                    occ.add([r], [0 if sd == 'F' else 1])
                 occ.add(o['thru'], [0, 1])
             mysides = [0 if me['side']=='F' else 1]
             best = None
@@ -118,7 +122,8 @@ def legalize(path, out, clearance=0.10, max_shift=6.0, rounds=6, verbose=True):
                     allr = [(r[0]+dx, r[1]+dy, r[2]+dx, r[3]+dy) for r in me['own']+me['thru']]
                     if min(r[0] for r in allr) < bx0 or max(r[2] for r in allr) > bx1: continue
                     if min(r[1] for r in allr) < by0 or max(r[3] for r in allr) > by1: continue
-                    if occ.hits(me['own'], mysides, dx, dy): continue
+                    if any(occ.hits([r], [0 if sd == 'F' else 1], dx, dy)
+                           for r, sd in zip(me['own'], me['oside'])): continue
                     if me['thru'] and occ.hits(me['thru'], [0,1], dx, dy): continue
                     best = (dx, dy); break
                 if best: break

@@ -87,7 +87,7 @@ def check(path, netlist=None, dropped=('R11',), verbose=20):
     netlist = netlist or os.path.join(D, 'netlist.json')
     sch = schematic(netlist, set(dropped))
     bn, mcu, libs = board(path)
-    remap = json.load(open(os.path.join(D, 'remap_lqfp100.json')))['pin_to_net']
+    remap = json.load(open(mkboard.pinfile('remap_lqfp100.json')))['pin_to_net']
     errs = []
 
     # 0. pins a substitute serves with one contact (mkboard.PIN_MERGE): legal

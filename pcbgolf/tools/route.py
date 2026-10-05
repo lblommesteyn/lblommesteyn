@@ -39,8 +39,11 @@ def run(board, out, passes=26, via_cost=250, ripup=None, optimize=False,
         # strip routing so the router starts clean
         from sexpr import load, dumps
         pcb = load(board)
+        # locked copper (hand-drawn bridges) stays: it goes to the router as
+        # protected wiring
         pcb[:] = [c for c in pcb if not (isinstance(c, list) and c and
-                                         c[0] in ('segment', 'via', 'arc'))]
+                                         c[0] in ('segment', 'via', 'arc')
+                                         and c.val('locked') != 'yes')]
         src = os.path.join(SCRATCH, f'{tag}.unrouted.kicad_pcb')
         open(src, 'w').write(dumps(pcb) + '\n')
     pcb2dsn.export(src, dsn, track, clearance, via_dia, via_drill)

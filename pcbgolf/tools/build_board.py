@@ -52,7 +52,7 @@ def build(swaps, z, cands, layers, out_pcb, out_place, iters=200, seed=7, cleara
         pos = None
         if analytical:
             b = None
-            for w0 in (0.5, 1.0, 1.5):
+            for w0 in (1.0,):
                 c = aplace.place_any_edges(items, nets, os.path.join(D,'netlist.json'),
                                            W, H, rounds=5, anchor_w0=w0)
                 if c and (b is None or c[0] < b[0]): b = c

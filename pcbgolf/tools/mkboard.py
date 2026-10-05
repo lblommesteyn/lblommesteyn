@@ -136,11 +136,22 @@ _KEEP = ('property', 'path', 'sheetname', 'sheetfile', 'uuid', 'attr',
 
 _REPIN_CACHE = {}
 
+
+def pinfile(name):
+    """Where a board's pin-assignment file lives. Each placement gets its own
+    MCU remap and pin swaps from pinopt.py; PCBGOLF_PINSET=<tag> selects
+    tools/pinsets/<tag>/, so boards with different placements can be built,
+    routed and checked side by side. Unset, the files in tools/ are used."""
+    s = os.environ.get('PCBGOLF_PINSET')
+    return os.path.join(D, 'pinsets', s, name) if s else os.path.join(D, name)
+
 def _repin(lib_name):
     if lib_name not in REPIN: return None
     if lib_name not in _REPIN_CACHE:
         import json as _j
-        path = os.path.join(D, REPIN[lib_name])
+        path = pinfile(REPIN[lib_name])
+        if not os.path.exists(path):        # a new pin set before pinopt has run
+            path = os.path.join(D, REPIN[lib_name].replace('.json', '.orig.json'))
         _REPIN_CACHE[lib_name] = _j.load(open(path))['pin_to_net']
     return _REPIN_CACHE[lib_name]
 
@@ -149,7 +160,7 @@ def _pinswap():
     """ref -> {pad: schematic pin}, from pinswap.json (written by pinopt.py).
     Read at build time, not import time, since pinopt rewrites it."""
     import json as _j
-    f = os.path.join(D, 'pinswap.json')
+    f = pinfile('pinswap.json')
     return _j.load(open(f)) if os.path.exists(f) else {}
 
 

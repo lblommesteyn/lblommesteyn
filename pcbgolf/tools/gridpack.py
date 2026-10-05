@@ -169,7 +169,7 @@ def perimeter_place(board, econ, items, slot, rot, edge_of=None):
         if not done: return None
     return out
 
-def pack(items, W, H, order, rot, side, slot, edge_of=None, targets=None):
+def pack(items, W, H, order, rot, side, slot, edge_of=None, targets=None, attach=None):
     b = Board(W, H)
     econ = [k for k, it in enumerate(items) if it['edge']]
     res = perimeter_place(b, econ, items, slot, rot, edge_of)
@@ -203,6 +203,14 @@ def pack(items, W, H, order, rot, side, slot, edge_of=None, targets=None):
                 def far(gx, gy, _b=b, _w=w, _h=h, _r=rdeg, _tr=tr, _s=s):
                     return _thru_free(_b, 1-_s, gx, gy, _w, _h, _r, _tr)
             t = targets.get(k) if targets else None
+            if attach and k in attach and attach[k][0] in res:
+                # a crystal goes beside its chip's oscillator pins, wherever
+                # the chip itself ended up
+                ic, offs = attach[k]
+                cx, cy, cs = res[ic][0], res[ic][1], res[ic][2]
+                dx, dy = offs[cs]
+                d = math.hypot(dx, dy) or 1.0
+                t = (cx + dx + 2.5*dx/d, cy + dy + 2.5*dy/d)
             if t is not None:
                 p = b.place_near(s, cells(w), cells(h), t[0], t[1], both=coarse,
                                  validate=far, tries=4000)

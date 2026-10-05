@@ -1,5 +1,5 @@
 tools/__pycache__/
 tools/*.ses
 
-# build artifact - regenerate with tools/make_package.py
+# old build artifact name
 pcbgolf-best-design.zip
