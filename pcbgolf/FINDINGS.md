@@ -755,9 +755,10 @@ board. On q44x46 it cut pad-to-pad HPWL from 4,073 to 3,732 mm.
 
 ## 14. A complete board, and what it took
 
-**Submitted: 46 x 48 x 12.0 mm, 6 layers, 369 vias, 0 short — 74,946**
-(26,496 + 18,450 + 30,000), 11% under 84,578. 0 DRC violations, LVS pass,
-connector openings on the outline, no colliding bodies.
+**Submitted: 44 x 46 x 12.0 mm, 4 layers, 398 vias, 0 short — 64,188**
+(24,288 + 19,900 + 20,000), 24% under 84,578. 0 DRC violations, LVS pass,
+connector openings on the outline, no colliding bodies. The first complete
+board was 46 x 48 on 6 layers at 74,946; the 4-layer one replaced it.
 
 Four things got it there, none of them more router passes.
 
@@ -781,9 +782,9 @@ at the chip's oscillator pins: 2.6-5.2 mm.
 D+ and D- pairs cross between the pad rows, so one needs a via in a 0.78 mm
 channel: the connections the router most often left open. The placer now
 keeps the far side clear under that channel (`geom2.FIXED_VIAS`), and
-`usbc_bridge.py` draws the bridges by hand. (The submitted board was routed
-before `route.py` was fixed to keep locked copper, so the router drew its
-own bridges there — the free far side was what it needed.)
+`usbc_bridge.py` draws the bridges by hand. (The 46 x 48 board was routed before
+`route.py` was fixed to keep locked copper, so the router drew its own
+bridges there; the submitted 4-layer board carries the hand-drawn ones.)
 
 **Clearance, not overlap, in legalisation.** `legalize.py` only separated
 pads that overlapped, and judged a top connector's bottom shell pads as
@@ -795,6 +796,9 @@ made every board worse (1 short became 5-14); Freerouting's via optimizer
 accepts the complete board and stops after one pass with no change, its
 2.5% improvement threshold unmet.
 
-Still open: the 44 x 46 4-layer board is 2 connections short at 396 vias,
-which would score about 64,000 finished.
+**Several runs, not one.** With the USB-C bridges locked in (and `route.py`
+fixed to keep them), three uninterrupted runs of the same 44 x 46 4-layer
+board ended 2 short, 1 short and complete. Freerouting's multi-threaded runs
+differ from one to the next, so on a board this close to its limit the
+cheapest finisher is another run, not a smarter one.
 

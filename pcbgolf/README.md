@@ -10,10 +10,10 @@ score = PCBA bounding-box volume (mm^3) + 50 x vias + 5,000 x copper layers
 Leaderboard to beat: **84,578** (abijahkaj), then 116,226 (Dsalzman).
 Deadline 12 October 2026.
 
-> ## Status: complete — 74,946, 11% under the leaderboard
+> ## Status: complete — 64,188, 24% under the leaderboard
 >
-> `submission/` holds a fully routed board: 46.0 x 48.0 x 12.0 mm, 6 layers,
-> 369 vias, 0 connections missing, 0 DRC violations, LVS pass, every edge
+> `submission/` holds a fully routed board: 44.0 x 46.0 x 12.0 mm, 4 layers,
+> 398 vias, 0 connections missing, 0 DRC violations, LVS pass, every edge
 > connector opening on the outline, no colliding bodies. Every figure is
 > measured from the file.
 
@@ -24,14 +24,13 @@ survived, which died, and the conclusions that turned out to be wrong.
 
 | board | outline | Z | volume | vias | short | score | vs 84,578 |
 |---|---|---|---|---|---|---|---|
-| **6L, submitted** | 46.0 x 48.0 | 12.0 | 26,496 | 369 | **0** | **74,946** | **−11%** |
-| 4L | 44.0 x 46.0 | 12.0 | 24,288 | 396 | 2 | 64,088 | (not finished) |
-| 6L | 44.0 x 46.0 | 12.0 | 24,288 | 387 | 5 | 73,638 | (not finished) |
-| 4L | 48.0 x 50.0 | 12.0 | 28,800 | 382 | 3 | 67,900 | (not finished) |
+| **4L, submitted** | 44.0 x 46.0 | 12.0 | 24,288 | 398 | **0** | **64,188** | **−24%** |
+| 6L | 46.0 x 48.0 | 12.0 | 26,496 | 369 | **0** | 74,946 | −11% |
+| 4L, same placement, another run | 44.0 x 46.0 | 12.0 | 24,288 | 417 | 1 | — | not finished |
 
 All measured by the same checks (`tools/regen_submission.py`, `submission/SCORE.csv`).
-A board short of even one connection does not work, so only the complete one
-is submitted; the 44 x 46 4-layer board would score about 64,000 if finished.
+A board short of even one connection does not work, so only complete boards
+are candidates; the submitted one is the best of them.
 
 Earlier boards in `board/`, including the first submission, are not valid:
 their edge connectors faced into the board and their copper crossed

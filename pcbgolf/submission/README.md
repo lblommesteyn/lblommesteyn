@@ -6,17 +6,17 @@ score = PCBA bounding-box volume (mm^3) + 50 x vias + 5,000 x copper layers
 
 ## The board
 
-`pcbgolf-u46x48-6L-cL.kicad_pcb` — 46.0 x 48.0 mm, 6 copper layers, 1.2 mm
+`pcbgolf-u44x46-4L-c3.kicad_pcb` — 44.0 x 46.0 mm, 4 copper layers, 1.2 mm
 FR4, **fully routed**.
 
 | term | value |
 |---|---|
-| volume | 26,496 mm^3 (46.0 x 48.0 x 12.0) |
-| vias | 369 x 50 = 18,450 |
-| layers | 6 x 5,000 = 30,000 |
-| **score** | **74,946** |
+| volume | 24,288 mm^3 (44.0 x 46.0 x 12.0) |
+| vias | 398 x 50 = 19,900 |
+| layers | 4 x 5,000 = 20,000 |
+| **score** | **64,188** |
 
-11% under the 84,578 leaderboard. `pcbgolf-u46x48-6L-cL.step` is the assembly.
+24% under the 84,578 leaderboard. `pcbgolf-u44x46-4L-c3.step` is the assembly.
 
 ## What is verified
 
@@ -37,12 +37,12 @@ refuses to package a board that fails any of them):
   through-hole pins and the jack's pins below a 1.2 mm board included.
 * **Volume measured from the 3D assembly**, from the parts' STEP models; the
   STEP file here is written from the same placed geometry. Nothing overhangs
-  the outline. (A STEP reader's own bounding box shows 46.01 x 48.01 x 12.01:
+  the outline. (A STEP reader's own bounding box shows 44.01 x 46.01 x 12.01:
   OpenCASCADE's 0.005 mm tolerance on each face.)
-* **Within JLCPCB capability** as far as checked: 0.09 mm track and space,
-  0.45 mm vias on a 0.2 mm drill. *Not checked against the JLCPCB site, which
-  is unreachable from here: that a 6-layer board is offered at 1.2 mm.* If it
-  is not, 1.6 mm costs 0.4 mm of Z (+1,060 points).
+* **Within JLCPCB's standard 4-layer capability**: 0.09 mm track and space,
+  0.45 mm vias on a 0.2 mm drill, 1.2 mm board.
+* **USB-C D+/D- bridges** inside the four vertical receptacles are drawn by
+  hand (`usbc_bridge.py`) and locked; the router worked around them.
 
 Nothing is simulated and no board has been fabricated.
 
