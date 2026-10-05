@@ -107,8 +107,9 @@ def _fallback_box(lib, x, y, rho, back, thick):
     return BRepPrimAPI_MakeBox(gp_Pnt(x - ew/2, -y - eh/2, z0), ew, eh, dz).Shape()
 
 
-def export(pcb_path, out, thick=1.6):
+def export(pcb_path, out, thick=None):
     pcb = load(pcb_path)
+    if thick is None: thick = bbox3d.board_thickness(pcb)
     builder = BRep_Builder()
     comp = TopoDS_Compound()
     builder.MakeCompound(comp)
@@ -149,7 +150,7 @@ if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('pcb')
     ap.add_argument('-o', '--out', required=True)
-    ap.add_argument('--thickness', type=float, default=1.6)
+    ap.add_argument('--thickness', type=float, default=None)
     a = ap.parse_args()
     for k, v in export(a.pcb, a.out, a.thickness).items():
         print(f"    {k:<10} {v}")

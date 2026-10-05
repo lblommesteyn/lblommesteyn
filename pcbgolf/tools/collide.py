@@ -7,6 +7,9 @@ import sys, os, math, itertools, collections
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from sexpr import load, Node
 
+# JLCPCB minimum distance from a non-plated hole's edge to copper
+NPTH_COPPER = 0.20
+
 def rot(x, y, d):
     a = math.radians(d); c, s = math.cos(a), math.sin(a)
     return (x*c + y*s, -x*s + y*c)
@@ -18,10 +21,18 @@ def pads_of(pcb):
         at = f.find('at'); fx, fy = at[1], at[2]
         fang = at[3] if len(at) > 3 else 0
         for p in f.find_all('pad'):
-            if len(p) > 2 and str(p[2]) == 'np_thru_hole': continue
             pat = p.find('at'); sz = p.find('size')
             if not pat or not sz: continue
             gx, gy = rot(pat[1], pat[2], fang); gx += fx; gy += fy
+            if len(p) > 2 and str(p[2]) == 'np_thru_hole':
+                # a mechanical hole goes through both sides and takes no copper
+                # within NPTH_COPPER of its edge: a keep-out on both sides that
+                # no other part's pad may touch
+                dr = p.find('drill'); d = dr[1] if dr is not None else max(sz[1], sz[2])
+                k = d + 2 * NPTH_COPPER
+                out.append(dict(ref=ref, pad='NPTH', x=gx, y=gy, w=k, h=k,
+                                side='*', net=f'__hole_{ref}', hole=True))
+                continue
             pang = pat[3] if len(pat) > 3 else 0
             if not isinstance(pang, (int, float)): pang = 0
             w, h = sz[1], sz[2]

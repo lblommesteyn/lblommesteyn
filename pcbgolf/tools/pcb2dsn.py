@@ -33,6 +33,9 @@ def pad_polygon(cx, cy, w, h, ang):
         pts.append((cx + rx, cy + ry))
     return pts
 
+# JLCPCB minimum distance from a non-plated hole's edge to copper
+NPTH_COPPER = 0.20
+
 def export(pcb_path, out, track=0.15, clearance=0.15, via_dia=0.6, via_drill=0.3):
     pcb = load(pcb_path)
     cu = [str(l[1]) for l in pcb.find('layers')[1:] if len(l) > 2 and l[2] == 'signal']
@@ -58,12 +61,27 @@ def export(pcb_path, out, track=0.15, clearance=0.15, via_dia=0.6, via_drill=0.3
         seen = {}
         for pad in f.find_all('pad'):
             ptype = str(pad[2]) if len(pad) > 2 else 'smd'
-            if ptype == 'np_thru_hole':      # pure mechanical hole
-                continue
             pat = pad.find('at'); sz = pad.find('size')
             if not pat or not sz: continue
             name = str(pad[1])
-            if name in ('', '~'): continue
+            if ptype == 'np_thru_hole':
+                # A mechanical hole has no copper, but the drill goes through
+                # every layer, so it is an obstacle on all of them: copper
+                # routed across it is cut when the board is drilled. Emitted as
+                # an unconnected pin the size of the drill plus the extra
+                # hole-to-copper margin over the copper clearance.
+                dr = pad.find('drill')
+                d = max(dr[1], dr[2] if len(dr) > 2 and isinstance(dr[2], (int, float)) else 0) \
+                    if dr is not None else max(sz[1], sz[2])
+                name = 'NPTH'
+                gx, gy = rot(pat[1], pat[2], fang); gx += fx; gy += fy
+                seen[name] = seen.get(name, 0) + 1
+                pins.append((f"NPTH{seen[name]}", cu[:],
+                             ('circle', gx, gy, d + 2 * max(0.0, NPTH_COPPER - clearance))))
+                continue
+            if name in ('', '~'):
+                # unnamed copper (a mounting tab): an obstacle with no net
+                name = 'MECH'
             seen[name] = seen.get(name, 0) + 1
             pid = name if seen[name] == 1 else f"{name}-{seen[name]}"
             gx, gy = rot(pat[1], pat[2], fang); gx += fx; gy += fy
@@ -155,15 +173,19 @@ def export(pcb_path, out, track=0.15, clearance=0.15, via_dia=0.6, via_drill=0.3
             st, en = sg.find('start'), sg.find('end')
             wd = sg.find('width')
             lay = sg.val('layer')
+            # locked copper (preroute.py) goes in protected, so the router
+            # routes around it instead of ripping it up
+            kind = 'protect' if sg.val('locked') == 'yes' else 'route'
             a(f'    (wire (path {lay} {q(wd[1] if wd else track)} '
-              f'{q(st[1])} {q(st[2])} {q(en[1])} {q(en[2])}) (net "{nm}") (type route))')
+              f'{q(st[1])} {q(st[2])} {q(en[1])} {q(en[2])}) (net "{nm}") (type {kind}))')
         for v in vias_ex:
             vn = v.find('net')
             if vn is None: continue
             nm = netnames.get(int(vn[1]))
             if not nm: continue
             at = v.find('at')
-            a(f'    (via "V" {q(at[1])} {q(at[2])} (net "{nm}") (type route))')
+            kind = 'protect' if v.val('locked') == 'yes' else 'route'
+            a(f'    (via "V" {q(at[1])} {q(at[2])} (net "{nm}") (type {kind}))')
         a('  )')
     a(')')
     open(out, 'w').write('\n'.join(o))

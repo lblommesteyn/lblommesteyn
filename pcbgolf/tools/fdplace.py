@@ -110,8 +110,10 @@ def make_items(swaps, seed=0, tall=2.5):
         needs_edge, ew, dp = geom2.edge_orientation(name, w, h)
         items.append(dict(ref=f.ref, fp=name, src=fp, w=w, h=h, z=z,
                           ox=ox, oy=oy, edge_w=ew, depth=dp,
-                          thru=geom2.has_thru(fp) or geom2.has_thru(name),
-                          thru_rects=geom2.thru_rects(fp) or geom2.thru_rects(name),
+                          # the footprint actually fitted decides which holes
+                          # go through the board, not the one it replaces
+                          thru=geom2.has_thru(name),
+                          thru_rects=geom2.thru_rects(name),
                           edge=needs_edge,
                           top=needs_edge or name in ('EVQ-Q2','M2_BOLT'), side=0))
     # Parts taller than the thinnest practical back-side stack are pinned to the

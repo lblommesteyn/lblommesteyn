@@ -20,12 +20,14 @@ or a RECT:
   roundrect pad    corners inset by the corner radius, swept by it: exact
 
 Two items on the same layer and different nets must stay `clearance` apart,
-edge to edge. Through-hole pads and vias occupy every copper layer.
+edge to edge. Through-hole pads and vias occupy every copper layer. A
+non-plated hole has no copper, but all copper must stay NPTH_COPPER from its
+edge on every layer, or drilling cuts it.
 """
 import sys, os, math, argparse, collections
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from sexpr import load, Node
-from collide import rot as _rot
+from collide import rot as _rot, NPTH_COPPER
 import ratsnest
 
 
@@ -120,6 +122,19 @@ def items(pcb):
         else:
             base.update(poly=p['poly'], r=0.0)
         out.append(base)
+    # mechanical holes: no copper of their own, but the drill cuts any copper
+    # within NPTH_COPPER of the hole edge, on every layer
+    for f in pcb.find_all('footprint'):
+        ref = next((str(p[2]) for p in f.find_all('property') if p[1] == 'Reference'), '?')
+        at = f.find('at'); fx, fy = at[1], at[2]
+        fang = at[3] if len(at) > 3 else 0
+        for i, p in enumerate(f.find_all('pad')):
+            if not (len(p) > 2 and str(p[2]) == 'np_thru_hole'): continue
+            pat = p.find('at'); dr = p.find('drill')
+            gx, gy = _rot(pat[1], pat[2], fang)
+            out.append(dict(kind='hole', net=('hole', ref, i), layers=set(cu),
+                            poly=[(fx + gx, fy + gy)], r=dr[1] / 2.0,
+                            label=f"{ref}.NPTH"))
     for s_ in segs:
         out.append(dict(kind='trace', net=s_['net'], layers={s_['layer']},
                         poly=[s_['p'], s_['q']], r=s_['width']/2.0,
@@ -160,10 +175,13 @@ def check(path, clearance=0.09, verbose=12, ignore_intra_footprint=True):
                 a, b = it[i], it[j]
                 if a['net'] == b['net']: continue
                 if not (a['layers'] & b['layers']): continue
-                if ignore_intra_footprint and a['kind'] == 'pad' and b['kind'] == 'pad':
+                kinds = {a['kind'], b['kind']}
+                if kinds == {'hole'}: continue
+                if ignore_intra_footprint and kinds <= {'pad', 'hole'}:
                     if a['label'].split('.')[0] == b['label'].split('.')[0]: continue
+                need = NPTH_COPPER if 'hole' in kinds else clearance
                 g = gap(a, b)
-                if g < clearance - 1e-6:
+                if g < need - 1e-6:
                     bad.append((g, a['kind'], a['label'], nets.get(a['net'], '?'),
                                 b['kind'], b['label'], nets.get(b['net'], '?')))
     bad.sort()

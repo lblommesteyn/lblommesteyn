@@ -24,8 +24,11 @@ def height(pcb, thickness=1.6):
         else: top = max(top, z)
     return top + thickness + bot, top, bot
 
-def score(path, thickness=1.6, exact=True):
+def score(path, thickness=None, exact=True):
     pcb = load(path)
+    if thickness is None:
+        import bbox3d
+        thickness = bbox3d.board_thickness(pcb)
     xs, ys = [], []
     for g in pcb.find_all('gr_line'):
         if g.val('layer') != 'Edge.Cuts': continue
@@ -62,7 +65,7 @@ def score(path, thickness=1.6, exact=True):
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('pcb', nargs='+')
-    ap.add_argument('--thickness', type=float, default=1.6)
+    ap.add_argument('--thickness', type=float, default=None)
     ap.add_argument('--no-exact', action='store_true',
                     help='outline x height instead of the measured 3D assembly box')
     a = ap.parse_args()

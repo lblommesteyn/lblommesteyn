@@ -41,7 +41,7 @@ def solve_positions(L, anchor_xy, anchor_w, W, H):
     return out
 
 def place(items, nets, netlist_path, W, H, rounds=8, seed=7, verbose=True,
-          anchor_w0=0.5):
+          anchor_w0=0.5, edges=None):
     n = len(items)
     L, A = clique_laplacian(items, netlist_path)
     econ = [k for k, it in enumerate(items) if it['edge']]
@@ -50,7 +50,7 @@ def place(items, nets, netlist_path, W, H, rounds=8, seed=7, verbose=True,
     rot = {k: 0 for k in range(n)}
     side = {k: items[k]['side'] for k in range(n)}
     slot = {k: i for i, k in enumerate(econ)}
-    eo = {k: i % 4 for i, k in enumerate(econ)}
+    eo = {k: i % 4 for i, k in enumerate(econ)} if edges is None else dict(edges)
 
     # Seeding from the centre collapses the solve (the only anchor is the same
     # point for every part) and legalisation then fails, because placing large
@@ -75,6 +75,24 @@ def place(items, nets, netlist_path, W, H, rounds=8, seed=7, verbose=True,
             if k in pos: anchor[k] = (pos[k][0], pos[k][1])
         aw = aw * 1.6 + 0.05          # tighten the pull to the legal positions
     return best
+
+def place_any_edges(items, nets, netlist_path, W, H, verbose=False, **kw):
+    """place() over every assignment of edge connectors to board edges; the
+    best HPWL wins. Which edge each connector seats on decides whether the rest
+    packs at all: with one fixed assignment, legalisation failed at every
+    outline and the build fell back to the bottom-left packer."""
+    import itertools
+    econ = [k for k, it in enumerate(items) if it['edge']]
+    best = None
+    for combo in itertools.product(range(4), repeat=len(econ)):
+        b = place(items, nets, netlist_path, W, H, verbose=False,
+                  edges=dict(zip(econ, combo)), **kw)
+        if verbose:
+            print(f"    edges {combo}: {'failed' if b is None else f'HPWL {b[0]:.0f}'}")
+        if b and (best is None or b[0] < best[0]):
+            best = b
+    return best
+
 
 if __name__ == '__main__':
     from fdplace import make_items, net_index

@@ -95,7 +95,12 @@ def _models(lib):
                             v = tuple(float(t) for t in s2[1:4])
                             if sub[0] == 'offset': off = v
                             else: rot = v
-            out.append((str(n[1]).replace('${KIPRJMOD}', PRJ), off, rot))
+            path = str(n[1]).replace('${KIPRJMOD}', PRJ)
+            if not os.path.exists(path):
+                # models this project adds (pcbgolf-gen.3dshapes) live in the
+                # repo, not in the upstream project directory
+                path = str(n[1]).replace('${KIPRJMOD}', os.path.dirname(D))
+            out.append((path, off, rot))
         for s in n: walk(s)
     walk(parse(open(p).read()))
     return out
@@ -158,9 +163,19 @@ def _fallback(lib, x, y, rho, back, thick):
     return (x - ew / 2, x + ew / 2, -y - eh / 2, -y + eh / 2, zlo, zhi)
 
 
+def board_thickness(pcb_or_path, default=1.6):
+    """The board's own (general (thickness)), so a 0.8mm board is scored as one."""
+    from sexpr import load as _load
+    pcb = _load(pcb_or_path) if isinstance(pcb_or_path, str) else pcb_or_path
+    g = pcb.find('general')
+    t = g.find('thickness') if g is not None else None
+    return float(t[1]) if t is not None else default
+
+
 # ---------------------------------------------------------------- board
-def bbox(path, thick=1.6, verbose=False):
+def bbox(path, thick=None, verbose=False):
     pcb = load(path)
+    if thick is None: thick = board_thickness(pcb)
     xs, ys = [], []
     for g in pcb.find_all('gr_line'):
         if g.val('layer') != 'Edge.Cuts': continue
@@ -205,7 +220,7 @@ def bbox(path, thick=1.6, verbose=False):
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('pcb', nargs='+')
-    ap.add_argument('--thickness', type=float, default=1.6)
+    ap.add_argument('--thickness', type=float, default=None)
     ap.add_argument('-v', '--verbose', action='store_true')
     a = ap.parse_args()
     if not _OCC:

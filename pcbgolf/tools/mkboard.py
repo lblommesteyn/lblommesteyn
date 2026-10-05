@@ -99,13 +99,37 @@ DEFAULT_SUBS = {
     '0402-R': '0201-R',
     '0402-C': '0201-C',
     '0805-C': '0603-C',
-    'SOIC-8_3.9x4.9mm_P1.27mm': 'SC70-5',
+    'SOIC-8_3.9x4.9mm_P1.27mm': 'SOT23-5',     # OPA197IDR -> OPA197IDBVR
     # LQFP-144 -> LQFP-100 needs the pad nets reassigned, not copied by name
     'LQFP-144_20x20mm_P0.5mm': 'LQFP-100_14x14',
+    # CUI PJ-063AH: same 5.5/2.0mm plug, 9.0mm tall instead of 11.0. Its pins
+    # reach 3.0mm below the top face, which sets the board at 0.8-1.4mm for the
+    # same Z; at 1.2mm the through-hole 2X04's 3.0mm tail ties with them, so
+    # the THT header stays (2X04-SMD costs area for no height).
+    'DCJACK_2MM_SMT': 'DCJACK_PJ063AH',
 }
 
 # footprint -> json file holding {pin number: net} for a repinned package
 REPIN = {'LQFP-100_14x14': 'remap_lqfp100.json'}
+
+# (original footprint, substitute) -> {substitute pad: original pin}.  For a
+# package change that keeps the same die but renumbers the pins, the net for a
+# pad comes from the ORIGINAL pin it stands in for, not from a pad that merely
+# shares its number.  Unlisted original pins (NC) are simply not brought out.
+PINMAP = {
+    ('SOIC-8_3.9x4.9mm_P1.27mm', 'SOT23-5'):
+        {'1': '6', '2': '4', '3': '3', '4': '2', '5': '7'},
+    # PJ-063AH: 1 centre pin, 2 sleeve. MP are mechanical tabs, left unconnected.
+    ('DCJACK_2MM_SMT', 'DCJACK_PJ063AH'): {'1': 'PWR1', '2': 'GND'},
+}
+
+# Schematic pins a substitute serves with one contact: {pin: pin it merges
+# into}. Only valid when both are on the same net, which lvs.py checks. The
+# PJ-002AH brings its sleeve out on two pads (GND, GNDBREAK), both on GND; the
+# PJ-063AH has one sleeve terminal.
+PIN_MERGE = {
+    ('DCJACK_2MM_SMT', 'DCJACK_PJ063AH'): {'GNDBREAK': 'GND'},
+}
 
 _KEEP = ('property', 'path', 'sheetname', 'sheetfile', 'uuid', 'attr',
          'descr', 'tags', 'duplicate_pad_numbers_are_jumpers')
@@ -121,13 +145,28 @@ def _repin(lib_name):
     return _REPIN_CACHE[lib_name]
 
 
+def _pinswap():
+    """ref -> {pad: schematic pin}, from pinswap.json (written by pinopt.py).
+    Read at build time, not import time, since pinopt rewrites it."""
+    import json as _j
+    f = os.path.join(D, 'pinswap.json')
+    return _j.load(open(f)) if os.path.exists(f) else {}
+
+
 def substitute(orig, gen_name):
     """Swap a footprint's body for a generated one, keeping its identity
     (reference, value, MPN, sheet path) and dropping pads the new package
     does not have."""
-    path = os.path.join(GEN_LIB, gen_name + '.kicad_mod')
+    # A substitute may be one of our generated land patterns or a footprint the
+    # upstream library already ships (SOT23-5 for the OPA197IDBVR); prefer the
+    # upstream one, which carries a real 3D model.
+    up = os.path.join(os.path.dirname(SRC), 'pcbgolf.pretty', gen_name + '.kicad_mod')
+    if os.path.exists(up):
+        path, libname = up, 'pcbgolf'
+    else:
+        path, libname = os.path.join(GEN_LIB, gen_name + '.kicad_mod'), 'pcbgolf-gen'
     new = load(path)
-    out = Node(); out.append('footprint'); out.append(Q(f'pcbgolf-gen:{gen_name}'))
+    out = Node(); out.append('footprint'); out.append(Q(f'{libname}:{gen_name}'))
     for c in orig[2:]:
         if isinstance(c, Node) and c.tag in _KEEP:
             out.append(c)
@@ -202,11 +241,12 @@ def build(placement, netlist, layers=2, src=SRC, title='pcbgolf', subs=None,
         p = placed.get(ref)
         if p is None:
             dropped += 1; continue
+        orig_lib = str(c[1]).split(':')[-1]
         if subs:
-            lib = str(c[1]).split(':')[-1]
-            gen = subs.get(lib)
+            gen = subs.get(orig_lib)
             if gen:
                 c = substitute(c, gen)
+        pinmap = PINMAP.get((orig_lib, str(c[1]).split(':')[-1]))
         back = bool(p['side'])
         rot = float(p.get('rot', 0)) % 360
         orient_footprint(c, rot, back)
@@ -222,9 +262,18 @@ def build(placement, netlist, layers=2, src=SRC, title='pcbgolf', subs=None,
         at[1] = round(ox + p['x'] - dx, 4)
         at[2] = round(oy + (H - p['y']) - dy, 4)
         _set_angle(at, rot)
+        refswap = _pinswap().get(ref, {})
         for pad in c.find_all('pad'):
             pname = str(pad[1])
-            nm = pmap.get((ref, pname))
+            if refswap and pname in refswap:
+                # a declared, firmware-configured swap (pinswap.json): this pad
+                # carries the net of the schematic pin it stands in for
+                nm = pmap.get((ref, refswap[pname]))
+            elif pinmap is not None:
+                orig_pin = pinmap.get(pname)
+                nm = pmap.get((ref, orig_pin)) if orig_pin else None
+            else:
+                nm = pmap.get((ref, pname))
             old = pad.find('net')
             if old is not None: pad.remove(old)
             lib_now = str(c[1]).split(':')[-1]
@@ -255,9 +304,15 @@ def build(placement, netlist, layers=2, src=SRC, title='pcbgolf', subs=None,
             pat = pad.find('at'); sz = pad.find('size')
             if not pat or not sz: continue
             gx, gy = _rot(pat[1], pat[2], ang); gx += fx; gy += fy
-            r = max(sz[1], sz[2]) / 2 + EDGE_CLR
-            px0 = min(px0, gx - r); py0 = min(py0, gy - r)
-            px1 = max(px1, gx + r); py1 = max(py1, gy + r)
+            # the pad's true extent at its (absolute) angle: a long pad is not
+            # a circle of its long side, which grew the outline for pads that
+            # were really 0.9mm inside it
+            pa = math.radians(pat[3] if len(pat) > 3 and isinstance(pat[3], (int, float)) else 0)
+            hw, hh = sz[1] / 2, sz[2] / 2
+            ex = abs(hw * math.cos(pa)) + abs(hh * math.sin(pa)) + EDGE_CLR
+            ey = abs(hw * math.sin(pa)) + abs(hh * math.cos(pa)) + EDGE_CLR
+            px0 = min(px0, gx - ex); py0 = min(py0, gy - ey)
+            px1 = max(px1, gx + ex); py1 = max(py1, gy + ey)
     ox, oy = px0, py0
     W, H = px1 - px0, py1 - py0
     corners = [(ox, oy), (ox + W, oy), (ox + W, oy + H), (ox, oy + H)]

@@ -7,6 +7,7 @@ free-region test, so the result is always overlap-free on both board sides.
 import sys, os, json, math, random
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import numpy as np
+from geom2 import EDGE_SPEC
 
 DEBUG = False
 GRID = 0.25      # mm per cell
@@ -18,7 +19,10 @@ def _thru_rect_cells(gx, gy, w, h, rotdeg, rects):
     cx = gx*GRID + w/2; cy = gy*GRID + h/2
     a = math.radians(rotdeg); c, s = math.cos(a), math.sin(a)
     for (dx, dy, pw, ph) in rects:
-        rx, ry = dx*c + dy*s, -dx*s + dy*c
+        # (dx, dy) is a KiCad offset, Y down; this frame is Y up. Flip, then
+        # turn CCW by rotdeg. Using KiCad's Y-down rotation here mirrored every
+        # hole about the part centre, reserving the far side in the wrong place.
+        rx, ry = dx*c + dy*s, dx*s - dy*c
         if rotdeg % 180: pw, ph = ph, pw
         px, py = cx + rx, cy + ry
         yield (int((px - pw/2 - CLR/2)/GRID), int((py - ph/2 - CLR/2)/GRID),
@@ -100,6 +104,10 @@ class Board:
                 return gx, gy
         return None
 
+# outward normal of each edge, degrees CCW from +x with Y up: edge 0 is y=0
+# (bottom), 1 is x=W, 2 is y=H, 3 is x=0
+OUTWARD = {0: 270, 1: 0, 2: 90, 3: 180}
+
 def perimeter_place(board, econ, items, slot, rot, edge_of=None):
     """Seat each connector with its mating face on a board edge.  Scans its
     assigned edge from the corner for the first free slot, then falls back to
@@ -110,36 +118,50 @@ def perimeter_place(board, econ, items, slot, rot, edge_of=None):
         edge_of = {k: i % 4 for i, k in enumerate(econ)}
     for k in sorted(econ, key=lambda k: -max(items[k]['w'], items[k]['h'])):
         it = items[k]
-        short, long_ = min(it['w'], it['h']), max(it['w'], it['h'])
+        spec = EDGE_SPEC.get(it['fp'], {})
+        face = spec.get('face')
+        if face is None or 'body' not in spec:
+            raise ValueError(f"{it['fp']}: edge connector with no measured opening "
+                             f"direction (geom2.EDGE_SPEC 'face')")
         done = False
         for e in [edge_of[k]] + [x for x in range(4) if x != edge_of[k]]:
-            if e in (0, 2): bw, bh = short, long_
-            else:           bw, bh = long_, short
-            # the recorded rotation must match the block we are about to reserve,
-            # measured against the footprint's own unrotated envelope
-            rot_used = 0 if abs(bw - it['w']) < 1e-6 and abs(bh - it['h']) < 1e-6 else 90
+            # turn the part so its plug opening points out through edge e; the
+            # block reserved is its envelope at that rotation
+            rot_used = (OUTWARD[e] - face) % 360
+            bw, bh = (it['w'], it['h']) if rot_used % 180 == 0 else (it['h'], it['w'])
             span = W if e in (0, 2) else H
             step = bw if e in (0, 2) else bh
-            t = 0.0
-            while t + step <= span + 1e-9:
+            # one cell in from the corner: a connector flush against a SIDE
+            # edge too has pads nearer than mkboard's copper-to-edge rule, and
+            # the outline grew under the other connectors' openings
+            t = GRID
+            ux, uy = {0: (0, -1), 1: (1, 0), 2: (0, 1), 3: (-1, 0)}[e]
+            # the block is reserved inside the board, but the part itself moves
+            # out until its body face (not its envelope) is on the outline
+            push = (bw/2 if e in (1, 3) else bh/2) - spec['body']
+            while t + step <= span - GRID + 1e-9:
                 if e == 0:   cx, cy = t + bw/2, bh/2
                 elif e == 2: cx, cy = t + bw/2, H - bh/2
                 elif e == 1: cx, cy = W - bw/2, t + bh/2
                 else:        cx, cy = bw/2, t + bh/2
                 gx = int(round((cx - bw/2)/GRID)); gy = int(round((cy - bh/2)/GRID))
+                pcx, pcy = cx + ux*push, cy + uy*push
+                # its holes go through at the pushed position, so that is where
+                # the far side has to be free
+                pgx, pgy = (pcx - bw/2)/GRID, (pcy - bh/2)/GRID
                 thru = bool(it.get('thru'))
                 tr = it.get('thru_rects') or []
-                span = sum(r[2]*r[3] for r in tr)
-                coarse = thru and (not tr or span > 0.45*bw*bh)
+                holes = sum(r[2]*r[3] for r in tr)
+                coarse = thru and (not tr or holes > 0.45*bw*bh)
                 farok = (coarse or not thru or
-                         _thru_free(board, 1, gx, gy, bw, bh, rot_used, tr))
+                         _thru_free(board, 1, pgx, pgy, bw, bh, rot_used, tr))
                 if farok and not board.blocked(0, gx, gy, cells(bw), cells(bh), both=coarse):
                     board.mark(0, gx, gy, cells(bw), cells(bh))
                     if coarse:
                         board.mark(1, gx, gy, cells(bw), cells(bh))
                     elif thru:
-                        _mark_thru(board, 1, gx, gy, bw, bh, rot_used, tr)
-                    out[k] = (cx, cy, 0, rot_used)
+                        _mark_thru(board, 1, pgx, pgy, bw, bh, rot_used, tr)
+                    out[k] = (pcx, pcy, 0, rot_used)
                     done = True
                     break
                 t += GRID
@@ -152,38 +174,50 @@ def pack(items, W, H, order, rot, side, slot, edge_of=None, targets=None):
     econ = [k for k, it in enumerate(items) if it['edge']]
     res = perimeter_place(b, econ, items, slot, rot, edge_of)
     if res is None: return None
+    # Everything else stays one cell off the outline. A part packed flush
+    # against it has pads closer than mkboard's 0.3mm copper-to-edge rule, so
+    # mkboard grew the outline -- which also left the edge connectors' openings
+    # set back from the new edge.
+    for s_ in (0, 1):
+        b.occ[s_][0, :] = 1; b.occ[s_][-1, :] = 1
+        b.occ[s_][:, 0] = 1; b.occ[s_][:, -1] = 1
     for k in order:
         it = items[k]
         w, h = it['w'], it['h']
         if rot.get(k, 0) % 2: w, h = h, w
-        s = side[k]
+        rdeg = 90*(rot.get(k, 0) % 2)       # rot holds quarter turns; holes want degrees
         thru = bool(it.get('thru'))
         tr = it.get('thru_rects') or []
         # a part whose through-holes span most of its body is simplest to treat as
         # fully double-sided; otherwise only its holes block the far side
         span = sum(r[2]*r[3] for r in tr)
         coarse = thru and (not tr or span > 0.45*it['w']*it['h'])
-        far = None
-        if thru and not coarse:
-            # its holes pierce the board, so they must also be clear on the far side
-            def far(gx, gy, _b=b, _w=w, _h=h, _r=rot.get(k, 0), _tr=tr, _s=s):
-                return _thru_free(_b, 1-_s, gx, gy, _w, _h, _r, _tr)
-        t = targets.get(k) if targets else None
+        # its assigned side first; a part not pinned to the top may take the
+        # other side when its own is full (through-hole parts reserve room on
+        # the far side that the side split did not budget for)
         p = None
-        if t is not None:
-            p = b.place_near(s, cells(w), cells(h), t[0], t[1], both=coarse,
-                             validate=far, tries=4000)
-        if p is None:                      # always fall back to a legal slot
-            p = b.place_bl(s, cells(w), cells(h), both=coarse, validate=far)
+        for s in [side[k]] + ([] if it.get('top') else [1 - side[k]]):
+            far = None
+            if thru and not coarse:
+                # its holes pierce the board, so they must also be clear on the far side
+                def far(gx, gy, _b=b, _w=w, _h=h, _r=rdeg, _tr=tr, _s=s):
+                    return _thru_free(_b, 1-_s, gx, gy, _w, _h, _r, _tr)
+            t = targets.get(k) if targets else None
+            if t is not None:
+                p = b.place_near(s, cells(w), cells(h), t[0], t[1], both=coarse,
+                                 validate=far, tries=4000)
+            if p is None:                      # always fall back to a legal slot
+                p = b.place_bl(s, cells(w), cells(h), both=coarse, validate=far)
+            if p is not None: break
         if p is None:
-            if DEBUG: print(f"      FAIL on {it['ref']} ({it['fp']}) {w:.2f}x{h:.2f} side {s}")
+            if DEBUG: print(f"      FAIL on {it['ref']} ({it['fp']}) {w:.2f}x{h:.2f} side {side[k]}")
             return None
         gx, gy = p
         b.mark(s, gx, gy, cells(w), cells(h))
         if coarse:
             b.mark(1-s, gx, gy, cells(w), cells(h))
         elif thru:
-            _mark_thru(b, 1-s, gx, gy, w, h, rot.get(k, 0), tr)
+            _mark_thru(b, 1-s, gx, gy, w, h, rdeg, tr)
         res[k] = (gx*GRID + w/2, gy*GRID + h/2, s, 90*(rot.get(k, 0) % 2))
     return res
 

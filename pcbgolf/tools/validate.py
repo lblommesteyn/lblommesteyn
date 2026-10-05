@@ -57,9 +57,13 @@ def check(path):
             if not pat or not sz: continue
             gx, gy = rot(pat[1], pat[2], ang)
             gx += fx; gy += fy
+            # the pad's true extent at its absolute angle (as mkboard sizes the
+            # outline), not a circle of its long side
+            pa = math.radians(pat[3] if len(pat) > 3 and isinstance(pat[3], (int, float)) else 0)
             hw, hh = sz[1]/2, sz[2]/2
-            r = max(hw, hh)
-            if gx - r < x0 - 0.01 or gx + r > x1 + 0.01 or gy - r < y0 - 0.01 or gy + r > y1 + 0.01:
+            ex = abs(hw*math.cos(pa)) + abs(hh*math.sin(pa))
+            ey = abs(hw*math.sin(pa)) + abs(hh*math.cos(pa))
+            if gx - ex < x0 - 0.01 or gx + ex > x1 + 0.01 or gy - ey < y0 - 0.01 or gy + ey > y1 + 0.01:
                 pad_out += 1
     print(f"  file            : {os.path.basename(path)}")
     print(f"  round-trip      : {'OK' if not errs else 'FAIL'}")

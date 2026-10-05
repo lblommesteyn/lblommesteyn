@@ -18,12 +18,24 @@ CLR = 0.50
 #   mate = 'edge'     mating face must sit on the outline (cable enters sideways)
 #   mate = 'vertical' mates from above: needs clear airspace, not board edge
 #   edge_w           dimension that runs ALONG the edge (the mating face width)
+#   face             for 'edge' parts: the direction the plug opening faces at
+#                    rotation 0, in degrees CCW from +x with Y up (the placement
+#                    and 3D frame). Measured from each part's own 3D model by
+#                    mating.py, which also checks every built board; the placer
+#                    rotates the part so this points out of its edge.
+#   body             distance (mm) from the footprint envelope's centre to the
+#                    model's face on that side. The envelope (courtyard, pads)
+#                    reaches past the body, so seating the envelope on the edge
+#                    left the opening up to 1.5mm inside the board, where a
+#                    USB-C plug's overmold, which reaches below the board's top
+#                    face, hits the board edge before the plug seats. The placer
+#                    pushes the part out until this face is on the outline.
 EDGE_SPEC = {
     'USB-C-FEMALE-VERT-GCT': dict(mate='vertical', edge_w=8.53),
     '2X04':                  dict(mate='vertical', edge_w=9.50),
-    'DX07S024XJ1R1100':      dict(mate='edge',     edge_w=10.30),
-    'DCJACK_2MM_SMT':        dict(mate='edge',     edge_w=8.60),
-    '0472192001':            dict(mate='edge',     edge_w=15.20),
+    'DX07S024XJ1R1100':      dict(mate='edge',     edge_w=10.30, face=270, body=4.980),
+    'DCJACK_2MM_SMT':        dict(mate='edge',     edge_w=8.60,  face=180, body=7.627),
+    '0472192001':            dict(mate='edge',     edge_w=15.20, face=270, body=5.991),
     'EVQ-Q2':                dict(mate='vertical', edge_w=10.00),
     # swapped variants
     'USB-C-HORIZ-SMT':       dict(mate='edge',     edge_w=8.94),
@@ -31,6 +43,8 @@ EDGE_SPEC = {
     'DCJACK-LOWPROFILE':     dict(mate='edge',     edge_w=9.00),
     'DCJACK-MIDMOUNT':       dict(mate='edge',     edge_w=9.00),
     '2X04-RA':               dict(mate='edge',     edge_w=10.20),
+    '2X04-SMD':              dict(mate='vertical', edge_w=9.50),
+    'DCJACK_PJ063AH':        dict(mate='edge',     edge_w=11.00, face=270, body=6.500),
 }
 
 # placement boxes for parts that have no footprint in pcbgolf.pretty yet

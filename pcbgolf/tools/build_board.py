@@ -31,8 +31,14 @@ def quiet(fn, *a, **k):
     with contextlib.redirect_stdout(buf): r = fn(*a, **k)
     return r, buf.getvalue()
 
-def build(swaps, z, cands, layers, out_pcb, out_place, iters=200, seed=7, clearance=0.10, tall=2.5, analytical=True):
+def build(swaps, z, cands, layers, out_pcb, out_place, iters=200, seed=7, clearance=0.10, tall=2.5, analytical=True,
+          mincut=False, mincut_tol=0.06):
     items, areas = make_items(swaps, tall=tall)
+    if mincut:
+        # assign sides by connectivity: see sides.py
+        import sides
+        before, after = sides.bipartition(items, tol=mincut_tol, verbose=False)
+        print(f"  two-sided signal nets {before} -> {after}")
     # make_items sizes every part by its SWAPPED footprint, so the board has to
     # be built with the same substitutions.  Without this the placer spaces
     # parts for 0201/SC70-5/LQFP-100 and mkboard then drops 0402/SOIC-8/LQFP-144
@@ -45,9 +51,13 @@ def build(swaps, z, cands, layers, out_pcb, out_place, iters=200, seed=7, cleara
     for (W, H) in cands:
         pos = None
         if analytical:
-            b = aplace.place(items, nets, os.path.join(D,'netlist.json'), W, H,
-                             rounds=5, verbose=False, anchor_w0=1.0)
+            b = None
+            for w0 in (0.5, 1.0, 1.5):
+                c = aplace.place_any_edges(items, nets, os.path.join(D,'netlist.json'),
+                                           W, H, rounds=5, anchor_w0=w0)
+                if c and (b is None or c[0] < b[0]): b = c
             if b: pos = b[1]
+            else: print(f"  slot {W}x{H}: analytical placement failed; bottom-left packer")
         if pos is None:
             c, pos, st = G.solve(items, nets, W, H, z, iters=iters, seed=seed)
         if pos is None:

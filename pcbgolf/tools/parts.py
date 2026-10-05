@@ -50,13 +50,18 @@ SWAPS = {
                     part='0603 10uF 25V X5R', risk='low',
                     note='10uF 0603 widely stocked; derate check on 12V rail')],
     'SOIC-8_3.9x4.9mm_P1.27mm': [
-        dict(to='SC70-5', W=2.60, H=2.90, Z=1.10, d_vias=0,
-             part='NCS20071XV5T2G', risk='none',
-             note='SAME die in SC-70-5. The schematic symbol is literally named '
-                  '"NCS20071XV" but the fitted MPN is the SOIC-8 SN2 part: free 33 mm^2 each.'),
+        # Upstream commit 7b5f429 ("fix opamp wrong MPN bug") changed U9-U12
+        # from NCS20071 to OPA197IDR. They run from +12V, and the NCS20071 is a
+        # 5.5V part, so the SC70-5 NCS20071 swap this table used to recommend
+        # would have destroyed all four on power-up. The OPA197 die also ships
+        # as OPA197IDBVR in SOT-23-5 (KiCad: Amplifier_Operational:OPA197xDBV),
+        # still rated 36V. Pins translate SOIC -> SOT: 6->1 OUT, 4->2 V-,
+        # 3->3 +IN, 2->4 -IN, 7->5 V+; SOIC 1/5/8 are NC.
         dict(to='SOT23-5', W=2.85, H=4.20, Z=1.55, d_vias=0,
-             part='NCS20071SN1T1G', risk='none',
-             note='SAME die, SOT23-5 instead of SOIC-8.')],
+             part='OPA197IDBVR', risk='none',
+             note='same OPA197 die and 36V rating as the specified OPA197IDR, '
+                  'in SOT-23-5 instead of SOIC-8: 12 mm^2 instead of 40.'),
+    ],
     'LQFP-144_20x20mm_P0.5mm': [
         dict(to='LQFP-100_14x14', W=16.20, H=16.20, Z=1.60, d_vias=0,
              part='STM32H725VGT6', risk='low',
@@ -83,6 +88,12 @@ SWAPS = {
              note='3.26mm body straddles PCB: ~1.85 above / ~1.4 below'),
     ],
     'DCJACK_2MM_SMT': [
+        # Measured, not estimated: KiCad's model of the CUI PJ-063AH stands 9.0mm
+        # above the board (vs 11.0 for the PJ-002AH) with pins 3.0mm below the
+        # top face. Same mating plug: 2.0mm centre pin, 5.5mm barrel OD.
+        dict(to='DCJACK_PJ063AH', W=11.00, H=13.00, Z=9.00, d_vias=0,
+             part='CUI PJ-063AH (2.0mm pin, 5.5mm OD, 24V 8A, through-hole)', risk='low',
+             note='same 5.5/2.0mm plug; 2mm lower; pins 3.0mm below the top face'),
         dict(to='DCJACK-LOWPROFILE', W=14.00, H=9.00, Z=7.00, d_vias=0,
              part='low-profile 2.0/5.5mm SMT jack', risk='low',
              note='5.5mm bore is a hard floor -> ~6.5mm body'),
@@ -91,6 +102,14 @@ SWAPS = {
              note='barrel centred on board plane: ~3.4 above / ~3.4 below'),
     ],
     '2X04': [
+        # Same 2.54mm 2x4 male header in its surface-mount form: identical pin
+        # positions and mating, but no through-hole tail. The THT header's
+        # 3.0mm tail exits a thin board's far side and set z_bot below 1.2mm;
+        # without it the board can go to 0.8mm. Height above board is the same
+        # 8.5mm (2.5 body + 6.0 mating), still under the jack.
+        dict(to='2X04-SMD', W=10.40, H=8.70, Z=8.50, d_vias=0,
+             part='2.54mm 2x4 SMD male header (e.g. Samtec TSM-104-01-x-DV)', risk='low',
+             note='same pins in the same places, surface mount, no tail'),
         dict(to='2X04-RA', W=10.20, H=8.90, Z=5.20, d_vias=0,
              part='2.54mm 2x4 right-angle header', risk='low',
              note='same 2.54mm mating interface, lies down instead of up'),
@@ -105,10 +124,12 @@ SWAPS = {
 # Heights for the generated/imported footprints (mm above the board).
 GEN_Z = {
     '0201-R': 0.30, '0201-C': 0.35, '0603-C': 0.95,
-    'SC70-5': 1.10,                 # SC-70-5 body 1.10 max
+
     'LQFP-100_14x14': 1.60,         # LQFP 1.40 body + standoff, as LQFP-144
     'USB-C-MIDMOUNT': 3.26,         # Amphenol 12401548E4-2A right-angle USB-C
     '2X04-RA': 5.10,                # 2.54mm right-angle header, two rows
+    '2X04-SMD': 8.50,               # 2.54mm SMD male header, 2.5 body + 6.0 mating
+    'DCJACK_PJ063AH': 9.00,         # CUI PJ-063AH, from its KiCad 3D model
 }
 # The substituted footprints have no 3D model, so their XY extent has to come
 # from the swap table; a zero-size placeholder would drop them out of the
@@ -117,6 +138,11 @@ _SWAP_WH = {}
 for _lst in SWAPS.values():
     for _s in _lst:
         _SWAP_WH.setdefault(_s['to'], (_s['W'], _s['H'], _s['Z']))
+
+# SC70-5 was the footprint for an op-amp swap that turned out to be invalid (see
+# the SOIC-8 entry in SWAPS). No current board uses it, but earlier boards in
+# board/ do, so it keeps a real size for measuring them.
+GEOM.setdefault('SC70-5', (2.60, 2.90, 1.10, 'SC-70-5; superseded op-amp swap'))
 
 for _k, _v in GEN_Z.items():
     _wh = _SWAP_WH.get(_k)
