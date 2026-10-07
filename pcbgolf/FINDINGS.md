@@ -819,9 +819,10 @@ built clean (0 DRC violations, LVS pass) and routed uninterrupted: 54 x 56
 stagnated at 52 connections short (310 vias) after 5 hours; 50 x 52 was still
 55-67 short at pass 69. Four layers stays.
 
-**Via cost, more runs.** Three more runs at via cost 400 on the 44 x 46
-placement ended 5 short (398 vias), 3 short (389), and 3 short (373, the first
-run). The finisher took one of them to 2 short at 392 vias -- worth at most
+**Via cost, more runs.** Six runs at via cost 400 on the 44 x 46 placement
+ended 6 short (373 vias), 5 (398), 3 (389), 5 (379) and 11 short (372); none
+completed, and the finisher could close at most one connection on any of
+them. The finisher took one of them to 2 short at 392 vias -- worth at most
 ~150 points if finished. Freerouting's run-to-run variance (373-398 vias at
 the same settings) is as large as the effect of the setting.
 
