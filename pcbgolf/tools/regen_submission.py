@@ -13,7 +13,7 @@ import glob
 # Routed boards to consider: every chunk the routing chains wrote (chain.py),
 # for the current design. Older boards in board/ predate the connector,
 # mechanical-hole and pin-assignment fixes and fail the checks below.
-PATTERNS = ['pcbgolf-q4-c*.kicad_pcb', 'pcbgolf-q6-c*.kicad_pcb', 'pcbgolf-[rsu]*-c*.kicad_pcb']
+PATTERNS = ['pcbgolf-q4-c*.kicad_pcb', 'pcbgolf-q6-c*.kicad_pcb', 'pcbgolf-[rsu]*-c*.kicad_pcb', 'pcbgolf-[rsu]*-v*.kicad_pcb']
 
 
 def pinset_of(fn):

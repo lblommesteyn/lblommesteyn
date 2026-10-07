@@ -755,8 +755,8 @@ board. On q44x46 it cut pad-to-pad HPWL from 4,073 to 3,732 mm.
 
 ## 14. A complete board, and what it took
 
-**Submitted: 44 x 46 x 12.0 mm, 4 layers, 398 vias, 0 short — 64,188**
-(24,288 + 19,900 + 20,000), 24% under 84,578. 0 DRC violations, LVS pass,
+**Submitted: 44 x 46 x 12.0 mm, 4 layers, 397 vias, 0 short — 64,138**
+(24,288 + 19,850 + 20,000), 24% under 84,578. 0 DRC violations, LVS pass,
 connector openings on the outline, no colliding bodies. The first complete
 board was 46 x 48 on 6 layers at 74,946; the 4-layer one replaced it.
 
@@ -801,4 +801,14 @@ fixed to keep them), three uninterrupted runs of the same 44 x 46 4-layer
 board ended 2 short, 1 short and complete. Freerouting's multi-threaded runs
 differ from one to the next, so on a board this close to its limit the
 cheapest finisher is another run, not a smarter one.
+
+**After completion: area and vias, and what each is worth.** Z is fixed at
+12.0 by the jack (9.0 above the board, pins 3.0 below its top face), so only
+area and vias move. A 43 x 45 board saves 1,068 mm^3 but routed with 414-419
+vias, so finished it would gain about 200 points: area and vias still trade
+about 1:1. Raising Freerouting's via cost on the 44 x 46 placement: 320 gave
+395 vias, 2 short, which `finish_router.py` closed (397 vias, 64,138, now
+submitted); 400 gave 373 vias but 6 short; 600 never got close. Freerouting's
+optimizer, given a near-zero improvement threshold and 60 passes, still
+stops after two with no change.
 

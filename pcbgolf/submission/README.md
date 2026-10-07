@@ -6,17 +6,20 @@ score = PCBA bounding-box volume (mm^3) + 50 x vias + 5,000 x copper layers
 
 ## The board
 
-`pcbgolf-u44x46-4L-c3.kicad_pcb` — 44.0 x 46.0 mm, 4 copper layers, 1.2 mm
+`pcbgolf-u44x46-4L-v320f.kicad_pcb` — 44.0 x 46.0 mm, 4 copper layers, 1.2 mm
 FR4, **fully routed**.
 
 | term | value |
 |---|---|
 | volume | 24,288 mm^3 (44.0 x 46.0 x 12.0) |
-| vias | 398 x 50 = 19,900 |
+| vias | 397 x 50 = 19,850 |
 | layers | 4 x 5,000 = 20,000 |
-| **score** | **64,188** |
+| **score** | **64,138** |
 
-24% under the 84,578 leaderboard. `pcbgolf-u44x46-4L-c3.step` is the assembly.
+24% under the 84,578 leaderboard. `pcbgolf-u44x46-4L-v320f.step` is the assembly.
+
+Routed by Freerouting at via cost 320, with the last two connections closed
+by `finish_router.py`.
 
 ## What is verified
 
