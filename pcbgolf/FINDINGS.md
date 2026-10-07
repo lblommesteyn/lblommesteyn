@@ -812,3 +812,16 @@ submitted); 400 gave 373 vias but 6 short; 600 never got close. Freerouting's
 optimizer, given a near-zero improvement threshold and 60 passes, still
 stops after two with no change.
 
+**Two layers, revisited.** Dropping to 2 layers saves 10,000 points, which
+pays for about 830 mm^2 more board at Z = 12. With everything above in place
+(bridges, crystals, clearance), 2-layer boards at 50 x 52 and 54 x 56 were
+built clean (0 DRC violations, LVS pass) and routed uninterrupted: 54 x 56
+stagnated at 52 connections short (310 vias) after 5 hours; 50 x 52 was still
+55-67 short at pass 69. Four layers stays.
+
+**Via cost, more runs.** Three more runs at via cost 400 on the 44 x 46
+placement ended 5 short (398 vias), 3 short (389), and 3 short (373, the first
+run). The finisher took one of them to 2 short at 392 vias -- worth at most
+~150 points if finished. Freerouting's run-to-run variance (373-398 vias at
+the same settings) is as large as the effect of the setting.
+
