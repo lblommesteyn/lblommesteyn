@@ -208,21 +208,47 @@ def main():
     return best, rows
 
 
+UPSTREAM = '/home/user/commaai/pcbgolf'
+FP_LIB_TABLE = """(fp_lib_table
+\t(version 7)
+\t(lib (name "pcbgolf") (type "KiCad") (uri "${KIPRJMOD}/pcbgolf.pretty") (options "") (descr "Project-local extracted footprints"))
+\t(lib (name "pcbgolf-gen") (type "KiCad") (uri "${KIPRJMOD}/pcbgolf-gen.pretty") (options "") (descr "Footprints added for this design: 0201/0603, LQFP-100, SOT-23-5, PJ-063AH"))
+)
+"""
+
+
 def make_zip(out):
-    """submission/ plus what is needed to open and check the board: the
-    generated footprints and 3D models it references, the firmware pin map and
-    the writeup."""
-    import zipfile
+    """A complete KiCad project, as the challenge asks: the upstream project
+    file, schematics and symbol library; the routed board as pcbgolf.kicad_pcb;
+    both footprint libraries and both 3D-model libraries the board references,
+    with a library table naming them; plus the STEP, BOM, placement, netlist,
+    firmware pin map, score sheet and writeup."""
+    import zipfile, glob
     root = os.path.dirname(D)
     pre = 'pcbgolf-submission/'
+    boards = glob.glob(os.path.join(SUB, '*.kicad_pcb'))
+    assert len(boards) == 1, boards
     with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as z:
         for f in sorted(os.listdir(SUB)):
-            z.write(os.path.join(SUB, f), pre + f)
-        for f in ('FINDINGS.md',):
-            z.write(os.path.join(root, f), pre + f)
-        for d in ('pcbgolf-gen.pretty', 'pcbgolf-gen.3dshapes'):
-            for f in sorted(os.listdir(os.path.join(root, d))):
-                z.write(os.path.join(root, d, f), pre + d + '/' + f)
+            p = os.path.join(SUB, f)
+            if f.endswith('.kicad_pcb'):
+                z.write(p, pre + 'pcbgolf.kicad_pcb')
+            elif f.endswith('.step'):
+                z.write(p, pre + 'pcbgolf.step')
+            else:
+                z.write(p, pre + f)
+        z.writestr(pre + 'fp-lib-table', FP_LIB_TABLE)
+        for f in ('pcbgolf.kicad_pro', 'pcbgolf.kicad_sch', 'pcbgolf_2.kicad_sch',
+                  'pcbgolf_3.kicad_sch', 'pcbgolf_4.kicad_sch', 'pcbgolf_5.kicad_sch',
+                  'pcbgolf.kicad_sym', 'sym-lib-table'):
+            z.write(os.path.join(UPSTREAM, f), pre + f)
+        z.write(os.path.join(root, 'FINDINGS.md'), pre + 'FINDINGS.md')
+        for base, d in ((UPSTREAM, 'pcbgolf.pretty'), (UPSTREAM, 'pcbgolf.3dshapes'),
+                        (root, 'pcbgolf-gen.pretty'), (root, 'pcbgolf-gen.3dshapes')):
+            for dp, _, fs in os.walk(os.path.join(base, d)):
+                for f in sorted(fs):
+                    p = os.path.join(dp, f)
+                    z.write(p, pre + os.path.relpath(p, base))
     return out
 
 if __name__ == '__main__':

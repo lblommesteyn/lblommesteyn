@@ -10,10 +10,10 @@ score = PCBA bounding-box volume (mm^3) + 50 x vias + 5,000 x copper layers
 Leaderboard to beat: **84,578** (abijahkaj), then 116,226 (Dsalzman).
 Deadline 12 October 2026.
 
-> ## Status: complete — 64,138, 24% under the leaderboard
+> ## Status: complete — 64,038, 24% under the leaderboard
 >
 > `submission/` holds a fully routed board: 44.0 x 46.0 x 12.0 mm, 4 layers,
-> 397 vias, 0 connections missing, 0 DRC violations, LVS pass, every edge
+> 395 vias, 0 connections missing, 0 DRC violations, LVS pass, every edge
 > connector opening on the outline, no colliding bodies. Every figure is
 > measured from the file.
 
@@ -24,7 +24,7 @@ survived, which died, and the conclusions that turned out to be wrong.
 
 | board | outline | Z | volume | vias | short | score | vs 84,578 |
 |---|---|---|---|---|---|---|---|
-| **4L, submitted** | 44.0 x 46.0 | 12.0 | 24,288 | 397 | **0** | **64,138** | **−24%** |
+| **4L, submitted** | 44.0 x 46.0 | 12.0 | 24,288 | 395 | **0** | **64,038** | **−24%** |
 | 4L, same placement | 44.0 x 46.0 | 12.0 | 24,288 | 398 | 0 | 64,188 | −24% |
 | 6L | 46.0 x 48.0 | 12.0 | 26,496 | 369 | **0** | 74,946 | −11% |
 | 4L, same placement, another run | 44.0 x 46.0 | 12.0 | 24,288 | 417 | 1 | — | not finished |
@@ -78,6 +78,7 @@ any board from 0.8 to 1.4 mm.
 | `pinopt.py` | pin and gate swapping: MCU pins, USB hub ports and polarity, 180-degree flips |
 | `pcb2dsn.py` / `ses2pcb.py` | Specctra export (holes as obstacles) and session import |
 | `route.py` / `chain.py` | Freerouting runs, verified on import; resumable chunks that survive restarts |
+| `cvm.py` | constrained via minimisation: same copper, layers re-chosen by integer programme to delete vias |
 | `regen_submission.py` | regenerates `submission/` from the routed boards that pass every check |
 
 Requires `numpy`, and `cadquery-ocp` for the 3D measurement and STEP export.

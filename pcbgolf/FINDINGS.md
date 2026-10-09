@@ -755,8 +755,8 @@ board. On q44x46 it cut pad-to-pad HPWL from 4,073 to 3,732 mm.
 
 ## 14. A complete board, and what it took
 
-**Submitted: 44 x 46 x 12.0 mm, 4 layers, 397 vias, 0 short — 64,138**
-(24,288 + 19,850 + 20,000), 24% under 84,578. 0 DRC violations, LVS pass,
+**Submitted: 44 x 46 x 12.0 mm, 4 layers, 395 vias, 0 short — 64,038**
+(24,288 + 19,750 + 20,000), 24% under 84,578. 0 DRC violations, LVS pass,
 connector openings on the outline, no colliding bodies. The first complete
 board was 46 x 48 on 6 layers at 74,946; the 4-layer one replaced it.
 
@@ -825,4 +825,38 @@ completed, and the finisher could close at most one connection on any of
 them. The finisher took one of them to 2 short at 392 vias -- worth at most
 ~150 points if finished. Freerouting's run-to-run variance (373-398 vias at
 the same settings) is as large as the effect of the setting.
+
+## 15. Ideas from the literature, tested
+
+**Constrained via minimisation** (Hsu 1983; Pinter 1983; Chang & Du 1987):
+hold the routing fixed in plan and choose each wire's layer again. As a
+graph problem: union-find gathers same-net wires that must share a layer
+into chains; chains of different nets that overlap in plan cannot share one
+(colouring); a chain on an SMD pad is pinned to its layer; a via is deleted
+when every chain meeting there lands on one layer. Solved exactly as an
+integer programme (HiGHS, `cvm.py`), it takes the submitted board from 397
+to 395 vias and the other complete board from 398 to 398. Freerouting's
+layer choices are already near-optimal for its own geometry: the vias are
+fixed by where the wires run, not by which layer they are on.
+
+**Lower Z.** Every jack in KiCad's 3D library was measured: PJ-063AH 9.0 mm
+(2.0 mm pin, used), DCJ200-10-A 11.0, PJ-063BH 9.0 and PJ-079BH 7.2 (both
+2.5 mm pin: an original 2.0 mm plug does not fit). Nothing lower that takes
+the original plug can be measured from here, so Z stays at 12.0.
+
+**The rules now allow several boards** ("bare PCB(s)"). Splitting does not
+help this score: the bounding box contains every board, copper layers are
+counted across them, and the jack still sets the height.
+
+**Window reroute by Freerouting** (`winroute.py`): all copper outside a
+window around the gap locked, everything inside re-routed. On the 373-via
+board the first window went from 6 missing to 19 in 27 minutes: Freerouting
+cannot restore a window's worth of nets with every exit pinned. Stopped.
+
+**Min-cut sides, routed properly.** Fiduccia-Mattheyses sides (passives on
+their chip's side) on 44 x 46, routed uninterrupted at via cost 320: 420
+vias, 1 short -- more than the HPWL-driven placement (395-398). Fewer
+side-crossing nets do not mean fewer vias; wirelength matters more.
+
+**Via cost 350:** 391 vias, 6 short; the finisher closes one.
 

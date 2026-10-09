@@ -22,7 +22,7 @@ DESIGN = {'LQFP-144_20x20mm_P0.5mm': 'LQFP-100_14x14',
           'DCJACK_2MM_SMT': 'DCJACK_PJ063AH'}
 
 
-def build(W, H, layers, tag):
+def build(W, H, layers, tag, mincut=False):
     os.environ['PCBGOLF_PINSET'] = tag
     os.chdir(D)
     import build_board as B, mkboard, bbox3d, pinopt, legalize, usbc_bridge, drc
@@ -31,7 +31,8 @@ def build(W, H, layers, tag):
     pcb0 = os.path.join(board, f'pcbgolf-{tag}-pre.kicad_pcb')
     pl0, pl = f'place_{tag}-pre.json', f'place_{tag}.json'
     info, _ = B.build(B.pick(DESIGN), 12.0, [(W, H)], layers, pcb0, pl0,
-                      clearance=0.10, tall=1.60, analytical=True)
+                      clearance=0.10, tall=1.60, analytical=True,
+                      mincut=mincut)
     if not info:
         print('  => FAILED'); return None
     pinopt.main(pl0, pl, THICKNESS)
@@ -57,4 +58,4 @@ def build(W, H, layers, tag):
 
 if __name__ == '__main__':
     W, H, L, tag = int(sys.argv[1]), int(sys.argv[2]), int(sys.argv[3]), sys.argv[4]
-    build(W, H, L, tag)
+    build(W, H, L, tag, mincut='--mincut' in sys.argv)

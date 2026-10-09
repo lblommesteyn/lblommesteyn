@@ -6,20 +6,32 @@ score = PCBA bounding-box volume (mm^3) + 50 x vias + 5,000 x copper layers
 
 ## The board
 
-`pcbgolf-u44x46-4L-v320f.kicad_pcb` — 44.0 x 46.0 mm, 4 copper layers, 1.2 mm
+`pcbgolf-u44x46-4L-v320fv.kicad_pcb` — 44.0 x 46.0 mm, 4 copper layers, 1.2 mm
 FR4, **fully routed**.
 
 | term | value |
 |---|---|
 | volume | 24,288 mm^3 (44.0 x 46.0 x 12.0) |
-| vias | 397 x 50 = 19,850 |
+| vias | 395 x 50 = 19,750 |
 | layers | 4 x 5,000 = 20,000 |
-| **score** | **64,138** |
+| **score** | **64,038** |
 
-24% under the 84,578 leaderboard. `pcbgolf-u44x46-4L-v320f.step` is the assembly.
+24% under the 84,578 leaderboard. `pcbgolf.step` in the zip is the assembly.
 
-Routed by Freerouting at via cost 320, with the last two connections closed
-by `finish_router.py`.
+Routed by Freerouting at via cost 320, the last two connections closed by
+`finish_router.py`, then two vias removed by `cvm.py` (constrained via
+minimisation: the same copper with each wire's layer chosen again).
+
+## The KiCad project
+
+`pcbgolf-submission.zip` is a complete KiCad project: `pcbgolf.kicad_pro`, the
+routed board as `pcbgolf.kicad_pcb`, both footprint libraries
+(`pcbgolf.pretty`, `pcbgolf-gen.pretty`) and both 3D-model libraries with a
+library table naming them, so every footprint and model the board references
+resolves. The schematics are upstream's unchanged: the part substitutions,
+pin moves and the unfitted R11 are recorded in `BOM.csv`, `FIRMWARE_PINMAP.md`
+and `netlist.csv`, and the board is checked against the schematic netlist by
+LVS through those maps.
 
 ## What is verified
 
